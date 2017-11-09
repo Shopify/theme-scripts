@@ -1,0 +1,21 @@
+{
+  "name": "@shopify/theme-a11y",
+  "version": "1.0.0-alpha.1",
+  "description":
+    "A library of useful functions that help make your theme more accessible.",
+  "main": "a11y.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shopify/theme-scripts.git"
+  },
+  "keywords": ["slate", "a11y"],
+  "author": "Shopify Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Shopify/theme-scripts/issues"
+  },
+  "homepage": "https://github.com/Shopify/theme-scripts#readme",
+  "peerDependencies": {
+    "jquery": "3.x"
+  }
+}

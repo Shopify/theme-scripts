@@ -1,0 +1,22 @@
+{
+  "name": "@shopify/theme-cart",
+  "version": "1.0.0-alpha.1",
+  "description":
+    "A library that helps theme developers integrate their projects with the Shopify Cart API",
+  "main": "cart.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shopify/theme-scripts.git"
+  },
+  "keywords": ["slate"],
+  "author": "Shopify Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Shopify/theme-scripts/issues"
+  },
+  "homepage": "https://github.com/Shopify/theme-scripts#readme",
+  "peerDependencies": {
+    "jquery": "3.x",
+    "lodash-es": "4.x"
+  }
+}
