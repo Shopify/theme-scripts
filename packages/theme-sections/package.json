@@ -1,14 +1,15 @@
 {
   "name": "@shopify/theme-sections",
   "version": "1.0.0-alpha.1",
-  "description":
-    "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
+  "description": "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
   "main": "sections.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shopify/theme-scripts.git"
   },
-  "keywords": ["slate"],
+  "keywords": [
+    "slate"
+  ],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
