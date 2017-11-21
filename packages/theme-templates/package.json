@@ -1,0 +1,23 @@
+{
+  "name": "@shopify/theme-templates",
+  "version": "1.0.0-alpha.1",
+  "description": "A framework that helps developers build Shopify Theme templates that play well with the Shopify Theme Editor",
+  "main": "templates.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shopify/theme-scripts.git"
+  },
+  "keywords": [
+    "slate"
+  ],
+  "author": "Shopify Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Shopify/theme-scripts/issues"
+  },
+  "homepage": "https://github.com/Shopify/theme-scripts#readme",
+  "peerDependencies": {
+    "jquery": "3.x",
+    "lodash-es": "4.x"
+  }
+}
