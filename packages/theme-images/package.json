@@ -1,19 +1,27 @@
 {
   "name": "@shopify/theme-images",
   "version": "1.0.0-alpha.1",
-  "description": "A library that helps with basic image operations within Shopify Themes",
-  "main": "images.js",
+  "description":
+    "A library that helps with basic image operations within Shopify Themes",
+  "main": "images.cjs.js",
+  "modules": "iamges.es5.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shopify/theme-scripts.git"
   },
-  "keywords": [
-    "slate"
-  ],
+  "keywords": ["slate"],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Shopify/theme-scripts/issues"
   },
-  "homepage": "https://github.com/Shopify/theme-scripts#readme"
+  "homepage": "https://github.com/Shopify/theme-scripts#readme",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run build:es5 & npm run build:cjs",
+    "build:es5":
+      "../../node_modules/.bin/babel src/images.js --out-file images.es5.js",
+    "build:cjs":
+      "../../node_modules/.bin/babel --no-babelrc src/images.js --out-file images.cjs.js --presets=shopify"
+  }
 }

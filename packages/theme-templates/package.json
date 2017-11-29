@@ -1,15 +1,15 @@
 {
   "name": "@shopify/theme-templates",
   "version": "1.0.0-alpha.1",
-  "description": "A framework that helps developers build Shopify Theme templates that play well with the Shopify Theme Editor",
-  "main": "templates.js",
+  "description":
+    "A framework that helps developers build Shopify Theme templates that play well with the Shopify Theme Editor",
+  "main": "templates.cjs.js",
+  "modules": "templates.es5.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shopify/theme-scripts.git"
   },
-  "keywords": [
-    "slate"
-  ],
+  "keywords": ["slate"],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
@@ -19,5 +19,13 @@
   "peerDependencies": {
     "jquery": "3.x",
     "lodash-es": "4.x"
+  },
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run build:es5 & npm run build:cjs",
+    "build:es5":
+      "../../node_modules/.bin/babel src/templates.js --out-file templates.es5.js",
+    "build:cjs":
+      "../../node_modules/.bin/babel --no-babelrc src/templates.js --out-file templates.cjs.js --presets=shopify"
   }
 }
