@@ -1,15 +1,16 @@
 {
   "name": "@shopify/theme-sections",
-  "version": "1.0.0-alpha.1",
-  "description":
-    "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
+  "version": "1.0.0-alpha.2",
+  "description": "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
   "main": "sections.cjs.js",
   "modules": "sections.es5.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shopify/theme-scripts.git"
   },
-  "keywords": ["slate"],
+  "keywords": [
+    "slate"
+  ],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
@@ -23,9 +24,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5":
-      "../../node_modules/.bin/babel src/sections.js --out-file sections.es5.js",
-    "build:cjs":
-      "../../node_modules/.bin/babel --no-babelrc src/sections.js --out-file sections.cjs.js --presets=shopify"
+    "build:es5": "../../node_modules/.bin/babel src/sections.js --out-file sections.es5.js",
+    "build:cjs": "../../node_modules/.bin/babel --no-babelrc src/sections.js --out-file sections.cjs.js --presets=shopify"
   }
 }

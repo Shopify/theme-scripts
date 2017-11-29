@@ -1,15 +1,16 @@
 {
   "name": "@shopify/theme-rte",
-  "version": "1.0.0-alpha.1",
-  "description":
-    "A library that helps developers work with the RTE sections in Shopify Themes",
+  "version": "1.0.0-alpha.2",
+  "description": "A library that helps developers work with the RTE sections in Shopify Themes",
   "main": "rte.cjs.js",
   "modules": "rte.es5.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shopify/theme-scripts.git"
   },
-  "keywords": ["slate"],
+  "keywords": [
+    "slate"
+  ],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
@@ -22,9 +23,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5":
-      "../../node_modules/.bin/babel src/rte.js --out-file rte.es5.js",
-    "build:cjs":
-      "../../node_modules/.bin/babel --no-babelrc src/rte.js --out-file rte.cjs.js --presets=shopify"
+    "build:es5": "../../node_modules/.bin/babel src/rte.js --out-file rte.es5.js",
+    "build:cjs": "../../node_modules/.bin/babel --no-babelrc src/rte.js --out-file rte.cjs.js --presets=shopify"
   }
 }
