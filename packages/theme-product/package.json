@@ -4,10 +4,7 @@
   "description": "A library that helps developers work with the Product object within Shopify Themes",
   "main": "product.cjs.js",
   "modules": "product.es5.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Shopify/theme-scripts.git"
-  },
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-product",
   "keywords": [
     "slate"
   ],

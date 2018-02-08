@@ -4,10 +4,7 @@
   "description": "A library that helps with basic image operations within Shopify Themes",
   "main": "images.cjs.js",
   "modules": "iamges.es5.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Shopify/theme-scripts.git"
-  },
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-images",
   "keywords": [
     "slate"
   ],

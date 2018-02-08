@@ -4,10 +4,7 @@
   "description": "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
   "main": "sections.cjs.js",
   "modules": "sections.es5.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Shopify/theme-scripts.git"
-  },
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-sections",
   "keywords": [
     "slate"
   ],

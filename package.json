@@ -1,23 +1,22 @@
 {
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-shopify": "^16.2.0",
-    "lerna": "^2.5.1"
-  },
+
   "name": "theme-scripts",
   "version": "1.0.0-alpha.0",
   "description": "A collection of helpful script libraries that help you make better Shopify themes.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "bootstrap": "yarn && node_modules/.bin/lerna bootstrap",
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:Shopify/theme-scripts.git"
-  },
+  "repository": "https://github.com/Shopify/theme-scripts",
   "keywords": [
     "Shopify"
   ],
   "author": "Shopify Inc.",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-shopify": "^16.2.0",
+    "lerna": "^2.5.1"
+  },
 }
