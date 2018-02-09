@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-rte",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "A library that helps developers work with the RTE sections in Shopify Themes",
   "main": "rte.cjs.js",
   "modules": "rte.es5.js",

@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-currency",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "A library that helps with managing currencies in Shopify Themes",
   "main": "currency.cjs.js",
   "modules": "currency.es5.js",
