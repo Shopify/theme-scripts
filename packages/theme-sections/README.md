@@ -11,7 +11,7 @@ yarn add @shopify/theme-sections
 and then import the functions you wish to use through ES6 imports:
 
 ```
-import * as rte from '@shopify/theme-sections`;
+import * as sections from '@shopify/theme-sections`;
 ```
 ## Sections
 
