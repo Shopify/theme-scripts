@@ -1,6 +1,6 @@
 # Shopify Theme Scripts
 
-> ⚠️ Shopify Theme Scripts is currently an Alpha release, meaning you should expect breaking changes between updates and more bugs than a finalized release. We believe that by getting Theme Scripts in the hands of developer communtiy as soon as possible, we can gather critical feedback to make it an even bigger success.
+> ⚠️ Shopify Theme Scripts is currently an Alpha release. You should expect breaking changes between updates and more bugs than a finalized release. We believe that by getting Theme Scripts in the hands of developer communtiy as soon as possible, we can gather critical feedback to make it an even bigger success.
 
 Theme Scripts is a collection of handy utility libraries which help theme developers with problems unique to Shopify Themes.
 
@@ -46,4 +46,3 @@ All developers who wish to contribute through code or issues, take a look at the
 MIT, see [LICENSE](https://github.com/Shopify/starter-theme/blob/master/LICENSE) for details.
 
 <img src="https://cdn.shopify.com/shopify-marketing_assets/builds/19.0.0/shopify-full-color-black.svg" width="200" />
-
