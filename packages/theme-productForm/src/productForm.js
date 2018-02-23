@@ -1,5 +1,5 @@
 import extend from "lodash-es/extend";
-import serializeArray from "utils";
+import { serializeArray } from "./src/utils";
 
 class ProductForm {
   selectors = {

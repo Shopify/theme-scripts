@@ -1,13 +1,13 @@
 {
   "name": "@shopify/theme-productForm",
   "version": "1.0.0-alpha.3",
-  "description":
-    "A library that helps developers work with the Product form within Shopify Themes",
+  "description": "A library that helps developers work with the Product form within Shopify Themes",
   "main": "productForm.cjs.js",
   "modules": "productForm.es5.js",
-  "repository":
-    "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-productForm",
-  "keywords": ["slate"],
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-productForm",
+  "keywords": [
+    "slate"
+  ],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
@@ -20,9 +20,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5":
-      "../../node_modules/.bin/babel src/productForm.js --out-file productForm.es5.js",
-    "build:cjs":
-      "../../node_modules/.bin/babel --no-babelrc src/productForm.js --out-file productForm.cjs.js --presets=shopify"
+    "build:es5": "../../node_modules/.bin/babel src/productForm.js --out-file productForm.es5.js",
+    "build:cjs": "../../node_modules/.bin/babel --no-babelrc src/productForm.js --out-file productForm.cjs.js --presets=shopify"
   }
 }
