@@ -1,11 +1,3 @@
-const selectors = {
-  productForm: "[data-productform]",
-  container: "[data-product-container]",
-  productJSON: "[data-product-json]",
-  optionInputs: "[data-option-input]",
-  quantityInput: "[data-product-quantity]"
-};
-
 function serializeArray(form) {
   let field,
     l,
@@ -41,10 +33,14 @@ function serializeArray(form) {
 }
 
 class ProductForm {
-  constructor(form) {
-    this.form = document.querySelector(form);
-    this.optionInputs = this.form.querySelectorAll(selectors.optionInputs);
-    this.productJSON = this.form.querySelector(selectors.productJSON).innerText;
+  constructor(
+    productForm = "[data-productform]",
+    productJSON = "[data-product-json]",
+    optionInputs = "[data-option-input]"
+  ) {
+    this.form = document.querySelector(productForm);
+    this.optionInputs = this.form.querySelectorAll(optionInputs);
+    this.productJSON = this.form.querySelector(productJSON).innerText;
     this.product = JSON.parse(this.productJSON);
 
     this.bindEvents();
