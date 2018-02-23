@@ -1,46 +1,21 @@
-function serializeArray(form) {
-  let field,
-    l,
-    s = [];
-  if (typeof form === "object" && form.nodeName == "FORM") {
-    const len = form.elements.length;
-    for (let i = 0; i < len; i++) {
-      field = form.elements[i];
-      if (
-        field.name &&
-        !field.disabled &&
-        field.type != "file" &&
-        field.type != "reset" &&
-        field.type != "submit" &&
-        field.type != "button"
-      ) {
-        if (field.type == "select-multiple") {
-          l = form.elements[i].options.length;
-          for (j = 0; j < l; j++) {
-            if (field.options[j].selected)
-              s[s.length] = { name: field.name, value: field.options[j].value };
-          }
-        } else if (
-          (field.type != "checkbox" && field.type != "radio") ||
-          field.checked
-        ) {
-          s[s.length] = { name: field.name, value: field.value };
-        }
-      }
-    }
-  }
-  return s;
-}
+import extend from "lodash-es/extend";
+import serializeArray from "utils";
 
 class ProductForm {
-  constructor(
-    productForm = "[data-productform]",
-    productJSON = "[data-product-json]",
-    optionInputs = "[data-option-input]"
-  ) {
-    this.form = document.querySelector(productForm);
-    this.optionInputs = this.form.querySelectorAll(optionInputs);
-    this.productJSON = this.form.querySelector(productJSON).innerText;
+  selectors = {
+    productForm: "[data-productform]",
+    productJSON: "[data-product-json]",
+    optionInputs: "[data-option-input]"
+  };
+
+  constructor(selectors = {}) {
+    this.selectors = extend({}, this.selectors, selectors);
+
+    this.form = document.querySelector(this.selectors.productForm);
+    this.optionInputs = this.form.querySelectorAll(this.selectors.optionInputs);
+    this.productJSON = this.form.querySelector(
+      this.selectors.productJSON
+    ).innerText;
     this.product = JSON.parse(this.productJSON);
 
     this.bindEvents();
