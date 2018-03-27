@@ -14,7 +14,7 @@ export function getCart() {
 }
 
 export function updateNote(note) {
-  return this._promiseChange({
+  return _promiseChange({
     url: '/cart/update.js',
     dataType: 'json',
     data: {
@@ -24,7 +24,7 @@ export function updateNote(note) {
 }
 
 export function addItem(id, quantity) {
-  return this._promiseChange({
+  return _promiseChange({
     url: '/cart/add.js',
     dataType: 'json',
     data: {
@@ -35,7 +35,7 @@ export function addItem(id, quantity) {
 }
 
 export function addItemFromForm(data) {
-  return this._promiseChange({
+  return _promiseChange({
     url: '/cart/add.js',
     dataType: 'json',
     data: data
@@ -43,7 +43,7 @@ export function addItemFromForm(data) {
 }
 
 export function removeItem(id) {
-  return this._promiseChange({
+  return _promiseChange({
     url: '/cart/change.js',
     dataType: 'json',
     data: {
@@ -64,7 +64,7 @@ export function changeItem(id, quantity) {
     }
   };
 
-  return this._promiseChange(requestSettings);
+  return _promiseChange(requestSettings);
 }
 
 export function saveLocalState(state) {
@@ -93,8 +93,6 @@ export function cookiesEnabled() {
 }
 
 function _promiseChange(parameters) {
-  var _this = this;
-
   var promiseRequest = $.ajax(parameters);
 
   // If offline, provide a rejected promise so that an error is thrown.
@@ -107,11 +105,11 @@ function _promiseChange(parameters) {
   // cart object then get one before proceeding.
   .then(function (state) {
     if (typeof state.token === 'undefined') {
-      return _this.getCart();
+      return getCart();
     } else {
       return state;
     }
-  }).then(this.saveLocalState);
+  }).then(saveLocalState);
 }
 
 function _isLocalStorageSupported() {
