@@ -11,7 +11,7 @@ import $ from "jquery";
  * @namespace variants
  */
 
-class Variants {
+export default class Variants {
   /**
    * Variant constructor
    *

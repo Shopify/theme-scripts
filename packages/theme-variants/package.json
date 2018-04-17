@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-variants",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description":
     "A script which helps manage the behaviour to a product select UI",
   "main": "variants.cjs.js",

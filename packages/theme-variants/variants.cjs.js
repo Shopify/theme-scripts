@@ -1,5 +1,9 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -217,3 +221,5 @@ var Variants = function () {
   }]);
   return Variants;
 }();
+
+exports.default = Variants;

@@ -206,3 +206,5 @@ var Variants = function () {
 
   return Variants;
 }();
+
+export default Variants;
