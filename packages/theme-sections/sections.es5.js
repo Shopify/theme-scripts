@@ -1,28 +1,27 @@
-import _toConsumableArray from 'babel-runtime/helpers/toConsumableArray';
-import _typeof from 'babel-runtime/helpers/typeof';
-import $ from 'jquery';
-import omit from 'lodash-es/omit';
-import remove from 'lodash-es/remove';
-import find from 'lodash-es/find';
-import filter from 'lodash-es/filter';
+import _toConsumableArray from "babel-runtime/helpers/toConsumableArray";
+import _typeof from "babel-runtime/helpers/typeof";
+import $ from "jquery";
+import omit from "lodash-es/omit";
+import remove from "lodash-es/remove";
+import find from "lodash-es/find";
+import filter from "lodash-es/filter";
 
 function Sections() {
   var _this = this;
 
   this.$document = $(document);
-  this.namespace = '.section-js-events';
+  this.namespace = ".section-js-events";
 
-  document.addEventListener('shopify:section:load', function (evt) {
+  document.addEventListener("shopify:section:load", function (evt) {
     var id = evt.detail.sectionId;
-    var container = evt.target.querySelector('[data-section-id="' + id + '"]');
-    var type = container.getAttribute('data-section-type');
+    var container = evt.target.querySelector("[data-section-id=\"" + id + "\"]");
+    var type = container.getAttribute("data-section-type");
 
     _this.load(type, container);
   });
 }
 
 $.extend(Sections.prototype, {
-
   /**
    * Indexed list of all registered section types
    */
@@ -37,7 +36,7 @@ $.extend(Sections.prototype, {
    * Indexed list of all registered global extensions
    */
   extensions: {
-    '*': []
+    "*": []
   },
 
   /**
@@ -74,12 +73,12 @@ $.extend(Sections.prototype, {
       var Section = _this2.registered[type];
       var selection = containers;
 
-      if (typeof Section === 'undefined') {
+      if (typeof Section === "undefined") {
         return;
       }
 
-      if (typeof selection === 'undefined') {
-        selection = document.querySelectorAll('[data-section-type="' + type + '"]');
+      if (typeof selection === "undefined") {
+        selection = document.querySelectorAll("[data-section-type=\"" + type + "\"]");
       }
 
       // Convert selection NodeList into an array
@@ -90,14 +89,14 @@ $.extend(Sections.prototype, {
           return;
         }
 
-        var extensions = _this2.extensions['*'].concat(_this2.extensions[type] || []);
+        var extensions = _this2.extensions["*"].concat(_this2.extensions[type] || []);
         var instance = new Section({
           container: container,
           extensions: extensions,
-          id: container.getAttribute('data-section-id')
+          id: container.getAttribute("data-section-id")
         });
 
-        instance.trigger('section_load');
+        instance.trigger("section_load");
 
         _this2.instances.push(instance);
       });
@@ -117,7 +116,7 @@ $.extend(Sections.prototype, {
       _this3.extensions[type] = _this3.extensions[type] || [];
       _this3.extensions[type].push(extension);
 
-      if (typeof _this3.registered[type] === 'undefined') {
+      if (typeof _this3.registered[type] === "undefined") {
         return;
       }
 
@@ -135,7 +134,7 @@ $.extend(Sections.prototype, {
    * Checks if a particular section type has been loaded on the page.
    */
   isInstance: function isInstance(type) {
-    return _typeof(find(this.instances, { type: type })) === 'object';
+    return _typeof(find(this.instances, { type: type })) === "object";
   },
 
 
@@ -200,9 +199,9 @@ $.extend(Sections.prototype, {
     this.$document.trigger.apply(this.$document, arguments);
   },
   _normalizeTypeParam: function _normalizeTypeParam(types) {
-    if (types === '*') {
+    if (types === "*") {
       types = Object.keys(this.registered);
-    } else if (typeof types === 'string') {
+    } else if (typeof types === "string") {
       types = [types];
     }
 
@@ -213,7 +212,7 @@ $.extend(Sections.prototype, {
     return types;
   },
   _normalizeContainersParam: function _normalizeContainersParam(containers) {
-    if (!Array.isArray(containers) && (typeof containers === 'undefined' ? 'undefined' : _typeof(containers)) === 'object') {
+    if (!Array.isArray(containers) && (typeof containers === "undefined" ? "undefined" : _typeof(containers)) === "object") {
       // If a single container object is specified not inside a function
       containers = [containers];
     }
@@ -221,14 +220,14 @@ $.extend(Sections.prototype, {
   },
   _instanceExists: function _instanceExists(container) {
     var instance = find(this.instances, {
-      id: container.getAttribute('data-section-id')
+      id: container.getAttribute("data-section-id")
     });
-    return typeof instance !== 'undefined';
+    return typeof instance !== "undefined";
   }
 });
 
-var sections = new Sections();
-export default sections;
+window.__sections__ = window.__sections__ || new Sections();
+export default window.__sections__;
 
 /**
  * Master section class that all sections inherit from
@@ -239,7 +238,7 @@ function Master(data) {
   this.container = data.container;
   this.$container = $(this.container);
   this.id = data.id;
-  this.namespace = '.' + data.id;
+  this.namespace = "." + data.id;
   this.extensions = data.extensions || [];
   this.$eventBinder = this.$container;
 
@@ -300,7 +299,7 @@ Master.prototype = {
     var args = Array.prototype.slice.call(arguments);
 
     // Apply the section namespace to any event handler created by this section
-    args[0] = args[0] || '';
+    args[0] = args[0] || "";
     args[0] = args[0].concat(this.namespace);
 
     this.$eventBinder.off.apply(this.$eventBinder, arguments);
@@ -336,7 +335,7 @@ Master.prototype = {
     var init = extension.init;
     this.extensions.push(extension);
 
-    $.extend(this, omit(extension, 'init'));
+    $.extend(this, omit(extension, "init"));
 
     if ($.isFunction(init)) {
       init.apply(this);
@@ -399,16 +398,16 @@ function _applyExtensions() {
 }
 
 function _applyEditorHandlers() {
-  $(document).on('shopify:section:unload' + this.namespace, _onSectionUnload.bind(this)).on('shopify:section:select' + this.namespace, _onSelect.bind(this)).on('shopify:section:deselect' + this.namespace, _onDeselect.bind(this)).on('shopify:block:select' + this.namespace, _onBlockSelect.bind(this)).on('shopify:block:deselect' + this.namespace, _onBlockDeselect.bind(this));
+  $(document).on("shopify:section:unload" + this.namespace, _onSectionUnload.bind(this)).on("shopify:section:select" + this.namespace, _onSelect.bind(this)).on("shopify:section:deselect" + this.namespace, _onDeselect.bind(this)).on("shopify:block:select" + this.namespace, _onBlockSelect.bind(this)).on("shopify:block:deselect" + this.namespace, _onBlockDeselect.bind(this));
 }
 
 function _applyDefaultHandlers() {
-  this.on('section_load', this.onLoad.bind(this));
-  this.on('section_unload', this.onUnload.bind(this));
-  this.on('section_select', this.onSelect.bind(this));
-  this.on('section_deselect', this.onDeselect.bind(this));
-  this.on('block_select', this.onBlockSelect.bind(this));
-  this.on('block_deselect', this.onBlockDeselect.bind(this));
+  this.on("section_load", this.onLoad.bind(this));
+  this.on("section_unload", this.onUnload.bind(this));
+  this.on("section_select", this.onSelect.bind(this));
+  this.on("section_deselect", this.onDeselect.bind(this));
+  this.on("block_select", this.onBlockSelect.bind(this));
+  this.on("block_deselect", this.onBlockDeselect.bind(this));
 }
 
 function _onSectionUnload(event) {
@@ -416,7 +415,7 @@ function _onSectionUnload(event) {
     return;
   }
 
-  event.type = 'section_unload';
+  event.type = "section_unload";
   this.trigger(event);
 
   this.off(this.namespace);
@@ -432,7 +431,7 @@ function _onSelect(event) {
     return;
   }
 
-  event.type = 'section_select';
+  event.type = "section_select";
   this.trigger(event);
 }
 
@@ -441,7 +440,7 @@ function _onDeselect(event) {
     return;
   }
 
-  event.type = 'section_deselect';
+  event.type = "section_deselect";
   this.trigger(event);
 }
 
@@ -450,7 +449,7 @@ function _onBlockSelect(event) {
     return;
   }
 
-  event.type = 'block_select';
+  event.type = "block_select";
   this.trigger(event);
 }
 
@@ -459,6 +458,6 @@ function _onBlockDeselect(event) {
     return;
   }
 
-  event.type = 'block_deselect';
+  event.type = "block_deselect";
   this.trigger(event);
 }

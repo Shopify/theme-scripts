@@ -1,29 +1,23 @@
-import $ from 'jquery';
-import omit from 'lodash-es/omit';
-import remove from 'lodash-es/remove';
-import find from 'lodash-es/find';
-import filter from 'lodash-es/filter';
+import $ from "jquery";
+import omit from "lodash-es/omit";
+import remove from "lodash-es/remove";
+import find from "lodash-es/find";
+import filter from "lodash-es/filter";
 
 function Sections() {
   this.$document = $(document);
-  this.namespace = '.section-js-events';
+  this.namespace = ".section-js-events";
 
-  document.addEventListener(
-    'shopify:section:load',
-    (evt) => {
-      const id = evt.detail.sectionId;
-      const container = evt.target.querySelector(
-        `[data-section-id="${id}"]`
-      );
-      const type = container.getAttribute('data-section-type');
+  document.addEventListener("shopify:section:load", evt => {
+    const id = evt.detail.sectionId;
+    const container = evt.target.querySelector(`[data-section-id="${id}"]`);
+    const type = container.getAttribute("data-section-type");
 
-      this.load(type, container);
-    }
-  );
+    this.load(type, container);
+  });
 }
 
 $.extend(Sections.prototype, {
-
   /**
    * Indexed list of all registered section types
    */
@@ -38,7 +32,7 @@ $.extend(Sections.prototype, {
    * Indexed list of all registered global extensions
    */
   extensions: {
-    '*': [],
+    "*": []
   },
 
   /**
@@ -68,46 +62,40 @@ $.extend(Sections.prototype, {
     types = this._normalizeTypeParam(types);
     containers = this._normalizeContainersParam(containers);
 
-    types.forEach(
-      (type) => {
-        const Section = this.registered[type];
-        let selection = containers;
+    types.forEach(type => {
+      const Section = this.registered[type];
+      let selection = containers;
 
-        if (typeof Section === 'undefined') {
+      if (typeof Section === "undefined") {
+        return;
+      }
+
+      if (typeof selection === "undefined") {
+        selection = document.querySelectorAll(`[data-section-type="${type}"]`);
+      }
+
+      // Convert selection NodeList into an array
+      selection = Array.prototype.slice.call(selection);
+
+      selection.forEach(container => {
+        if (this._instanceExists(container)) {
           return;
         }
 
-        if (typeof selection === 'undefined') {
-          selection = document.querySelectorAll(
-            `[data-section-type="${type}"]`
-          );
-        }
-
-        // Convert selection NodeList into an array
-        selection = Array.prototype.slice.call(selection);
-
-        selection.forEach(
-          (container) => {
-            if (this._instanceExists(container)) {
-              return;
-            }
-
-            const extensions = this.extensions['*'].concat(
-              this.extensions[type] || []
-            );
-            const instance = new Section({
-              container,
-              extensions,
-              id: container.getAttribute('data-section-id'),
-            });
-
-            instance.trigger('section_load');
-
-            this.instances.push(instance);
-          }
+        const extensions = this.extensions["*"].concat(
+          this.extensions[type] || []
         );
-      }
-    );
+        const instance = new Section({
+          container,
+          extensions,
+          id: container.getAttribute("data-section-id")
+        });
+
+        instance.trigger("section_load");
+
+        this.instances.push(instance);
+      });
+    });
   },
 
   /**
@@ -116,47 +104,43 @@ $.extend(Sections.prototype, {
   extend(types, extension) {
     types = this._normalizeTypeParam(types);
 
-    types.forEach(
-      (type) => {
-        this.extensions[type] = this.extensions[type] || [];
-        this.extensions[type].push(extension);
+    types.forEach(type => {
+      this.extensions[type] = this.extensions[type] || [];
+      this.extensions[type].push(extension);
 
-        if (typeof this.registered[type] === 'undefined') {
+      if (typeof this.registered[type] === "undefined") {
+        return;
+      }
+
+      this.instances.forEach(instance => {
+        if (instance.type !== type) {
           return;
         }
-
-        this.instances.forEach((instance) => {
-          if (instance.type !== type) {
-            return;
-          }
-          instance.extend(extension);
-        });
-      }
-    );
+        instance.extend(extension);
+      });
+    });
   },
 
   /**
    * Checks if a particular section type has been loaded on the page.
    */
   isInstance(type) {
-    return typeof find(this.instances, {type}) === 'object';
+    return typeof find(this.instances, { type }) === "object";
   },
 
   /**
    * Returns all instances of a section type on the page.
    */
   getInstances(type) {
-    return $.Deferred(
-      (defer) => {
-        const instances = filter(this.instances, {type});
+    return $.Deferred(defer => {
+      const instances = filter(this.instances, { type });
 
-        if (instances.length === 0) {
-          defer.reject();
-        } else {
-          defer.resolve(instances);
-        }
+      if (instances.length === 0) {
+        defer.reject();
+      } else {
+        defer.resolve(instances);
       }
-    );
+    });
   },
 
   /**
@@ -192,7 +176,7 @@ $.extend(Sections.prototype, {
    */
   trigger() {
     const triggerArgs = arguments;
-    this.instances.forEach((instance) => {
+    this.instances.forEach(instance => {
       instance.trigger(...triggerArgs);
     });
   },
@@ -202,13 +186,13 @@ $.extend(Sections.prototype, {
   },
 
   _normalizeTypeParam(types) {
-    if (types === '*') {
+    if (types === "*") {
       types = Object.keys(this.registered);
-    } else if (typeof types === 'string') {
+    } else if (typeof types === "string") {
       types = [types];
     }
 
-    types = types.map((type) => {
+    types = types.map(type => {
       return type.toLowerCase();
     });
 
@@ -216,7 +200,7 @@ $.extend(Sections.prototype, {
   },
 
   _normalizeContainersParam(containers) {
-    if (!Array.isArray(containers) && typeof containers === 'object') {
+    if (!Array.isArray(containers) && typeof containers === "object") {
       // If a single container object is specified not inside a function
       containers = [containers];
     }
@@ -225,14 +209,14 @@ $.extend(Sections.prototype, {
 
   _instanceExists(container) {
     const instance = find(this.instances, {
-      id: container.getAttribute('data-section-id'),
+      id: container.getAttribute("data-section-id")
     });
-    return typeof instance !== 'undefined';
-  },
+    return typeof instance !== "undefined";
+  }
 });
 
-const sections = new Sections();
-export default sections;
+window.__sections__ = window.__sections__ || new Sections();
+export default window.__sections__;
 
 /**
  * Master section class that all sections inherit from
@@ -301,7 +285,7 @@ Master.prototype = {
     const args = Array.prototype.slice.call(arguments);
 
     // Apply the section namespace to any event handler created by this section
-    args[0] = args[0] || '';
+    args[0] = args[0] || "";
     args[0] = args[0].concat(this.namespace);
 
     this.$eventBinder.off.apply(this.$eventBinder, arguments);
@@ -335,12 +319,12 @@ Master.prototype = {
     const init = extension.init;
     this.extensions.push(extension);
 
-    $.extend(this, omit(extension, 'init'));
+    $.extend(this, omit(extension, "init"));
 
     if ($.isFunction(init)) {
       init.apply(this);
     }
-  },
+  }
 };
 
 /**
@@ -362,7 +346,7 @@ Master.prototype.document = function() {
     trigger() {
       self.$eventBinder = $document;
       self.trigger(...arguments);
-    },
+    }
   };
 };
 
@@ -385,16 +369,14 @@ Master.prototype.window = function() {
     trigger() {
       self.$eventBinder = $window;
       self.trigger(...arguments);
-    },
+    }
   };
 };
 
 function _applyExtensions() {
-  this.extensions.forEach(
-    (extension) => {
-      this.extend(extension);
-    }
-  );
+  this.extensions.forEach(extension => {
+    this.extend(extension);
+  });
 }
 
 function _applyEditorHandlers() {
@@ -407,12 +389,12 @@ function _applyEditorHandlers() {
 }
 
 function _applyDefaultHandlers() {
-  this.on('section_load', this.onLoad.bind(this));
-  this.on('section_unload', this.onUnload.bind(this));
-  this.on('section_select', this.onSelect.bind(this));
-  this.on('section_deselect', this.onDeselect.bind(this));
-  this.on('block_select', this.onBlockSelect.bind(this));
-  this.on('block_deselect', this.onBlockDeselect.bind(this));
+  this.on("section_load", this.onLoad.bind(this));
+  this.on("section_unload", this.onUnload.bind(this));
+  this.on("section_select", this.onSelect.bind(this));
+  this.on("section_deselect", this.onDeselect.bind(this));
+  this.on("block_select", this.onBlockSelect.bind(this));
+  this.on("block_deselect", this.onBlockDeselect.bind(this));
 }
 
 function _onSectionUnload(event) {
@@ -420,7 +402,7 @@ function _onSectionUnload(event) {
     return;
   }
 
-  event.type = 'section_unload';
+  event.type = "section_unload";
   this.trigger(event);
 
   this.off(this.namespace);
@@ -428,7 +410,7 @@ function _onSectionUnload(event) {
   $(document).off(this.namespace);
   $(window).off(this.namespace);
 
-  remove(sections.instances, {id: this.id});
+  remove(sections.instances, { id: this.id });
 }
 
 function _onSelect(event) {
@@ -436,7 +418,7 @@ function _onSelect(event) {
     return;
   }
 
-  event.type = 'section_select';
+  event.type = "section_select";
   this.trigger(event);
 }
 
@@ -445,7 +427,7 @@ function _onDeselect(event) {
     return;
   }
 
-  event.type = 'section_deselect';
+  event.type = "section_deselect";
   this.trigger(event);
 }
 
@@ -454,7 +436,7 @@ function _onBlockSelect(event) {
     return;
   }
 
-  event.type = 'block_select';
+  event.type = "block_select";
   this.trigger(event);
 }
 
@@ -463,6 +445,6 @@ function _onBlockDeselect(event) {
     return;
   }
 
-  event.type = 'block_deselect';
+  event.type = "block_deselect";
   this.trigger(event);
 }
