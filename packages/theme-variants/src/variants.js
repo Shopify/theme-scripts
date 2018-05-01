@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { compact } from "lodash";
 
 /**
  * Variant Selection scripts
@@ -65,7 +66,7 @@ export default class Variants {
     );
 
     // remove any unchecked input values if using radio buttons or checkboxes
-    currentOptions = slate.utils.compact(currentOptions);
+    currentOptions = compact(currentOptions);
 
     return currentOptions;
   }
