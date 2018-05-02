@@ -1,6 +1,7 @@
 import _classCallCheck from "babel-runtime/helpers/classCallCheck";
 import _createClass from "babel-runtime/helpers/createClass";
 import $ from "jquery";
+import { compact } from "lodash-es";
 
 /**
  * Variant Selection scripts
@@ -67,7 +68,7 @@ var Variants = function () {
       });
 
       // remove any unchecked input values if using radio buttons or checkboxes
-      currentOptions = slate.utils.compact(currentOptions);
+      currentOptions = compact(currentOptions);
 
       return currentOptions;
     }

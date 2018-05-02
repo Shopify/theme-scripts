@@ -16,6 +16,8 @@ var _jquery = require("jquery");
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _lodashEs = require("lodash-es");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -83,7 +85,7 @@ var Variants = function () {
       });
 
       // remove any unchecked input values if using radio buttons or checkboxes
-      currentOptions = slate.utils.compact(currentOptions);
+      currentOptions = (0, _lodashEs.compact)(currentOptions);
 
       return currentOptions;
     }
