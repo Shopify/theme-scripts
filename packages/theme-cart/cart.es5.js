@@ -98,7 +98,7 @@ function _promiseChange(parameters) {
   var promiseRequest = $.ajax(parameters);
 
   // If offline, provide a rejected promise so that an error is thrown.
-  if (navigator && !theme.isOnline) {
+  if (navigator && !navigator.isOnline) {
     promiseRequest = $.Deferred().reject();
   }
 
