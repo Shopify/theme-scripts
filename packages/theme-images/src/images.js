@@ -19,7 +19,7 @@ export function preload(images, size) {
 
   for (let i = 0; i < images.length; i++) {
     const image = images[i];
-    this.loadImage(this.getSizedImageUrl(image, size));
+    loadImage(getSizedImageUrl(image, size));
   }
 }
 
@@ -62,7 +62,7 @@ export function getSizedImageUrl(src, size) {
   }
 
   if (size === 'master') {
-    return this.removeProtocol(src);
+    return removeProtocol(src);
   }
 
   const match = src.match(/\.(jpg|jpeg|gif|png|bmp|bitmap|tiff|tif)(\?v=\d+)?$/i);
@@ -71,7 +71,7 @@ export function getSizedImageUrl(src, size) {
     const prefix = src.split(match[0]);
     const suffix = match[0];
 
-    return this.removeProtocol(`${prefix[0]}_${size}${suffix}`);
+    return removeProtocol(`${prefix[0]}_${size}${suffix}`);
   } else {
     return null;
   }
