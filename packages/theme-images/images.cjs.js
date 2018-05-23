@@ -29,7 +29,7 @@ function preload(images, size) {
 
   for (var i = 0; i < images.length; i++) {
     var image = images[i];
-    this.loadImage(this.getSizedImageUrl(image, size));
+    loadImage(getSizedImageUrl(image, size));
   }
 }
 
@@ -70,7 +70,7 @@ function getSizedImageUrl(src, size) {
   }
 
   if (size === 'master') {
-    return this.removeProtocol(src);
+    return removeProtocol(src);
   }
 
   var match = src.match(/\.(jpg|jpeg|gif|png|bmp|bitmap|tiff|tif)(\?v=\d+)?$/i);
@@ -79,7 +79,7 @@ function getSizedImageUrl(src, size) {
     var prefix = src.split(match[0]);
     var suffix = match[0];
 
-    return this.removeProtocol(prefix[0] + '_' + size + suffix);
+    return removeProtocol(prefix[0] + '_' + size + suffix);
   } else {
     return null;
   }
