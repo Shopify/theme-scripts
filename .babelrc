@@ -1,13 +1,4 @@
 {
-  "presets": [
-    [
-      "shopify",
-      {
-        "modules": false,
-        "loose": true,
-        "useBuiltIns": true
-      }
-    ]
-  ],
+  "presets": ["shopify/web"],
   "plugins": ["transform-async-to-generator"]
 }
