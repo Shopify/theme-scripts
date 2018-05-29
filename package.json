@@ -1,5 +1,4 @@
 {
-
   "name": "theme-scripts",
   "version": "1.0.0-alpha.0",
   "description": "A collection of helpful script libraries that help you make better Shopify themes.",
@@ -16,7 +15,10 @@
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.0.1",
     "babel-preset-shopify": "^16.2.0",
+    "jest": "^23.0.1",
     "lerna": "^2.5.1"
   }
 }
