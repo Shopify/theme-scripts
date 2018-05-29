@@ -1,13 +1,13 @@
 {
   "name": "@shopify/theme-currency",
   "version": "1.0.0-alpha.3",
-  "description": "A library that helps with managing currencies in Shopify Themes",
+  "description":
+    "A library that helps with managing currencies in Shopify Themes",
   "main": "currency.cjs.js",
   "modules": "currency.es5.js",
-  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-currency",
-  "keywords": [
-    "slate"
-  ],
+  "repository":
+    "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-currency",
+  "keywords": ["slate"],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
@@ -17,7 +17,9 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5": "../../node_modules/.bin/babel src/currency.js --out-file currency.es5.js",
-    "build:cjs": "../../node_modules/.bin/babel --no-babelrc src/currency.js --out-file currency.cjs.js --presets=shopify"
+    "build:es5":
+      "../../node_modules/.bin/babel currency.js --out-file currency.es5.js",
+    "build:cjs":
+      "../../node_modules/.bin/babel --no-babelrc currency.js --out-file currency.cjs.js --presets=shopify"
   }
 }
