@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Shopify/theme-scripts.svg?branch=master)](https://travis-ci.org/Shopify/theme-scripts)
+
 # Shopify Theme Scripts
 
 > ⚠️ Shopify Theme Scripts is currently an Alpha release. You should expect breaking changes between updates and more bugs than a finalized release. We believe that by getting Theme Scripts in the hands of developer communtiy as soon as possible, we can gather critical feedback to make it an even bigger success.
@@ -26,8 +28,8 @@ Explore [each of packages](https://github.com/Shopify/theme-scripts/tree/master/
 
 Each Theme Script is transpiled to two versions:
 
-1. A CommonJS version which can be imported using `require()` syntax.
-2. A ES Module version which can be imported using `import` syntax.
+1.  A CommonJS version which can be imported using `require()` syntax.
+2.  A ES Module version which can be imported using `import` syntax.
 
 Webpack detects the `"modules"` key when using importing via `import` so the correct version should automatically be imported for you.
 
