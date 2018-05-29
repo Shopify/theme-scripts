@@ -1,14 +1,13 @@
 {
   "name": "@shopify/theme-a11y",
   "version": "1.0.0-alpha.3",
-  "description": "A library of useful functions that help make your theme more accessible.",
+  "description":
+    "A library of useful functions that help make your theme more accessible.",
   "main": "a11y.cjs.js",
   "modules": "a11y.es5.js",
-  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-a11y",
-  "keywords": [
-    "slate",
-    "a11y"
-  ],
+  "repository":
+    "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-a11y",
+  "keywords": ["slate", "a11y"],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
@@ -21,7 +20,8 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5": "../../node_modules/.bin/babel src/a11y.js --out-file a11y.es5.js",
-    "build:cjs": "../../node_modules/.bin/babel --no-babelrc src/a11y.js --out-file a11y.cjs.js --presets=shopify"
+    "build:es5": "../../node_modules/.bin/babel a11y.js --out-file a11y.es5.js",
+    "build:cjs":
+      "../../node_modules/.bin/babel --no-babelrc a11y.js --out-file a11y.cjs.js --presets=shopify"
   }
 }

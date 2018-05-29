@@ -22,8 +22,8 @@
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
     "build:es5":
-      "../../node_modules/.bin/babel src/sections.js --out-file sections.es5.js",
+      "../../node_modules/.bin/babel sections.js --out-file sections.es5.js",
     "build:cjs":
-      "../../node_modules/.bin/babel --no-babelrc src/sections.js --out-file sections.cjs.js --presets=shopify"
+      "../../node_modules/.bin/babel --no-babelrc sections.js --out-file sections.cjs.js --presets=shopify"
   }
 }
