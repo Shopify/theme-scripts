@@ -5,42 +5,41 @@
  * to users with visual impairments.
  */
 
-import $ from 'jquery';
-
 /**
  * For use when focus shifts to a container rather than a link
  * eg for In-page links, after scroll, focus shifts to content area so that
  * next `tab` is where user expects if focusing a link, just $link.focus();
- *
- * @param {JQuery} $element - The element to be acted upon
  */
-export function pageLinkFocus($element) {
-  const focusClass = 'js-focus-hidden';
+export function pageLinkFocus(element, config = {}) {
+  const { className = "js-focus-hidden" } = config;
+  const savedTabIndex = element.tabIndex;
 
-  $element
-    .first()
-    .attr('tabIndex', '-1')
-    .focus()
-    .addClass(focusClass)
-    .one('blur', callback);
+  element.tabIndex = -1;
+  element.dataset.tabIndex = savedTabIndex;
+  element.focus();
+  element.classList.add(className);
+  element.addEventListener("blur", callback);
 
-  function callback() {
-    $element
-      .first()
-      .removeClass(focusClass)
-      .removeAttr('tabindex');
+  function callback(event) {
+    event.target.removeEventListener(event.type, callback);
+
+    element.tabIndex = savedTabIndex;
+    delete element.dataset.tabIndex;
+    element.classList.remove(className);
   }
 }
 
 /**
  * If there's a hash in the url, focus the appropriate element
  */
+
 export function focusHash() {
   const hash = window.location.hash;
-
+  const element = document.getElementById(hash.slice(1));
   // is there a hash in the url? is it an element on the page?
-  if (hash && document.getElementById(hash.slice(1))) {
-    this.pageLinkFocus($(hash));
+
+  if (hash && element) {
+    pageLinkFocus(element);
   }
 }
 
@@ -48,12 +47,33 @@ export function focusHash() {
  * When an in-page (url w/hash) link is clicked, focus the appropriate element
  */
 export function bindInPageLinks() {
-  $('a[href*=#]').on(
-    'click',
-    (evt) => {
-      this.pageLinkFocus($(evt.currentTarget.hash));
+  const links = document.querySelectorAll('a[href^="#"]');
+
+  links.forEach(link => {
+    const element = document.querySelector(link.hash);
+
+    if (!element) {
+      return;
     }
-  );
+
+    link.addEventListener("click", () => {
+      pageLinkFocus(element);
+    });
+  });
+}
+
+export function focusable(container) {
+  return container.querySelectorAll(`
+    [tabindex],
+    [draggable],
+    a[href],
+    area,
+    button:enabled,
+    input:not([type=hidden]):enabled,
+    link[href],
+    object,
+    select:enabled,
+    textarea:enabled`);
 }
 
 /**
@@ -64,26 +84,57 @@ export function bindInPageLinks() {
  * @param {jQuery} options.$elementToFocus - Element to be focused when focus leaves container
  * @param {string} options.namespace - Namespace used for new focus event handler
  */
-export function trapFocus(options) {
-  const eventName = options.namespace
-    ? `focusin.${options.namespace}`
-    : 'focusin';
 
-  if (!options.$elementToFocus) {
-    options.$elementToFocus = options.$container;
-  }
+const trapFocusHandlers = {};
 
-  options.$container.attr('tabindex', '-1');
-  options.$elementToFocus.focus();
+export function trapFocus(container, elementToFocus = container) {
+  const elements = focusable(container);
+  const first = elements[0];
+  const last = elements[elements.length - 1];
 
-  $(document).on(eventName, (evt) => {
-    if (
-      options.$container[0] !== evt.target &&
-      !options.$container.has(evt.target).length
-    ) {
-      options.$container.focus();
+  removeTrapFocus();
+
+  trapFocusHandlers.focusin = function(event) {
+    if (container !== event.target && !container.contains(event.target)) {
+      first.focus();
     }
-  });
+
+    if (
+      event.target !== container &&
+      event.target !== last &&
+      event.target !== first
+    )
+      return;
+    document.addEventListener("keydown", trapFocusHandlers.keydown);
+  };
+
+  trapFocusHandlers.focusout = function(event) {
+    document.removeEventListener("keydown", trapFocusHandlers.keydown);
+  };
+
+  trapFocusHandlers.keydown = function(event) {
+    if (event.keyCode !== 9) return; // If not TAB key
+
+    // On the last focusable element and tab forward, focus the first element.
+    if (event.target === last && !event.shiftKey) {
+      event.preventDefault();
+      first.focus();
+    }
+
+    //  On the first focusable element and tab backward, focus the last element.
+    if (
+      (event.target === container || event.target === first) &&
+      event.shiftKey
+    ) {
+      event.preventDefault();
+      last.focus();
+    }
+  };
+
+  document.addEventListener("focusout", trapFocusHandlers.focusout);
+  document.addEventListener("focusin", trapFocusHandlers.focusin);
+
+  pageLinkFocus(elementToFocus);
 }
 
 /**
@@ -93,14 +144,8 @@ export function trapFocus(options) {
  * @param {jQuery} options.$container - Container to trap focus within
  * @param {string} options.namespace - Namespace used for new focus event handler
  */
-export function removeTrapFocus(options) {
-  const eventName = options.namespace
-    ? `focusin.${options.namespace}`
-    : 'focusin';
-
-  if (options.$container && options.$container.length) {
-    options.$container.removeAttr('tabindex');
-  }
-
-  $(document).off(eventName);
+export function removeTrapFocus() {
+  document.removeEventListener("focusin", trapFocusHandlers.focusin);
+  document.removeEventListener("focusout", trapFocusHandlers.focusout);
+  document.removeEventListener("keydown", trapFocusHandlers.keydown);
 }

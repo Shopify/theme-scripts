@@ -15,9 +15,6 @@
     "url": "https://github.com/Shopify/theme-scripts/issues"
   },
   "homepage": "https://github.com/Shopify/theme-scripts#readme",
-  "peerDependencies": {
-    "jquery": "3.x"
-  },
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
