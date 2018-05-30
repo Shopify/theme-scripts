@@ -1,13 +1,13 @@
 {
   "name": "@shopify/theme-rte",
-  "version": "1.0.0-alpha.3",
-  "description":
-    "A library that helps developers work with the RTE sections in Shopify Themes",
+  "version": "1.0.0-alpha.6",
+  "description": "A library that helps developers work with the RTE sections in Shopify Themes",
   "main": "dist/rte.cjs.js",
   "modules": "dist/rte.es5.js",
-  "repository":
-    "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-rte",
-  "keywords": ["slate"],
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-rte",
+  "keywords": [
+    "slate"
+  ],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
@@ -20,9 +20,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5":
-      "mkdir -p dist && ../../node_modules/.bin/babel rte.js --out-file dist/rte.es5.js",
-    "build:cjs":
-      "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc rte.js --out-file dist/rte.cjs.js --presets=shopify"
+    "build:es5": "mkdir -p dist && ../../node_modules/.bin/babel rte.js --out-file dist/rte.es5.js",
+    "build:cjs": "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc rte.js --out-file dist/rte.cjs.js --presets=shopify"
   }
 }

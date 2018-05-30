@@ -1,13 +1,13 @@
 {
   "name": "@shopify/theme-currency",
-  "version": "1.0.0-alpha.3",
-  "description":
-    "A library that helps with managing currencies in Shopify Themes",
+  "version": "1.0.0-alpha.6",
+  "description": "A library that helps with managing currencies in Shopify Themes",
   "main": "dist/currency.cjs.js",
   "modules": "dist/currency.es5.js",
-  "repository":
-    "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-currency",
-  "keywords": ["slate"],
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-currency",
+  "keywords": [
+    "slate"
+  ],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
@@ -17,9 +17,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5":
-      "mkdir -p dist && ../../node_modules/.bin/babel currency.js --out-file dist/currency.es5.js",
-    "build:cjs":
-      "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc currency.js --out-file dist/currency.cjs.js --presets=shopify"
+    "build:es5": "mkdir -p dist && ../../node_modules/.bin/babel currency.js --out-file dist/currency.es5.js",
+    "build:cjs": "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc currency.js --out-file dist/currency.cjs.js --presets=shopify"
   }
 }

@@ -1,13 +1,13 @@
 {
   "name": "@shopify/theme-sections",
-  "version": "1.0.0-alpha.4",
-  "description":
-    "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
+  "version": "1.0.0-alpha.6",
+  "description": "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
   "main": "dist/sections.cjs.js",
   "modules": "dist/sections.es5.js",
-  "repository":
-    "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-sections",
-  "keywords": ["slate"],
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-sections",
+  "keywords": [
+    "slate"
+  ],
   "author": "Shopify Inc.",
   "license": "MIT",
   "bugs": {
@@ -21,9 +21,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5":
-      "mkdir -p dist && ../../node_modules/.bin/babel sections.js --out-file dist/sections.es5.js",
-    "build:cjs":
-      "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc sections.js --out-file dist/sections.cjs.js --presets=shopify"
+    "build:es5": "mkdir -p dist && ../../node_modules/.bin/babel sections.js --out-file dist/sections.es5.js",
+    "build:cjs": "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc sections.js --out-file dist/sections.cjs.js --presets=shopify"
   }
 }
