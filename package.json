@@ -6,8 +6,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "bootstrap": "yarn && node_modules/.bin/lerna bootstrap",
-    "build": "node_modules/.bin/lerna run build"
+    "bootstrap": "yarn && lerna bootstrap",
+    "build": "lerna run build",
+    "publish": "lerna publish"
   },
   "repository": "https://github.com/Shopify/theme-scripts",
   "keywords": ["Shopify"],
@@ -20,5 +21,6 @@
     "babel-preset-shopify": "^16.2.0",
     "jest": "^23.0.1",
     "lerna": "^2.5.1"
-  }
+  },
+  "workspaces": ["packages/*"]
 }
