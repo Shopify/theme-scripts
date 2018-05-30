@@ -3,8 +3,8 @@
   "version": "1.0.0-alpha.3",
   "description":
     "A library that helps theme developers integrate their projects with the Shopify Cart API",
-  "main": "cart.cjs.js",
-  "modules": "cart.es5.js",
+  "main": "dist/cart.cjs.js",
+  "modules": "dist/cart.es5.js",
   "repository":
     "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-cart",
   "keywords": ["slate"],
@@ -21,8 +21,9 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5": "../../node_modules/.bin/babel cart.js --out-file cart.es5.js",
+    "build:es5":
+      "mkdir -p dist && ../../node_modules/.bin/babel cart.js --out-file dist/cart.es5.js",
     "build:cjs":
-      "../../node_modules/.bin/babel --no-babelrc cart.js --out-file cart.cjs.js --presets=shopify"
+      "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc cart.js --out-file dist/cart.cjs.js --presets=shopify"
   }
 }

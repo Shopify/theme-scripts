@@ -3,8 +3,8 @@
   "version": "1.0.0-alpha.5",
   "description":
     "A script which helps manage the behaviour to a product select UI",
-  "main": "variants.cjs.js",
-  "modules": "variants.es5.js",
+  "main": "dist/variants.cjs.js",
+  "modules": "dist/variants.es5.js",
   "repository":
     "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-variants",
   "keywords": ["slate"],
@@ -21,9 +21,9 @@
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
     "build:es5":
-      "../../node_modules/.bin/babel variants.js --out-file variants.es5.js",
+      "mkdir -p dist && ../../node_modules/.bin/babel variants.js --out-file dist/variants.es5.js",
     "build:cjs":
-      "../../node_modules/.bin/babel --no-babelrc variants.js --out-file variants.cjs.js --presets=shopify"
+      "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc variants.js --out-file dist/variants.cjs.js --presets=shopify"
   },
   "dependencies": {
     "lodash-es": "^4.17.10"

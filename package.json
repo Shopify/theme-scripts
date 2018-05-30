@@ -1,16 +1,16 @@
 {
   "name": "theme-scripts",
   "version": "1.0.0-alpha.0",
-  "description": "A collection of helpful script libraries that help you make better Shopify themes.",
+  "description":
+    "A collection of helpful script libraries that help you make better Shopify themes.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "bootstrap": "yarn && node_modules/.bin/lerna bootstrap"
+    "bootstrap": "yarn && node_modules/.bin/lerna bootstrap",
+    "build": "node_modules/.bin/lerna run build"
   },
   "repository": "https://github.com/Shopify/theme-scripts",
-  "keywords": [
-    "Shopify"
-  ],
+  "keywords": ["Shopify"],
   "author": "Shopify Inc.",
   "license": "MIT",
   "devDependencies": {

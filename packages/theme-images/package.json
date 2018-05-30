@@ -3,8 +3,8 @@
   "version": "1.0.0-alpha.3",
   "description":
     "A library that helps with basic image operations within Shopify Themes",
-  "main": "images.cjs.js",
-  "modules": "iamges.es5.js",
+  "main": "dist/images.cjs.js",
+  "modules": "dist/images.es5.js",
   "repository":
     "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-images",
   "keywords": ["slate"],
@@ -18,8 +18,8 @@
     "prepublish": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
     "build:es5":
-      "../../node_modules/.bin/babel images.js --out-file images.es5.js",
+      "mkdir -p dist && ../../node_modules/.bin/babel images.js --out-file dist/images.es5.js",
     "build:cjs":
-      "../../node_modules/.bin/babel --no-babelrc images.js --out-file images.cjs.js --presets=shopify"
+      "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc images.js --out-file dist/images.cjs.js --presets=shopify"
   }
 }
