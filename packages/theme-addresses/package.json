@@ -1,0 +1,23 @@
+{
+  "name": "@shopify/theme-addresses",
+  "version": "1.0.0-alpha.6",
+  "description": "A library that contains useful functions that can be used in addresses.liquid",
+  "main": "dist/addresses.cjs.js",
+  "moules": "dist/addresses.es5.js",
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-addresses",
+  "keywords": [
+    "slate"
+  ],
+  "author": "Shopify Inc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Shopify/theme-scripts/issues"
+  },
+  "homepage": "https://github.com/Shopify/theme-scripts#readme",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run build:es5 & npm run build:cjs",
+    "build:es5": "mkdir -p dist && ../../node_modules/.bin/babel addresses.js --out-file dist/addresses.es5.js",
+    "build:cjs": "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc addresses.js --out-file dist/addresses.cjs.js --presets=shopify"
+  }
+}
