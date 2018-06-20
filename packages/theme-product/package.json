@@ -20,10 +20,11 @@
     "size": "size-limit"
   },
   "devDependencies": {
+    "fetch-mock": "^6.5.2",
+    "jquery": "3.x",
     "rollup": "^0.62.0",
     "rollup-plugin-uglify": "^4.0.0",
-    "size-limit": "^0.18.3",
-    "jquery": "3.x"
+    "size-limit": "^0.18.3"
   },
   "size-limit": [
     {
