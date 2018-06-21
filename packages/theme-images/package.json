@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-images",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "A library that helps with basic image operations within Shopify Themes",
   "main": "dist/images.cjs.js",
   "modules": "dist/images.es5.js",
