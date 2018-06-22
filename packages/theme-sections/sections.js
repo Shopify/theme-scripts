@@ -406,11 +406,11 @@ function _onSectionUnload(event) {
   this.trigger(event);
 
   this.off(this.namespace);
-  sections.off(this.namespace);
+  window.__sections__.off(this.namespace);
   $(document).off(this.namespace);
   $(window).off(this.namespace);
 
-  remove(sections.instances, { id: this.id });
+  remove(window.__sections__.instances, { id: this.id });
 }
 
 function _onSelect(event) {

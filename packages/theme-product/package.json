@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-product",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "A library that helps developers work with the Product object within Shopify Themes",
   "main": "dist/product.cjs.js",
   "modules": "dist/product.es5.js",
