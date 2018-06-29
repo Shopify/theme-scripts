@@ -10,7 +10,7 @@ import {
   focusable,
   trapFocus,
   removeTrapFocus
-} from "./a11y";
+} from "./theme-a11y";
 
 describe("pageLinkFocus()", () => {
   beforeEach(() => {

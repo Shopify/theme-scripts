@@ -10,9 +10,11 @@
  * eg for In-page links, after scroll, focus shifts to content area so that
  * next `tab` is where user expects if focusing a link, just $link.focus();
  */
-export function pageLinkFocus(element, config = {}) {
-  const { className = "js-focus-hidden" } = config;
-  const savedTabIndex = element.tabIndex;
+export function pageLinkFocus(element, config) {
+  config = config || {};
+
+  var className = config.className || "js-focus-hidden";
+  var savedTabIndex = element.tabIndex;
 
   element.tabIndex = -1;
   element.dataset.tabIndex = savedTabIndex;
@@ -34,8 +36,8 @@ export function pageLinkFocus(element, config = {}) {
  */
 
 export function focusHash() {
-  const hash = window.location.hash;
-  const element = document.getElementById(hash.slice(1));
+  var hash = window.location.hash;
+  var element = document.getElementById(hash.slice(1));
   // is there a hash in the url? is it an element on the page?
 
   if (hash && element) {
@@ -47,33 +49,34 @@ export function focusHash() {
  * When an in-page (url w/hash) link is clicked, focus the appropriate element
  */
 export function bindInPageLinks() {
-  const links = document.querySelectorAll('a[href^="#"]');
+  var links = document.querySelectorAll('a[href^="#"]');
 
-  links.forEach(link => {
-    const element = document.querySelector(link.hash);
+  links.forEach(function(link) {
+    var element = document.querySelector(link.hash);
 
     if (!element) {
       return;
     }
 
-    link.addEventListener("click", () => {
+    link.addEventListener("click", function() {
       pageLinkFocus(element);
     });
   });
 }
 
 export function focusable(container) {
-  return container.querySelectorAll(`
-    [tabindex],
-    [draggable],
-    a[href],
-    area,
-    button:enabled,
-    input:not([type=hidden]):enabled,
-    link[href],
-    object,
-    select:enabled,
-    textarea:enabled`);
+  return container.querySelectorAll(
+    "[tabindex]," +
+      "[draggable]," +
+      "a[href]," +
+      "area," +
+      "button:enabled," +
+      "input:not([type=hidden]):enabled," +
+      "link[href]," +
+      "object," +
+      "select:enabled," +
+      "textarea:enabled"
+  );
 }
 
 /**
@@ -85,12 +88,14 @@ export function focusable(container) {
  * @param {string} options.namespace - Namespace used for new focus event handler
  */
 
-const trapFocusHandlers = {};
+var trapFocusHandlers = {};
 
-export function trapFocus(container, elementToFocus = container) {
-  const elements = focusable(container);
-  const first = elements[0];
-  const last = elements[elements.length - 1];
+export function trapFocus(container, elementToFocus) {
+  elementToFocus = elementToFocus || container;
+
+  var elements = focusable(container);
+  var first = elements[0];
+  var last = elements[elements.length - 1];
 
   removeTrapFocus();
 

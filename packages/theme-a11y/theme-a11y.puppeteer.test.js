@@ -1,4 +1,9 @@
-import { pageLinkFocus, focusable, trapFocus, removeTrapFocus } from "./a11y";
+import {
+  pageLinkFocus,
+  focusable,
+  trapFocus,
+  removeTrapFocus
+} from "./theme-a11y";
 
 beforeEach(async () => {
   // This is a super smelly way of exposing the functions needed to perform the
