@@ -65,18 +65,29 @@ export function bindInPageLinks() {
 }
 
 export function focusable(container) {
-  return container.querySelectorAll(
-    "[tabindex]," +
-      "[draggable]," +
-      "a[href]," +
-      "area," +
-      "button:enabled," +
-      "input:not([type=hidden]):enabled," +
-      "link[href]," +
-      "object," +
-      "select:enabled," +
-      "textarea:enabled"
+  var elements = Array.from(
+    container.querySelectorAll(
+      "[tabindex]," +
+        "[draggable]," +
+        "a[href]," +
+        "area," +
+        "button:enabled," +
+        "input:not([type=hidden]):enabled," +
+        "object," +
+        "select:enabled," +
+        "textarea:enabled"
+    )
   );
+
+  // Filter out elements that are not visible.
+  // Copied from jQuery https://github.com/jquery/jquery/blob/2d4f53416e5f74fa98e0c1d66b6f3c285a12f0ce/src/css/hiddenVisibleSelectors.js
+  return elements.filter(function(element) {
+    return !!(
+      element.offsetWidth ||
+      element.offsetHeight ||
+      element.getClientRects().length
+    );
+  });
 }
 
 /**
