@@ -2,8 +2,8 @@
   "name": "@shopify/theme-product",
   "version": "1.0.0-alpha.7",
   "description": "A library that helps developers work with the Product object within Shopify Themes",
-  "main": "dist/product.cjs.js",
-  "modules": "dist/product.es5.js",
+  "main": "dist/theme-product.cjs.js",
+  "modules": "theme-product.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-product",
   "keywords": [
     "slate"
@@ -20,8 +20,17 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-    "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5": "mkdir -p dist && ../../node_modules/.bin/babel product.js --out-file dist/product.es5.js",
-    "build:cjs": "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc product.js --out-file dist/product.cjs.js --presets=shopify"
-  }
+    "build": "rollup --config",
+    "size": "size-limit"
+  },
+  "devDependencies": {
+    "rollup": "^0.62.0",
+    "rollup-plugin-uglify": "^4.0.0",
+    "size-limit": "^0.18.3"
+  },
+  "size-limit": [
+    {
+      "path": "theme-product.js"
+    }
+  ]
 }
