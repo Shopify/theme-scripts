@@ -71,7 +71,7 @@ describe("getVariant()", () => {
       document.getElementById("productJson").innerHTML
     );
 
-    const variant = getVariant("testst", 6908023078973);
+    const variant = getVariant(productJson, 6908023078973);
     const expected = {
       id: 6908023078973,
       product_id: 520670707773,
@@ -91,14 +91,19 @@ describe("getVariant()", () => {
     expect(variant).toBeFalsy();
   });
 
-  xtest("returns a variant if parameter is an object with id key", () => {
+  test("returns a variant if parameter is an object with id key", () => {
     const productJson = JSON.parse(
       document.getElementById("productJson").innerHTML
     );
 
-    const variant = getVariant(productJson, { id: "Default Title" });
+    const variant = getVariant(productJson, { id: 6908198649917 });
+    const expected = {
+      id: 6908198649917,
+      product_id: 520790016061,
+      title: "Blue Jewel/Silver"
+    };
 
-    expect(variant).toBeFalsy();
+    expect(variant).toEqual(expected);
   });
 
   xtest("returns true if value is a collection of options with name and value keys", () => {
