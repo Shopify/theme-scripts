@@ -87,6 +87,12 @@ describe("getVariant()", () => {
     expect(typeof getVariant).toBe("function");
   });
 
+  test("returns false if productJson is invalid", () => {
+    const variant = getVariant(undefined, false);
+
+    expect(variant).toBeFalsy();
+  });
+
   test("returns a variant object if parameter is an id", () => {
     const variant = getVariant(productJson, 6908023078973);
     const expected = {
@@ -101,8 +107,14 @@ describe("getVariant()", () => {
     expect(variant).toEqual(expected);
   });
 
-  test("returns false if parameter is invalid", () => {
+  test("returns false if parameter is false", () => {
     const variant = getVariant(productJson, false);
+
+    expect(variant).toBeFalsy();
+  });
+
+  test("returns false if parameter is undefined", () => {
+    const variant = getVariant(productJson, undefined);
 
     expect(variant).toBeFalsy();
   });
