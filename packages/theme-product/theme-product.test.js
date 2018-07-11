@@ -17,30 +17,48 @@ describe("getVariant()", () => {
                 {
                     "id": 6908023078973,
                     "product_id": 520670707773,
-                    "title": "Default Title"
+                    "title": "36 / Black",
+                    "option1": "36",
+                    "option2": "Black",
+                    "options": ["36", "Black"]
                 },
                 {
                     "id": 6908198682685,
                     "product_id": 520790016061,
-                    "title": "Black"
+                    "title": "37 / Black",
+                    "option1": "37",
+                    "option2": "Black",
+                    "options": ["37", "Black"]
                 },
                 {
                     "id": 6908198649917,
                     "product_id": 520790016061,
-                    "title": "Blue Jewel/Silver"
+                    "title": "38 / Black",
+                    "option1": "38",
+                    "option2": "Black",
+                    "options": ["38", "Black"]
                 }
             ],
             "options": [
                 {
-                    "id": 782404026429,
-                    "product_id": 520670707773,
-                    "name": "Title",
-                    "position": 1,
-                    "values": [
-                        "Default Title",
-                        "Black",
-                        "Blue Jewel/Silver"
-                    ]
+                  "id": 967657816125,
+                  "product_id": 675815555133,
+                  "name": "Size",
+                  "position": 1,
+                  "values": [
+                    "36",
+                    "37",
+                    "38"
+                  ]
+                },
+                {
+                  "id": 967657848893,
+                  "product_id": 675815555133,
+                  "name": "Color",
+                  "position": 2,
+                  "values": [
+                    "Black"
+                  ]
                 }
             ],
             "images": [
@@ -75,7 +93,10 @@ describe("getVariant()", () => {
     const expected = {
       id: 6908023078973,
       product_id: 520670707773,
-      title: "Default Title"
+      title: "36 / Black",
+      option1: "36",
+      option2: "Black",
+      options: ["36", "Black"]
     };
 
     expect(variant).toEqual(expected);
@@ -100,27 +121,42 @@ describe("getVariant()", () => {
     const expected = {
       id: 6908198649917,
       product_id: 520790016061,
-      title: "Blue Jewel/Silver"
+      title: "38 / Black",
+      option1: "38",
+      option2: "Black",
+      options: ["38", "Black"]
     };
 
     expect(variant).toEqual(expected);
   });
 
-  xtest("returns true if value is a collection of options with name and value keys", () => {
+  test("returns true if value is a collection of options with name and value keys", () => {
     const productJson = JSON.parse(
       document.getElementById("productJson").innerHTML
     );
 
     const collections = [
       {
-        name: "Black"
+        name: "Size",
+        value: "36"
       },
       {
-        name: "Blue Jewel/Silver"
+        name: "Color",
+        value: "Black"
       }
     ];
 
+    const expected = {
+      id: 6908023078973,
+      product_id: 520670707773,
+      title: "36 / Black",
+      option1: "36",
+      option2: "Black",
+      options: ["36", "Black"]
+    };
+
     const variant = getVariant(productJson, collections);
+    expect(variant).toEqual(expected);
   });
 
   xtest("returns false if value is a collection of options with name and non-existing value keys", () => {
