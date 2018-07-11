@@ -34,10 +34,6 @@ export function optionArrayFromOptionCollection(product, collection) {
       );
     }
 
-    // index = findIndex(product.options, name => {
-    //   return name.toLowerCase() === option.name.toLowerCase();
-    // });
-
     for (var i = 0; i < product.options.length; i++) {
       if (product.options[i].name.toLowerCase() === option.name.toLowerCase()) {
         indexOption = i;
@@ -72,21 +68,13 @@ function _getVariantFromOptionCollection(product, collection, closest) {
 }
 
 function _getVariantFromOptionArray(product, options) {
-  // return find(product.variants, variant => {
-  //   return options.every((option, index) => {
-  //     return variant.options[index] === option;
-  //   });
-  // });
-
-  var test = product.variants.filter(function(variant) {
-    return options.filter(function(option, index) {
-      // console.log(option);
-      // console.log(variant.values[index] === option)
-      return variant.options[index] === option;
-    });
-  });
-
-  console.log(test);
+  var test = product.variants
+    .filter(function(variant) {
+      return options.every(function(option, index) {
+        return variant.options[index] === option;
+      });
+    })
+    .shift();
 
   return test;
 }
