@@ -9,6 +9,7 @@ export function validate(product) {}
  * - Object with ID key (e.g. { id: 6908198649917 })
  * - Object with 'name' and 'value' keys (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
  * - Array of values: (e.g. ["38", "Black"])
+ * @returns {Object} The variant object.
  */
 export function getVariant(product, value) {
   let variant;
@@ -34,15 +35,12 @@ export function getVariant(product, value) {
 }
 
 /**
- * Creates an array of selected values from the object
+ * Creates an array of selected options from the object
  * Loops through the project.options and check if the "option name" exist (product.options.name) and matches the target
- *
- * Input ('collection' parameter): [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }];
- * Output: ['36', 'Black']
  *
  * @param {Object} product - Product JSON object
  * @param {Array} collection - Array of object (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
- * @returns {Array} the result of the matched values.
+ * @returns {Array} The result of the matched values. (e.g. ['36', 'Black'])
  */
 export function optionArrayFromOptionCollection(product, collection) {
   var optionArray = [];
@@ -76,7 +74,7 @@ export function optionArrayFromOptionCollection(product, collection) {
  * Find a match in the project JSON (using Object "id" key or string/number directly) and return the variant (as an Object)
  * @param {Object} product - Product JSON object
  * @param {*} id - Accepts String/Number (e.g. 6908023078973) or Object with "id" key (e.g. { id: 6908198649917 })
- * @returns {Object} the variant object once a match has been successful. Otherwise false will be returned
+ * @returns {Object} The variant object once a match has been successful. Otherwise false will be returned
  */
 function _getVariantFromId(product, id) {
   if (typeof product === "object") {
@@ -98,7 +96,7 @@ function _getVariantFromOptionCollection(product, collection) {
  * Find a match in the project JSON (using Array with option values) and return the variant (as an Object)
  * @param {Object} product - Product JSON object
  * @param {Array} options - List of submitted values (e.g. ['36', 'Black'])
- * @returns {Object} the variant object once a match has been successful. Otherwise false will be returned
+ * @returns {Object} The variant object once a match has been successful. Otherwise false will be returned
  */
 function _getVariantFromOptionArray(product, options) {
   var test = product.variants

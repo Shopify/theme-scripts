@@ -1,15 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-
-import path from "path";
 import { getVariant } from "./theme-product";
 
 describe("getVariant()", () => {
   let productJson;
 
   beforeEach(() => {
-    let productJsonLiquid = `
+    let markup = `
         <script id="productJson" type="application/json">
         {
             "id": 520670707773,
@@ -79,7 +77,7 @@ describe("getVariant()", () => {
         </script>
     `;
 
-    document.body.innerHTML = productJsonLiquid;
+    document.body.innerHTML = markup;
     productJson = JSON.parse(document.getElementById("productJson").innerHTML);
   });
 
