@@ -195,3 +195,13 @@ describe("getVariant()", () => {
     expect(variant).toBeFalsy();
   });
 });
+
+describe("optionArrayFromOptionCollection", () => {
+  test("returns object when object is valid", () => {});
+
+  test("throws error message when 'name' key is not a String", () => {});
+
+  test("throws error message when 'name' key is absent", () => {});
+
+  test("throws error message when 'name' key does not match any values", () => {});
+});

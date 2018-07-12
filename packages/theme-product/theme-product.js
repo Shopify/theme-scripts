@@ -1,5 +1,3 @@
-export function validate(product) {}
-
 /**
  * Search through the product object and return a variant
  *
