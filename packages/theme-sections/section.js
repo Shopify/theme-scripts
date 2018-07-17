@@ -1,8 +1,8 @@
-var sectionIdAttribute = 'data-section-id';
+var SECTION_ID_ATTR = 'data-section-id';
 
 export default function Section(container, properties) {
   this.container = validateContainerElement(container);
-  this.id = container.getAttribute(sectionIdAttribute);
+  this.id = container.getAttribute(SECTION_ID_ATTR);
   this.extensions = [];
 
   assign(this, validatePropertiesObject(properties));
@@ -88,10 +88,10 @@ function validateContainerElement(container) {
       'Theme Sections: Attempted to load section. The section container provided is not a DOM element.'
     );
   }
-  if (container.getAttribute(sectionIdAttribute) === null) {
+  if (container.getAttribute(SECTION_ID_ATTR) === null) {
     throw new Error(
       'Theme Sections: The section container provided does not have an id assigned to the ' +
-        sectionIdAttribute +
+        SECTION_ID_ATTR +
         ' attribute.'
     );
   }

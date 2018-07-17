@@ -54,11 +54,8 @@ describe('register()', () => {
     var instance = new TypedSection(container);
 
     expect(typeof TypedSection).toBe('function');
-    expect(TypedSection.prototype.type).toBe(type);
-    expect(TypedSection.constructor).toBe(Section);
-
-    // TODO: figure out best way to access prototype 2 levels up
     expect(TypedSection.constructor.prototype).toMatchObject(Section.prototype);
+    expect(TypedSection.prototype.type).toBe(type);
     expect(instance.newValue).toBe('some-value');
   });
 
@@ -127,8 +124,6 @@ describe('instances', () => {
 });
 
 describe('load()', () => {
-  var onLoadMock = jest.fn();
-
   beforeEach(registerSections);
 
   test('does nothing if invalid type or container or combination of type/container is provided', () => {

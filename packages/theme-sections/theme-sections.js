@@ -1,5 +1,8 @@
 import Section from './section';
 
+var SECTION_TYPE_ATTR = 'data-section-type';
+var SECTION_ID_ATTR = 'data-section-id';
+
 global.sections = global.sections || {};
 
 export var registered = global.sections.registered || {};
@@ -43,7 +46,7 @@ export function load(types, containers) {
   types = normalizeType(types);
 
   if (typeof containers === 'undefined') {
-    containers = document.querySelectorAll('[data-section-type]');
+    containers = document.querySelectorAll('[' + SECTION_TYPE_ATTR + ']');
   }
 
   containers = normalizeContainers(containers);
@@ -62,12 +65,12 @@ export function load(types, containers) {
       }
 
       // Filter from list of containers because container doesn't have data-section-type attribute
-      if (container.getAttribute('data-section-type') === null) {
+      if (container.getAttribute(SECTION_TYPE_ATTR) === null) {
         return false;
       }
 
       // Keep in list of containers because current type doesn't match
-      if (container.getAttribute('data-section-type') !== type) {
+      if (container.getAttribute(SECTION_TYPE_ATTR) !== type) {
         return true;
       }
 
@@ -181,8 +184,10 @@ function normalizeContainers(containers) {
 
 document.addEventListener('shopify:section:load', function(event) {
   var id = event.detail.sectionId;
-  var container = event.target.querySelector('[data-section-id="' + id + '}"]');
-  var type = container.getAttribute('data-section-type');
+  var container = event.target.querySelector(
+    '[' + SECTION_ID_ATTR + '="' + id + '}"]'
+  );
+  var type = container.getAttribute(SECTION_TYPE_ATTR);
 
   load(type, container);
 });
