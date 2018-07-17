@@ -2,7 +2,6 @@
  * A11y Helpers
  * -----------------------------------------------------------------------------
  * A collection of useful functions that help make your theme more accessible
- * to users with visual impairments.
  */
 
 /**
@@ -13,14 +12,14 @@
 export function pageLinkFocus(element, config) {
   config = config || {};
 
-  var className = config.className || "js-focus-hidden";
+  var className = config.className || 'js-focus-hidden';
   var savedTabIndex = element.tabIndex;
 
   element.tabIndex = -1;
   element.dataset.tabIndex = savedTabIndex;
   element.focus();
   element.classList.add(className);
-  element.addEventListener("blur", callback);
+  element.addEventListener('blur', callback);
 
   function callback(event) {
     event.target.removeEventListener(event.type, callback);
@@ -58,7 +57,7 @@ export function bindInPageLinks() {
       return;
     }
 
-    link.addEventListener("click", function() {
+    link.addEventListener('click', function() {
       pageLinkFocus(element);
     });
   });
@@ -67,15 +66,15 @@ export function bindInPageLinks() {
 export function focusable(container) {
   var elements = Array.from(
     container.querySelectorAll(
-      "[tabindex]," +
-        "[draggable]," +
-        "a[href]," +
-        "area," +
-        "button:enabled," +
-        "input:not([type=hidden]):enabled," +
-        "object," +
-        "select:enabled," +
-        "textarea:enabled"
+      '[tabindex],' +
+        '[draggable],' +
+        'a[href],' +
+        'area,' +
+        'button:enabled,' +
+        'input:not([type=hidden]):enabled,' +
+        'object,' +
+        'select:enabled,' +
+        'textarea:enabled'
     )
   );
 
@@ -93,10 +92,8 @@ export function focusable(container) {
 /**
  * Traps the focus in a particular container
  *
- * @param {object} options - Options to be used
- * @param {jQuery} options.$container - Container to trap focus within
- * @param {jQuery} options.$elementToFocus - Element to be focused when focus leaves container
- * @param {string} options.namespace - Namespace used for new focus event handler
+ * @param {Element} container - Container DOM element to trap focus inside of
+ * @param {Element} elementToFocus - Element to be focused on first
  */
 
 var trapFocusHandlers = {};
@@ -121,11 +118,11 @@ export function trapFocus(container, elementToFocus) {
       event.target !== first
     )
       return;
-    document.addEventListener("keydown", trapFocusHandlers.keydown);
+    document.addEventListener('keydown', trapFocusHandlers.keydown);
   };
 
   trapFocusHandlers.focusout = function(event) {
-    document.removeEventListener("keydown", trapFocusHandlers.keydown);
+    document.removeEventListener('keydown', trapFocusHandlers.keydown);
   };
 
   trapFocusHandlers.keydown = function(event) {
@@ -147,21 +144,17 @@ export function trapFocus(container, elementToFocus) {
     }
   };
 
-  document.addEventListener("focusout", trapFocusHandlers.focusout);
-  document.addEventListener("focusin", trapFocusHandlers.focusin);
+  document.addEventListener('focusout', trapFocusHandlers.focusout);
+  document.addEventListener('focusin', trapFocusHandlers.focusin);
 
   pageLinkFocus(elementToFocus);
 }
 
 /**
- * Removes the trap of focus in a particular container
- *
- * @param {object} options - Options to be used
- * @param {jQuery} options.$container - Container to trap focus within
- * @param {string} options.namespace - Namespace used for new focus event handler
+ * Removes the trap of focus from the page
  */
 export function removeTrapFocus() {
-  document.removeEventListener("focusin", trapFocusHandlers.focusin);
-  document.removeEventListener("focusout", trapFocusHandlers.focusout);
-  document.removeEventListener("keydown", trapFocusHandlers.keydown);
+  document.removeEventListener('focusin', trapFocusHandlers.focusin);
+  document.removeEventListener('focusout', trapFocusHandlers.focusout);
+  document.removeEventListener('keydown', trapFocusHandlers.keydown);
 }
