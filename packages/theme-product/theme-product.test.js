@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { getVariant } from "./theme-product";
+import { getVariant, optionArrayFromOptionCollection } from "./theme-product";
 import { getProductJsonMock } from "./__mocks__/product";
 
 describe("getVariant()", () => {
@@ -17,56 +17,28 @@ describe("getVariant()", () => {
     expect(typeof getVariant).toBe("function");
   });
 
-  test("throws error if productJson is invalid", () => {
-    const variant = getVariant(undefined, false);
-
-    // expect(variant).toBeFalsy();
+  test("throws error if productJson JSON is empty", () => {
+    expect(() => {
+      getVariant({}, 6908023078973);
+    }).toThrow();
   });
 
-  // rephrase
-  test("returns a variant object if parameter is an id", () => {
+  test("returns a product variant object when called with valid arguments", () => {
     const variant = getVariant(productJson, 6908023078973);
-    // mock object
-    const expected = {
-      id: 6908023078973,
-      product_id: 520670707773,
-      title: "36 / Black",
-      option1: "36",
-      option2: "Black",
-      options: ["36", "Black"]
-    };
-
-    expect(variant).toEqual(expected);
+    expect(variant).toEqual(productJson.variants[0]);
   });
 
-  // rephrase +
-  test("returns false if parameter is false", () => {
-    const variant = getVariant(productJson, false);
-
-    expect(variant).toBeFalsy();
+  test("returns an empty object when called with arguments with no succesful matches", () => {
+    const variant = getVariant(productJson, 6909083098073);
+    expect(variant).toEqual({});
   });
 
-  test("returns false if parameter is undefined", () => {
-    const variant = getVariant(productJson, undefined);
-
-    expect(variant).toBeFalsy();
-  });
-
-  test("returns a variant if parameter is an object with id key", () => {
+  test("returns a product variant object when called with an object with 'id' key", () => {
     const variant = getVariant(productJson, { id: 6908198649917 });
-    const expected = {
-      id: 6908198649917,
-      product_id: 520790016061,
-      title: "38 / Black",
-      option1: "38",
-      option2: "Black",
-      options: ["38", "Black"]
-    };
-
-    expect(variant).toEqual(expected);
+    expect(variant).toEqual(productJson.variants[2]);
   });
 
-  test("returns true if value is a collection of options with name and value keys", () => {
+  test("returns a product variant object when called with collection's options with 'name' and 'value' keys", () => {
     const collections = [
       {
         name: "Size",
@@ -78,20 +50,11 @@ describe("getVariant()", () => {
       }
     ];
 
-    const expected = {
-      id: 6908023078973,
-      product_id: 520670707773,
-      title: "36 / Black",
-      option1: "36",
-      option2: "Black",
-      options: ["36", "Black"]
-    };
-
     const variant = getVariant(productJson, collections);
-    expect(variant).toEqual(expected);
+    expect(variant).toEqual(productJson.variants[0]);
   });
 
-  test("returns false if value is a collection of options with name and invalid value keys", () => {
+  test("returns an empty object when called with a collection of options with invalid values", () => {
     const collections = [
       {
         name: "Size",
@@ -104,39 +67,63 @@ describe("getVariant()", () => {
     ];
 
     const variant = getVariant(productJson, collections);
-    expect(variant).toBeFalsy();
+    expect(variant).toEqual({});
   });
 
-  test("returns true if value is an array of values", () => {
+  test("returns a product variant object when called with an array of values", () => {
     const arrayValues = ["38", "Black"];
-
-    const expected = {
-      id: 6908198649917,
-      product_id: 520790016061,
-      title: "38 / Black",
-      option1: "38",
-      option2: "Black",
-      options: ["38", "Black"]
-    };
-
     const variant = getVariant(productJson, arrayValues);
-    expect(variant).toEqual(expected);
+    expect(variant).toEqual(productJson.variants[2]);
   });
 
-  test("returns false if value is an array of invalid values", () => {
+  test("returns an empty object when when called with an array of invalid values", () => {
     const arrayValues = ["45", "Black"];
 
     const variant = getVariant(productJson, arrayValues);
-    expect(variant).toBeFalsy();
+    expect(variant).toEqual({});
   });
 });
 
 describe("optionArrayFromOptionCollection", () => {
-  test("returns object when object is valid", () => {});
+  let productJson;
 
-  test("throws error message when 'name' key is not a String", () => {});
+  beforeEach(() => {
+    let markup = getProductJsonMock();
+    document.body.innerHTML = `<script id="productJson" type="application/json">${markup}</script>`;
+    productJson = JSON.parse(document.getElementById("productJson").innerHTML);
+  });
 
-  test("throws error message when 'name' key is absent", () => {});
+  test("is a function exported by theme-product.js", () => {
+    expect(typeof optionArrayFromOptionCollection).toBe("function");
+  });
 
-  test("throws error message when 'name' key does not match any values", () => {});
+  test("returns an array of matched options when called with an object of valid keys and values", () => {
+    const criteria = [
+      { name: "Size", value: "36" },
+      { name: "Color", value: "Black" }
+    ];
+    const variant = optionArrayFromOptionCollection(productJson, criteria);
+    const expected = ["36", "Black"];
+    expect(variant).toEqual(expected);
+  });
+
+  test("returns an empty array when called with an object of unmatched 'name' key", () => {
+    const criteria = [
+      { name: "Random", value: "test" },
+      { name: "House", value: "Wall" }
+    ];
+    const variant = optionArrayFromOptionCollection(productJson, criteria);
+    expect(variant).toEqual([]);
+  });
+
+  test("throws an error message when called with an object with 'name' key is absent", () => {
+    const criteria = [
+      { color: "Red", image: "myimage.jpg" },
+      { property: "Name", value: "Random" }
+    ];
+
+    expect(() => {
+      optionArrayFromOptionCollection(productJson, criteria);
+    }).toThrow();
+  });
 });

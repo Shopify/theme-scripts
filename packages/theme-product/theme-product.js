@@ -12,6 +12,14 @@
 export function getVariant(product, value) {
   let variant;
 
+  if (typeof product !== "object") {
+    throw Error(`${product} is not an object.`);
+  }
+
+  if (Object.keys(product).length === 0) {
+    throw Error(`${product} is empty.`);
+  }
+
   if (typeof value === "string" || typeof value === "number") {
     // If value is an id
     variant = _getVariantFromId(product, value);
@@ -58,11 +66,9 @@ export function optionArrayFromOptionCollection(product, collection) {
       }
     }
 
-    if (indexOption === -1) {
-      throw Error(`Invalid option name, ${option.name}`);
+    if (indexOption !== -1) {
+      optionArray[indexOption] = option.value;
     }
-
-    optionArray[indexOption] = option.value;
   });
 
   return optionArray;
@@ -72,18 +78,18 @@ export function optionArrayFromOptionCollection(product, collection) {
  * Find a match in the project JSON (using Object "id" key or string/number directly) and return the variant (as an Object)
  * @param {Object} product - Product JSON object
  * @param {*} id - Accepts String/Number (e.g. 6908023078973) or Object with "id" key (e.g. { id: 6908198649917 })
- * @returns {Object} The variant object once a match has been successful. Otherwise false will be returned
+ * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
  */
 function _getVariantFromId(product, id) {
-  if (typeof product === "object") {
-    return product.variants
-      .filter(function(variant) {
-        return variant.id === id;
-      })
-      .shift();
+  var result = product.variants.filter(function(variant) {
+    return variant.id === id;
+  });
+
+  if (result.length > 0) {
+    return result.shift();
   }
-  // return empty array
-  return false;
+
+  return {};
 }
 
 function _getVariantFromOptionCollection(product, collection) {
@@ -95,16 +101,18 @@ function _getVariantFromOptionCollection(product, collection) {
  * Find a match in the project JSON (using Array with option values) and return the variant (as an Object)
  * @param {Object} product - Product JSON object
  * @param {Array} options - List of submitted values (e.g. ['36', 'Black'])
- * @returns {Object} The variant object once a match has been successful. Otherwise false will be returned
+ * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
  */
 function _getVariantFromOptionArray(product, options) {
-  var test = product.variants
-    .filter(function(variant) {
-      return options.every(function(option, index) {
-        return variant.options[index] === option;
-      });
-    })
-    .shift();
+  var result = product.variants.filter(function(variant) {
+    return options.every(function(option, index) {
+      return variant.options[index] === option;
+    });
+  });
 
-  return test;
+  if (result.length > 0) {
+    return result.shift();
+  }
+
+  return {};
 }

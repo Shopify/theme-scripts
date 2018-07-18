@@ -60,4 +60,4 @@ function getProductJsonMock() {
   });
 }
 
-exports.getProductJsonMock = getProductJsonMock;
+export { getProductJsonMock };
