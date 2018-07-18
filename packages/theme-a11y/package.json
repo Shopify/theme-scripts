@@ -1,9 +1,9 @@
 {
   "name": "@shopify/theme-a11y",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0",
   "description": "A library of useful functions that help make your theme more accessible.",
-  "main": "dist/a11y.cjs.js",
-  "modules": "dist/a11y.es5.js",
+  "main": "dist/theme-a11y.cjs.js",
+  "modules": "theme-a11y.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-a11y",
   "keywords": [
     "slate",
@@ -15,13 +15,19 @@
     "url": "https://github.com/Shopify/theme-scripts/issues"
   },
   "homepage": "https://github.com/Shopify/theme-scripts#readme",
-  "peerDependencies": {
-    "jquery": "3.x"
-  },
   "scripts": {
     "prepublish": "npm run build",
-    "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5": "mkdir -p dist && ../../node_modules/.bin/babel a11y.js --out-file dist/a11y.es5.js",
-    "build:cjs": "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc a11y.js --out-file dist/a11y.cjs.js --presets=shopify"
-  }
+    "build": "rollup --config",
+    "size": "size-limit"
+  },
+  "devDependencies": {
+    "rollup": "^0.62.0",
+    "rollup-plugin-uglify": "^4.0.0",
+    "size-limit": "^0.18.3"
+  },
+  "size-limit": [
+    {
+      "path": "theme-a11y.js"
+    }
+  ]
 }

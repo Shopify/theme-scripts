@@ -41,5 +41,4 @@ Thumbs.db
 *.sass-cache*
 node_modules
 dist
-**/*.cjs.js
-**/*.es5.js
+.vscode
