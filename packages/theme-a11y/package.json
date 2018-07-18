@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-a11y",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0",
   "description": "A library of useful functions that help make your theme more accessible.",
   "main": "dist/theme-a11y.cjs.js",
   "modules": "theme-a11y.js",
