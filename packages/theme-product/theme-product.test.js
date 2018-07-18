@@ -2,82 +2,14 @@
  * @jest-environment jsdom
  */
 import { getVariant } from "./theme-product";
+import { getProductJsonMock } from "./__mocks__/product";
 
 describe("getVariant()", () => {
   let productJson;
 
   beforeEach(() => {
-    let markup = `
-        <script id="productJson" type="application/json">
-        {
-            "id": 520670707773,
-            "title": "Aircontact 75 + 10",
-            "vendor": "tauclothes",
-            "variants": [
-                {
-                    "id": 6908023078973,
-                    "product_id": 520670707773,
-                    "title": "36 / Black",
-                    "option1": "36",
-                    "option2": "Black",
-                    "options": ["36", "Black"]
-                },
-                {
-                    "id": 6908198682685,
-                    "product_id": 520790016061,
-                    "title": "37 / Black",
-                    "option1": "37",
-                    "option2": "Black",
-                    "options": ["37", "Black"]
-                },
-                {
-                    "id": 6908198649917,
-                    "product_id": 520790016061,
-                    "title": "38 / Black",
-                    "option1": "38",
-                    "option2": "Black",
-                    "options": ["38", "Black"]
-                }
-            ],
-            "options": [
-                {
-                  "id": 967657816125,
-                  "product_id": 675815555133,
-                  "name": "Size",
-                  "position": 1,
-                  "values": [
-                    "36",
-                    "37",
-                    "38"
-                  ]
-                },
-                {
-                  "id": 967657848893,
-                  "product_id": 675815555133,
-                  "name": "Color",
-                  "position": 2,
-                  "values": [
-                    "Black"
-                  ]
-                }
-            ],
-            "images": [
-                {
-                    "id": 2004809744445,
-                    "product_id": 520670707773,
-                    "variant_ids": []
-                }
-            ],
-            "image": {
-                "id": 2004809744445,
-                "product_id": 520670707773,
-                "variant_ids": []
-            }
-        }
-        </script>
-    `;
-
-    document.body.innerHTML = markup;
+    let markup = getProductJsonMock();
+    document.body.innerHTML = `<script id="productJson" type="application/json">${markup}</script>`;
     productJson = JSON.parse(document.getElementById("productJson").innerHTML);
   });
 
@@ -85,14 +17,16 @@ describe("getVariant()", () => {
     expect(typeof getVariant).toBe("function");
   });
 
-  test("returns false if productJson is invalid", () => {
+  test("throws error if productJson is invalid", () => {
     const variant = getVariant(undefined, false);
 
-    expect(variant).toBeFalsy();
+    // expect(variant).toBeFalsy();
   });
 
+  // rephrase
   test("returns a variant object if parameter is an id", () => {
     const variant = getVariant(productJson, 6908023078973);
+    // mock object
     const expected = {
       id: 6908023078973,
       product_id: 520670707773,
@@ -105,6 +39,7 @@ describe("getVariant()", () => {
     expect(variant).toEqual(expected);
   });
 
+  // rephrase +
   test("returns false if parameter is false", () => {
     const variant = getVariant(productJson, false);
 

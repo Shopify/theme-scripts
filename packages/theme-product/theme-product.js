@@ -82,6 +82,7 @@ function _getVariantFromId(product, id) {
       })
       .shift();
   }
+  // return empty array
   return false;
 }
 
