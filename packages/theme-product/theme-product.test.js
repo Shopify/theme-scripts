@@ -17,7 +17,21 @@ describe("getVariant()", () => {
     expect(typeof getVariant).toBe("function");
   });
 
-  test("throws error if productJson JSON is empty", () => {
+  test("throws an error if parameters are missing", () => {
+    expect(() => {
+      getVariant();
+    }).toThrow();
+
+    expect(() => {
+      getVariant({});
+    }).toThrow();
+
+    expect(() => {
+      getVariant(null, {});
+    }).toThrow();
+  });
+
+  test("throws an error if product json object is empty", () => {
     expect(() => {
       getVariant({}, 6908023078973);
     }).toThrow();
@@ -97,7 +111,17 @@ describe("optionArrayFromOptionCollection", () => {
     expect(typeof optionArrayFromOptionCollection).toBe("function");
   });
 
-  test("returns an array of matched options when called with an object of valid keys and values", () => {
+  test("throws an error if parameters are missing", () => {
+    expect(() => {
+      optionArrayFromOptionCollection();
+    }).toThrow();
+
+    expect(() => {
+      optionArrayFromOptionCollection({});
+    }).toThrow();
+  });
+
+  test("returns an array of options when called with an object of valid keys and values", () => {
     const criteria = [
       { name: "Size", value: "36" },
       { name: "Color", value: "Black" }
@@ -116,7 +140,7 @@ describe("optionArrayFromOptionCollection", () => {
     expect(variant).toEqual([]);
   });
 
-  test("throws an error message when called with an object with 'name' key is absent", () => {
+  test("throws an error message when called with an object with 'name' key as absent", () => {
     const criteria = [
       { color: "Red", image: "myimage.jpg" },
       { property: "Name", value: "Random" }

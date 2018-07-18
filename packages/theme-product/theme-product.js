@@ -85,11 +85,7 @@ function _getVariantFromId(product, id) {
     return variant.id === id;
   });
 
-  if (result.length > 0) {
-    return result.shift();
-  }
-
-  return {};
+  return _getVariantSuccessCriteriaObject(result);
 }
 
 function _getVariantFromOptionCollection(product, collection) {
@@ -110,8 +106,17 @@ function _getVariantFromOptionArray(product, options) {
     });
   });
 
-  if (result.length > 0) {
-    return result.shift();
+  return _getVariantSuccessCriteriaObject(result);
+}
+
+/**
+ * Check if the array found successful criterias
+ * @param {Array} arr - Array of object - [{ id: 6908023078973, product_id: 520670707773 }]
+ * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
+ */
+function _getVariantSuccessCriteriaObject(arr) {
+  if (arr.length > 0) {
+    return arr.shift();
   }
 
   return {};
