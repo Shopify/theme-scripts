@@ -1,7 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import { getVariant, optionArrayFromOptionCollection } from "./theme-product";
+import {
+  getVariant,
+  createOptionArrayFromOptionCollection
+} from "./theme-product";
 import { getProductJsonMock } from "./__mocks__/product";
 
 describe("getVariant()", () => {
@@ -98,7 +101,7 @@ describe("getVariant()", () => {
   });
 });
 
-describe("optionArrayFromOptionCollection", () => {
+describe("createOptionArrayFromOptionCollection", () => {
   let productJson;
 
   beforeEach(() => {
@@ -108,16 +111,42 @@ describe("optionArrayFromOptionCollection", () => {
   });
 
   test("is a function exported by theme-product.js", () => {
-    expect(typeof optionArrayFromOptionCollection).toBe("function");
+    expect(typeof createOptionArrayFromOptionCollection).toBe("function");
   });
 
   test("throws an error if parameters are missing", () => {
     expect(() => {
-      optionArrayFromOptionCollection();
+      createOptionArrayFromOptionCollection();
     }).toThrow();
 
     expect(() => {
-      optionArrayFromOptionCollection({});
+      createOptionArrayFromOptionCollection(productJson);
+    }).toThrow();
+  });
+
+  test("throws an error if the second parameter has invalid type", () => {
+    expect(() => {
+      createOptionArrayFromOptionCollection(productJson, false);
+    }).toThrow();
+
+    expect(() => {
+      createOptionArrayFromOptionCollection(productJson, {});
+    }).toThrow();
+
+    expect(() => {
+      createOptionArrayFromOptionCollection(productJson, "");
+    }).toThrow();
+
+    expect(() => {
+      createOptionArrayFromOptionCollection(productJson, "test");
+    }).toThrow();
+
+    expect(() => {
+      createOptionArrayFromOptionCollection(productJson, null);
+    }).toThrow();
+
+    expect(() => {
+      createOptionArrayFromOptionCollection(productJson, undefined);
     }).toThrow();
   });
 
@@ -126,7 +155,10 @@ describe("optionArrayFromOptionCollection", () => {
       { name: "Size", value: "36" },
       { name: "Color", value: "Black" }
     ];
-    const variant = optionArrayFromOptionCollection(productJson, criteria);
+    const variant = createOptionArrayFromOptionCollection(
+      productJson,
+      criteria
+    );
     const expected = ["36", "Black"];
     expect(variant).toEqual(expected);
   });
@@ -136,7 +168,10 @@ describe("optionArrayFromOptionCollection", () => {
       { name: "Random", value: "test" },
       { name: "House", value: "Wall" }
     ];
-    const variant = optionArrayFromOptionCollection(productJson, criteria);
+    const variant = createOptionArrayFromOptionCollection(
+      productJson,
+      criteria
+    );
     expect(variant).toEqual([]);
   });
 
@@ -147,7 +182,7 @@ describe("optionArrayFromOptionCollection", () => {
     ];
 
     expect(() => {
-      optionArrayFromOptionCollection(productJson, criteria);
+      createOptionArrayFromOptionCollection(productJson, criteria);
     }).toThrow();
   });
 });

@@ -27,6 +27,8 @@ Theme product is a helper script related to Product informations. For instance, 
 
 ### getVariant(product, value)
 
+Search through the product object and return a variant
+
 - `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
   Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.
 
@@ -102,6 +104,31 @@ Theme product is a helper script related to Product informations. For instance, 
     - Object with ID key (e.g. { id: 6908198649917 })
     - Object with 'name' and 'value' keys (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
     - Array of values: (e.g. ["38", "Black"])
+```
+
+---
+
+### createOptionArrayFromOptionCollection(product, collection)
+
+Creates an array of selected options from the object
+Loops through the project.options and check if the "option name" exist (product.options.name) and matches the target
+
+- `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
+  Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.
+
+- `collection`: Array of object with mandatory 'name' and 'value' properties
+
+```javascript
+[
+  {
+    name: "Size",
+    value: "36"
+  },
+  {
+    name: "Color",
+    value: "Black"
+  }
+];
 ```
 
 ---

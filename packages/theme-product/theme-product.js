@@ -1,8 +1,8 @@
 /**
  * Search through the product object and return a variant
  *
- * @param {Object} product - Product JSON object
- * @param {*} value - The targeted value. It accepts :
+ * @param {Object} product Product JSON object
+ * @param {*} value The targeted value. It accepts :
  * - Strings/Number (e.g. 520670707773)
  * - Object with ID key (e.g. { id: 6908198649917 })
  * - Object with 'name' and 'value' keys (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
@@ -10,10 +10,10 @@
  * @returns {Object} The variant object.
  */
 export function getVariant(product, value) {
-  let variant;
+  var variant = {};
 
   if (typeof product !== "object") {
-    throw Error(`${product} is not an object.`);
+    throw new TypeError(`${product} is not an object.`);
   }
 
   if (Object.keys(product).length === 0) {
@@ -44,17 +44,21 @@ export function getVariant(product, value) {
  * Creates an array of selected options from the object
  * Loops through the project.options and check if the "option name" exist (product.options.name) and matches the target
  *
- * @param {Object} product - Product JSON object
- * @param {Array} collection - Array of object (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
+ * @param {Object} product Product JSON object
+ * @param {Array} collection Array of object (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
  * @returns {Array} The result of the matched values. (e.g. ['36', 'Black'])
  */
-export function optionArrayFromOptionCollection(product, collection) {
+export function createOptionArrayFromOptionCollection(product, collection) {
   var optionArray = [];
   var indexOption = -1;
 
+  if (!Array.isArray(collection)) {
+    throw new TypeError(`${collection} is not an array.`);
+  }
+
   collection.forEach(option => {
     if (typeof option.name !== "string") {
-      throw Error(
+      throw new TypeError(
         `Invalid value type passed for name of option ${indexOption}. Value should be string.`
       );
     }
@@ -76,8 +80,8 @@ export function optionArrayFromOptionCollection(product, collection) {
 
 /**
  * Find a match in the project JSON (using Object "id" key or string/number directly) and return the variant (as an Object)
- * @param {Object} product - Product JSON object
- * @param {*} id - Accepts String/Number (e.g. 6908023078973) or Object with "id" key (e.g. { id: 6908198649917 })
+ * @param {Object} product Product JSON object
+ * @param {*} id Accepts String/Number (e.g. 6908023078973) or Object with "id" key (e.g. { id: 6908198649917 })
  * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
  */
 function _getVariantFromId(product, id) {
@@ -89,14 +93,14 @@ function _getVariantFromId(product, id) {
 }
 
 function _getVariantFromOptionCollection(product, collection) {
-  var optionArray = optionArrayFromOptionCollection(product, collection);
+  var optionArray = createOptionArrayFromOptionCollection(product, collection);
   return _getVariantFromOptionArray(product, optionArray);
 }
 
 /**
  * Find a match in the project JSON (using Array with option values) and return the variant (as an Object)
- * @param {Object} product - Product JSON object
- * @param {Array} options - List of submitted values (e.g. ['36', 'Black'])
+ * @param {Object} product Product JSON object
+ * @param {Array} options List of submitted values (e.g. ['36', 'Black'])
  * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
  */
 function _getVariantFromOptionArray(product, options) {
@@ -111,7 +115,7 @@ function _getVariantFromOptionArray(product, options) {
 
 /**
  * Check if the array found successful criterias
- * @param {Array} arr - Array of object - [{ id: 6908023078973, product_id: 520670707773 }]
+ * @param {Array} arr Array of object - [{ id: 6908023078973, product_id: 520670707773 }]
  * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
  */
 function _getVariantSuccessCriteriaObject(arr) {
