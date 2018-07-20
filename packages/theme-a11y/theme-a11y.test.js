@@ -19,7 +19,7 @@ describe("pageLinkFocus()", () => {
       '<button id="focusableElement" tabIndex=3 class="myClass">';
   });
 
-  test("is a function exported by a11y.js", () => {
+  test("is a function exported by theme-a11y.js", () => {
     expect(typeof pageLinkFocus).toBe("function");
   });
 
@@ -86,7 +86,7 @@ describe("focusHash()", () => {
       '<button id="focusableElement" tabIndex=3 class="myClass">';
   });
 
-  test("is a function exported by a11y.js", () => {
+  test("is a function exported by theme-a11y.js", () => {
     expect(typeof focusHash).toBe("function");
   });
 
@@ -116,7 +116,7 @@ describe("bindInPageLinks()", () => {
       '<a id="link" href="#title"></a>' + '<h1 id="title">Title</h1>';
   });
 
-  test("is a function exported by a11y.js", () => {
+  test("is a function exported by theme-a11y.js", () => {
     expect(typeof bindInPageLinks).toBe("function");
   });
 
@@ -128,146 +128,5 @@ describe("bindInPageLinks()", () => {
 
     link.click();
     expect(document.activeElement).toBe(title);
-  });
-});
-
-describe("focusable()", () => {
-  function expectElements(valid, invalid) {
-    const matchIds = [];
-
-    focusable(document).forEach(element => matchIds.push(element.id));
-
-    expect(matchIds).toEqual(expect.arrayContaining(valid));
-    expect(matchIds).not.toEqual(expect.arrayContaining(invalid));
-  }
-
-  test("is a function exported by a11y.js", () => {
-    expect(typeof focusable).toBe("function");
-  });
-
-  test("selects valid <a> elements", () => {
-    document.body.innerHTML = `
-      <a id="withHref" href="#title"></a>
-      <a id="withoutHref"></a>`;
-
-    const valid = ["withHref"];
-    const invalid = ["withoutHref"];
-
-    expectElements(valid, invalid);
-  });
-
-  test("selects valid <area> elements", () => {
-    document.body.innerHTML = `
-      <a id="withHref" href="#title"></a>
-      <a id="withoutHref"></a>`;
-
-    const valid = ["withHref"];
-    const invalid = ["withoutHref"];
-
-    expectElements(valid, invalid);
-  });
-
-  test("selects enabled <button> elements", () => {
-    document.body.innerHTML = `
-      <button id="button"></button>
-      <button id="disabledButton" disabled></button>`;
-
-    const valid = ["button"];
-    const invalid = ["disabledButton"];
-
-    expectElements(valid, invalid);
-  });
-
-  test("selects enabled, non-hidden input elements", () => {
-    document.body.innerHTML = `
-      <input type="text" id="input"></input>
-      <input type="hidden" id="hiddenInput"></input>`;
-
-    const valid = ["input"];
-    const invalid = ["hiddenInput"];
-
-    expectElements(valid, invalid);
-  });
-
-  test("selects valid <link> elements", () => {
-    document.body.innerHTML = `
-      <link id="validLink" href="#something">
-      <link id="invalidLink">`;
-
-    const valid = ["validLink"];
-    const invalid = ["invalidLink"];
-
-    expectElements(valid, invalid);
-  });
-
-  test("selects valid <object> elements", () => {
-    document.body.innerHTML = `
-    <object id="object" data="movie.swf" type="application/x-shockwave-flash" />`;
-
-    const valid = ["object"];
-    const invalid = [""];
-
-    expectElements(valid, invalid);
-  });
-
-  test("selects enabled <select> elements", () => {
-    document.body.innerHTML = `
-    <select id="validSelect">
-      <option val="1">1</option>
-    </select>
-    <select id="disabledSelect" disabled>
-      <option val="1">1</option>
-    </select>`;
-
-    const valid = ["validSelect"];
-    const invalid = ["disabledSelect"];
-
-    expectElements(valid, invalid);
-  });
-
-  test("selects enabled <textarea> elements", () => {
-    document.body.innerHTML = `
-    <textarea id="validTextArea"></textarea>
-    <textarea id="disabledTextArea" disabled></textarea>`;
-
-    const valid = ["validTextArea"];
-    const invalid = ["disabledTextArea"];
-
-    expectElements(valid, invalid);
-  });
-
-  test("selects elements with tabindex attribute", () => {
-    document.body.innerHTML = `
-    <div id="withTabIndex" tabindex="-1"></div>
-    <div id="withoutTabIndex"></div>`;
-
-    const valid = ["withTabIndex"];
-    const invalid = ["withoutTabIndex"];
-
-    expectElements(valid, invalid);
-  });
-
-  test("selects elements with draggable attribute", () => {
-    document.body.innerHTML = `
-    <div id="draggableTrue" draggable="true"></div>
-    <div id="draggableFalse" draggable="true"></div>
-    <div id="withoutDraggable"></div>`;
-
-    const valid = ["draggableTrue"];
-    const invalid = ["draggableFalse, withoutDraggable"];
-
-    expectElements(valid, invalid);
-  });
-});
-
-describe("trapFocus()", () => {
-  test("is a function exported by a11y.js", () => {
-    expect(typeof trapFocus).toBe("function");
-  });
-});
-
-describe("removeTrapFocus()", () => {
-  test("is a function exported by a11y.js", () => {
-    expect(typeof removeTrapFocus).toBe("function");
   });
 });
