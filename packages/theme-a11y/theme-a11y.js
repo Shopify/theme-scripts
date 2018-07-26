@@ -121,11 +121,11 @@ export function trapFocus(container, elementToFocus) {
     document.addEventListener('keydown', trapFocusHandlers.keydown);
   };
 
-  trapFocusHandlers.focusout = function(event) {
+  trapFocusHandlers.focusout = function() {
     document.removeEventListener('keydown', trapFocusHandlers.keydown);
   };
 
-  trapFocusHandlers.keydown = function() {
+  trapFocusHandlers.keydown = function(event) {
     if (event.keyCode !== 9) return; // If not TAB key
 
     // On the last focusable element and tab forward, focus the first element.
