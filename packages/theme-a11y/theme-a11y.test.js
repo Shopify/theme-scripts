@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import path from "path";
+import path from 'path';
 import {
   pageLinkFocus,
   focusHash,
@@ -10,22 +10,22 @@ import {
   focusable,
   trapFocus,
   removeTrapFocus
-} from "./theme-a11y";
+} from './theme-a11y';
 
-describe("pageLinkFocus()", () => {
+describe('pageLinkFocus()', () => {
   beforeEach(() => {
     document.body.innerHTML =
       '<div id="nonFocusableElement"></div>' +
       '<button id="focusableElement" tabIndex=3 class="myClass">';
   });
 
-  test("is a function exported by theme-a11y.js", () => {
-    expect(typeof pageLinkFocus).toBe("function");
+  test('is a function exported by theme-a11y.js', () => {
+    expect(typeof pageLinkFocus).toBe('function');
   });
 
   test("adds a 'tabindex=-1' attribute", () => {
-    const nonFocusableElement = document.getElementById("nonFocusableElement");
-    const focusableElement = document.getElementById("focusableElement");
+    const nonFocusableElement = document.getElementById('nonFocusableElement');
+    const focusableElement = document.getElementById('focusableElement');
 
     pageLinkFocus(nonFocusableElement);
     expect(nonFocusableElement.tabIndex).toBe(-1);
@@ -34,8 +34,8 @@ describe("pageLinkFocus()", () => {
     expect(focusableElement.tabIndex).toBe(-1);
   });
 
-  test("reserves the original tabindex value in a data-tabIndex attribute", () => {
-    const focusableElement = document.getElementById("focusableElement");
+  test('reserves the original tabindex value in a data-tabIndex attribute', () => {
+    const focusableElement = document.getElementById('focusableElement');
 
     focusableElement.tabIndex = 3;
     pageLinkFocus(focusableElement);
@@ -43,8 +43,8 @@ describe("pageLinkFocus()", () => {
     expect(parseInt(focusableElement.dataset.tabIndex)).toBe(3);
   });
 
-  test("adds a focus state", () => {
-    const focusableElement = document.getElementById("focusableElement");
+  test('adds a focus state', () => {
+    const focusableElement = document.getElementById('focusableElement');
 
     pageLinkFocus(focusableElement);
 
@@ -52,24 +52,24 @@ describe("pageLinkFocus()", () => {
   });
 
   test("adds the default class name 'js-focus-hidden'", () => {
-    const focusableElement = document.getElementById("focusableElement");
-    const defaultClass = "js-focus-hidden";
+    const focusableElement = document.getElementById('focusableElement');
+    const defaultClass = 'js-focus-hidden';
     pageLinkFocus(focusableElement);
 
     expect(focusableElement.classList.contains(defaultClass)).toBeTruthy();
   });
 
-  test("adds an overrided class name", () => {
-    const focusableElement = document.getElementById("focusableElement");
-    const customClass = "custom-class";
+  test('adds an overrided class name', () => {
+    const focusableElement = document.getElementById('focusableElement');
+    const customClass = 'custom-class';
     pageLinkFocus(focusableElement, { className: customClass });
 
     expect(focusableElement.classList.contains(customClass)).toBeTruthy();
   });
 
-  test("resets the element to its original state on blur", () => {
-    const focusableElement = document.getElementById("focusableElement");
-    const nonFocusableElement = document.getElementById("nonFocusableElement");
+  test('resets the element to its original state on blur', () => {
+    const focusableElement = document.getElementById('focusableElement');
+    const nonFocusableElement = document.getElementById('nonFocusableElement');
     const clone = focusableElement.cloneNode(true);
 
     pageLinkFocus(focusableElement);
@@ -79,30 +79,30 @@ describe("pageLinkFocus()", () => {
   });
 });
 
-describe("focusHash()", () => {
+describe('focusHash()', () => {
   beforeEach(() => {
     document.body.innerHTML =
       '<div id="nonFocusableElement"></div>' +
       '<button id="focusableElement" tabIndex=3 class="myClass">';
   });
 
-  test("is a function exported by theme-a11y.js", () => {
-    expect(typeof focusHash).toBe("function");
+  test('is a function exported by theme-a11y.js', () => {
+    expect(typeof focusHash).toBe('function');
   });
 
-  test("focuses an element whose ID is specified in the URL hash", () => {
-    const focusableElement = document.getElementById("focusableElement");
+  test('focuses an element whose ID is specified in the URL hash', () => {
+    const focusableElement = document.getElementById('focusableElement');
 
-    window.location.hash = "focusableElement";
+    window.location.hash = 'focusableElement';
     focusHash();
 
     expect(document.activeElement).toBe(focusableElement);
   });
 
-  test("does not change the focus if element specified does not exist", () => {
-    const focusableElement = document.getElementById("focusableElement");
+  test('does not change the focus if element specified does not exist', () => {
+    const focusableElement = document.getElementById('focusableElement');
 
-    window.location.hash = "otherElement";
+    window.location.hash = 'otherElement';
     pageLinkFocus(focusableElement);
     focusHash();
 
@@ -110,19 +110,19 @@ describe("focusHash()", () => {
   });
 });
 
-describe("bindInPageLinks()", () => {
+describe('bindInPageLinks()', () => {
   beforeEach(() => {
     document.body.innerHTML =
       '<a id="link" href="#title"></a>' + '<h1 id="title">Title</h1>';
   });
 
-  test("is a function exported by theme-a11y.js", () => {
-    expect(typeof bindInPageLinks).toBe("function");
+  test('is a function exported by theme-a11y.js', () => {
+    expect(typeof bindInPageLinks).toBe('function');
   });
 
   test("adds an event handler that focuses the element referred to in an <a> element w/ a href='#...' when it is clicked", () => {
-    const link = document.getElementById("link");
-    const title = document.getElementById("title");
+    const link = document.getElementById('link');
+    const title = document.getElementById('title');
 
     bindInPageLinks();
 
