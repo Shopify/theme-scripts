@@ -12,6 +12,7 @@ import {
   extend,
   getInstances
 } from './theme-sections';
+
 import Section from './section';
 
 function registerSections() {
@@ -82,6 +83,7 @@ describe('register()', () => {
     expect(() => register(null)).toThrowError(TypeError);
     expect(() => register()).toThrowError(TypeError);
   });
+
   test('throws an error if called with the same first argument more than once', () => {
     expect(() => register('slideshow')).not.toThrowError();
     expect(() => register('slideshow')).toThrowError();
@@ -139,13 +141,35 @@ describe('load()', () => {
     expect(instances.length).toBe(4);
   });
 
-  test('can load an array of registered section types in the document', () => {
+  test('can load an array of registered section type strings', () => {
     load(['type1', 'type2']);
     expect(instances.length).toBe(3);
   });
 
-  test('can load a single registered section type in the document', () => {
+  test('can load a single registered section type string', () => {
     load('type1');
+    expect(instances.length).toBe(2);
+  });
+
+  test('can load an array of registered section constructors', () => {
+    unregister('*');
+
+    const Type1 = register('type1');
+    const Type2 = register('type2');
+    const Type3 = register('type3');
+
+    load([Type1, Type2, Type3]);
+
+    expect(instances.length).toBe(4);
+  });
+
+  test('can load a single registered section constructor', () => {
+    unregister('*');
+
+    const Type1 = register('type1');
+
+    load(Type1);
+
     expect(instances.length).toBe(2);
   });
 

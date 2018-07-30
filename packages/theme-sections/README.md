@@ -24,6 +24,7 @@ Every registered section has the following accessible properties:
 | ---------------- | ----------------------------------------- |
 | `this.id`        | The unique ID for the section             |
 | `this.container` | The DOM element for the section container |
+| `this.type`      | The type of section                       |
 
 ### Register a section
 
@@ -175,18 +176,6 @@ var extension = {
     this.products[product.id] = product;
   }
 };
-```
-
-Importing an extension is the same process for both a section and a template:
-
-```js
-import socialSharing from '../extensions/social-sharing';
-
-templates.register('Article Template', 'template-article', {
-  onLoad: function() {
-    this.extend(socialSharing);
-  }
-});
 ```
 
 ### Extending sections

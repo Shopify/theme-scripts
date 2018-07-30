@@ -1,12 +1,26 @@
+/*
+ * @shopify/theme-sections
+ * -----------------------------------------------------------------------------
+ *
+ * A framework to provide structure to your Shopify sections and a load and unload
+ * lifecycle. The lifecycle is automatically connected to theme editor events so
+ * that your sections load and unload as the editor changes the content and
+ * settings of your sections.
+ */
+
 import Section from './section';
 
 var SECTION_TYPE_ATTR = 'data-section-type';
 var SECTION_ID_ATTR = 'data-section-id';
 
-global.sections = global.sections || {};
+window.Shopify = window.Shopify || {};
+window.Shopify.theme = window.Shopify.theme || {};
+window.Shopify.theme.sections = window.Shopify.theme.sections || {};
 
-export var registered = global.sections.registered || {};
-export var instances = global.sections.instances || [];
+export var registered = (window.Shopify.theme.sections.registered =
+  window.Shopify.theme.sections.registered || {});
+export var instances = (window.Shopify.theme.sections.instances =
+  window.Shopify.theme.sections.instances || []);
 
 export function register(type, properties) {
   if (typeof type !== 'string') {
@@ -107,7 +121,7 @@ export function extend(selector, extension) {
 export function getInstances(selector) {
   var filteredInstances = [];
 
-  // Fetch first element if its an arrat
+  // Fetch first element if its an array
   if (NodeList.prototype.isPrototypeOf(selector) || Array.isArray(selector)) {
     var firstElement = selector[0];
   }
@@ -145,10 +159,25 @@ export function isInstance(selector) {
 }
 
 function normalizeType(types) {
+  // If '*' then fetch all registered section types
   if (types === '*') {
     types = Object.keys(registered);
+
+    // If a single section type string is passed, put it in an array
   } else if (typeof types === 'string') {
     types = [types];
+
+    // If single section constructor is passed, transform to array with section
+    // type string
+  } else if (types.constructor === Section) {
+    types = [types.prototype.type];
+
+    // If array of typed section constructors is passed, transform the array to
+    // type strings
+  } else if (Array.isArray(types) && types[0].constructor === Section) {
+    types = types.map(function(TypedSection) {
+      return TypedSection.prototype.type;
+    });
   }
 
   types = types.map(function(type) {
@@ -182,12 +211,14 @@ function normalizeContainers(containers) {
   return containers;
 }
 
-document.addEventListener('shopify:section:load', function(event) {
-  var id = event.detail.sectionId;
-  var container = event.target.querySelector(
-    '[' + SECTION_ID_ATTR + '="' + id + '}"]'
-  );
-  var type = container.getAttribute(SECTION_TYPE_ATTR);
+if (window.Shopify.designMode) {
+  document.addEventListener('shopify:section:load', function(event) {
+    var id = event.detail.sectionId;
+    var container = event.target.querySelector(
+      '[' + SECTION_ID_ATTR + '="' + id + '}"]'
+    );
+    var type = container.getAttribute(SECTION_TYPE_ATTR);
 
-  load(type, container);
-});
+    load(type, container);
+  });
+}

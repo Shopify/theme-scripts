@@ -7,17 +7,19 @@ export default function Section(container, properties) {
 
   assign(this, validatePropertiesObject(properties));
 
-  this._onUnload = this._onUnload.bind(this);
-  this._onSelect = this._onSelect.bind(this);
-  this._onDeselect = this._onDeselect.bind(this);
-  this._onBlockSelect = this._onBlockSelect.bind(this);
-  this._onBlockDeselect = this._onBlockDeselect.bind(this);
+  if (window.Shopify.designMode) {
+    this._onUnload = this._onUnload.bind(this);
+    this._onSelect = this._onSelect.bind(this);
+    this._onDeselect = this._onDeselect.bind(this);
+    this._onBlockSelect = this._onBlockSelect.bind(this);
+    this._onBlockDeselect = this._onBlockDeselect.bind(this);
 
-  document.addEventListener('shopify:section:unload', this._onUnload);
-  document.addEventListener('shopify:section:select', this._onSelect);
-  document.addEventListener('shopify:section:deselect', this._onDeselect);
-  document.addEventListener('shopify:block:select', this._onBlockSelect);
-  document.addEventListener('shopify:block:deselect', this._onBlockDeselect);
+    document.addEventListener('shopify:section:unload', this._onUnload);
+    document.addEventListener('shopify:section:select', this._onSelect);
+    document.addEventListener('shopify:section:deselect', this._onDeselect);
+    document.addEventListener('shopify:block:select', this._onBlockSelect);
+    document.addEventListener('shopify:block:deselect', this._onBlockDeselect);
+  }
 
   this.onLoad();
 }
@@ -33,14 +35,19 @@ Section.prototype = {
   unload: function() {
     this.onUnload();
 
-    document.removeEventListener('shopify:section:unload', this._onUnload);
-    document.removeEventListener('shopify:section:select', this._onSelect);
-    document.removeEventListener('shopify:section:deselect', this._onDeselect);
-    document.removeEventListener('shopify:block:select', this._onBlockSelect);
-    document.removeEventListener(
-      'shopify:block:deselect',
-      this._onBlockDeselect
-    );
+    if (window.Shopify.designMode) {
+      document.removeEventListener('shopify:section:unload', this._onUnload);
+      document.removeEventListener('shopify:section:select', this._onSelect);
+      document.removeEventListener(
+        'shopify:section:deselect',
+        this._onDeselect
+      );
+      document.removeEventListener('shopify:block:select', this._onBlockSelect);
+      document.removeEventListener(
+        'shopify:block:deselect',
+        this._onBlockDeselect
+      );
+    }
   },
 
   extend: function extend(extension) {
@@ -64,7 +71,7 @@ Section.prototype = {
   },
 
   _onSelect: function _onSelect(event) {
-    this.id === event.detail.sectionId && this.onSelect();
+    this.id === event.detail.sectionId && this.onSelect(event.detail.load);
   },
 
   _onDeselect: function _onDeselect(event) {
@@ -73,7 +80,7 @@ Section.prototype = {
 
   _onBlockSelect: function _onBlockSelect(event) {
     this.id === event.detail.sectionId &&
-      this.onBlockSelect(event.detail.blockId);
+      this.onBlockSelect(event.detail.blockId, event.detail.load);
   },
 
   _onBlockDeselect: function _onBlockDeselect(event) {
