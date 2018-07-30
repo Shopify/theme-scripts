@@ -2,49 +2,58 @@
  * @jest-environment jsdom
  */
 import {
-  getVariant,
+  getVariantFromId,
+  getVariantFromOptionCollection,
+  getVariantFromOptionArray,
   createOptionArrayFromOptionCollection
 } from './theme-product';
 import productJson from './__fixtures__/product.json';
 
-describe('getVariant()', () => {
+describe('getVariantFromId()', () => {
   test('is a function exported by theme-product.js', () => {
-    expect(typeof getVariant).toBe('function');
+    expect(typeof getVariantFromId).toBe('function');
   });
 
   test('throws an error if parameters are missing', () => {
     expect(() => {
-      getVariant();
+      getVariantFromId();
     }).toThrow();
 
     expect(() => {
-      getVariant({});
+      getVariantFromId({});
     }).toThrow();
 
     expect(() => {
-      getVariant(null, {});
+      getVariantFromId(null, {});
     }).toThrow();
   });
 
   test('throws an error if product json object is empty', () => {
     expect(() => {
-      getVariant({}, 6908023078973);
+      getVariantFromId({}, 6908023078973);
     }).toThrow();
   });
 
   test('returns a product variant object when a match is found', () => {
-    const variant = getVariant(productJson, 6908023078973);
+    const variant = getVariantFromId(productJson, 6908023078973);
     expect(variant).toEqual(productJson.variants[0]);
   });
 
   test('returns an empty object when called with arguments with no succesful matches', () => {
-    const variant = getVariant(productJson, 6909083098073);
+    const variant = getVariantFromId(productJson, 6909083098073);
     expect(variant).toEqual({});
   });
 
   test("returns a product variant object when called with an object with 'id' key", () => {
-    const variant = getVariant(productJson, { id: 6908198649917 });
+    var queries = { id: 6908198649917 };
+    const variant = getVariantFromId(productJson, queries.id);
     expect(variant).toEqual(productJson.variants[2]);
+  });
+});
+
+describe('getVariantFromOptionCollection()', () => {
+  test('is a function exported by theme-product.js', () => {
+    expect(typeof getVariantFromOptionCollection).toBe('function');
   });
 
   test("returns a product variant object when called with collection's options with 'name' and 'value' keys", () => {
@@ -59,7 +68,7 @@ describe('getVariant()', () => {
       }
     ];
 
-    const variant = getVariant(productJson, collections);
+    const variant = getVariantFromOptionCollection(productJson, collections);
     expect(variant).toEqual(productJson.variants[0]);
   });
 
@@ -75,25 +84,31 @@ describe('getVariant()', () => {
       }
     ];
 
-    const variant = getVariant(productJson, collections);
+    const variant = getVariantFromOptionCollection(productJson, collections);
     expect(variant).toEqual({});
+  });
+});
+
+describe('getVariantFromOptionArray()', () => {
+  test('is a function exported by theme-product.js', () => {
+    expect(typeof getVariantFromOptionArray).toBe('function');
   });
 
   test('returns a product variant object when called with an array of values', () => {
     const arrayValues = ['38', 'Black'];
-    const variant = getVariant(productJson, arrayValues);
+    const variant = getVariantFromOptionArray(productJson, arrayValues);
     expect(variant).toEqual(productJson.variants[2]);
   });
 
   test('returns an empty object when when called with an array of invalid values', () => {
     const arrayValues = ['45', 'Black'];
 
-    const variant = getVariant(productJson, arrayValues);
+    const variant = getVariantFromOptionArray(productJson, arrayValues);
     expect(variant).toEqual({});
   });
 });
 
-describe('createOptionArrayFromOptionCollection', () => {
+describe('createOptionArrayFromOptionCollection()', () => {
   test('is a function exported by theme-product.js', () => {
     expect(typeof createOptionArrayFromOptionCollection).toBe('function');
   });

@@ -1,46 +1,4 @@
 /**
- * Search through the product object and return a variant
- *
- * @param {Object} product Product JSON object
- * @param {*} value The targeted value. It accepts :
- * - Strings/Number (e.g. 520670707773)
- * - Object with ID key (e.g. { id: 6908198649917 })
- * - Object with 'name' and 'value' keys (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
- * - Array of values: (e.g. ["38", "Black"])
- * @returns {Object} The variant object.
- */
-export function getVariant(product, value) {
-  var variant = {};
-
-  if (typeof product !== "object") {
-    throw new TypeError(`${product} is not an object.`);
-  }
-
-  if (Object.keys(product).length === 0) {
-    throw Error(`${product} is empty.`);
-  }
-
-  if (typeof value === "string" || typeof value === "number") {
-    // If value is an id
-    variant = _getVariantFromId(product, value);
-  } else if (typeof value === "object" && typeof value.id === "number") {
-    // If value is a variant object containing an id key
-    variant = _getVariantFromId(product, value.id);
-  } else if (Array.isArray(value)) {
-    // If value is an array of options
-    if (typeof value[0] === "object") {
-      // If value is a collection of options with name and value keys
-      variant = _getVariantFromOptionCollection(product, value);
-    } else {
-      // If value is an array of option values, ordered by index of array
-      variant = _getVariantFromOptionArray(product, value);
-    }
-  }
-
-  return variant;
-}
-
-/**
  * Creates an array of selected options from the object
  * Loops through the project.options and check if the "option name" exist (product.options.name) and matches the target
  *
@@ -49,6 +7,8 @@ export function getVariant(product, value) {
  * @returns {Array} The result of the matched values. (e.g. ['36', 'Black'])
  */
 export function createOptionArrayFromOptionCollection(product, collection) {
+  _validateProductStructure(product);
+
   var optionArray = [];
   var indexOption = -1;
 
@@ -57,7 +17,7 @@ export function createOptionArrayFromOptionCollection(product, collection) {
   }
 
   collection.forEach(option => {
-    if (typeof option.name !== "string") {
+    if (typeof option.name !== 'string') {
       throw new TypeError(
         `Invalid value type passed for name of option ${indexOption}. Value should be string.`
       );
@@ -81,20 +41,46 @@ export function createOptionArrayFromOptionCollection(product, collection) {
 /**
  * Find a match in the project JSON (using Object "id" key or string/number directly) and return the variant (as an Object)
  * @param {Object} product Product JSON object
- * @param {*} id Accepts String/Number (e.g. 6908023078973) or Object with "id" key (e.g. { id: 6908198649917 })
+ * @param {*} value Accepts String/Number (e.g. 6908023078973) or Object with "id" key (e.g. { id: 6908198649917 })
  * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
  */
-function _getVariantFromId(product, id) {
-  var result = product.variants.filter(function(variant) {
-    return variant.id === id;
-  });
+export function getVariantFromId(product, value) {
+  _validateProductStructure(product);
 
-  return _getVariantSuccessCriteriaObject(result);
+  var isId = typeof value === 'string' || typeof value === 'number';
+  var isObjectWithId =
+    typeof value === 'object' && typeof value.id === 'number';
+
+  if (isId || isObjectWithId) {
+    var result = product.variants.filter(function(variant) {
+      return variant.id === value;
+    });
+
+    return _getVariantSuccessCriteriaObject(result);
+  }
+
+  return {};
 }
 
-function _getVariantFromOptionCollection(product, collection) {
-  var optionArray = createOptionArrayFromOptionCollection(product, collection);
-  return _getVariantFromOptionArray(product, optionArray);
+/**
+ * Convert the Object (with 'name' and 'value' keys) into an Array of values, then find a match & return the variant (as an Object)
+ * @param {Object} product Product JSON object
+ * @param {Object} collection Object with 'name' and 'value' keys (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
+ * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
+ */
+export function getVariantFromOptionCollection(product, collection) {
+  _validateProductStructure(product);
+
+  if (Array.isArray(collection) && typeof collection[0] === 'object') {
+    // If value is an array of options
+    var optionArray = createOptionArrayFromOptionCollection(
+      product,
+      collection
+    );
+    return getVariantFromOptionArray(product, optionArray);
+  }
+
+  return {};
 }
 
 /**
@@ -103,14 +89,20 @@ function _getVariantFromOptionCollection(product, collection) {
  * @param {Array} options List of submitted values (e.g. ['36', 'Black'])
  * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
  */
-function _getVariantFromOptionArray(product, options) {
-  var result = product.variants.filter(function(variant) {
-    return options.every(function(option, index) {
-      return variant.options[index] === option;
-    });
-  });
+export function getVariantFromOptionArray(product, options) {
+  _validateProductStructure(product);
 
-  return _getVariantSuccessCriteriaObject(result);
+  if (Array.isArray(options) && typeof options[0] !== 'object') {
+    var result = product.variants.filter(function(variant) {
+      return options.every(function(option, index) {
+        return variant.options[index] === option;
+      });
+    });
+
+    return _getVariantSuccessCriteriaObject(result);
+  }
+
+  return {};
 }
 
 /**
@@ -124,4 +116,21 @@ function _getVariantSuccessCriteriaObject(arr) {
   }
 
   return {};
+}
+
+/**
+ * Check if the product data is a valid JS object
+ * @param {Array} product Product JSON object
+ * @returns {Boolean} True (boolean) if the structure is validated. Otherwise error will be thrown.
+ */
+function _validateProductStructure(product) {
+  if (typeof product !== 'object') {
+    throw new TypeError(`${product} is not an object.`);
+  }
+
+  if (Object.keys(product).length === 0) {
+    throw Error(`${product} is empty.`);
+  }
+
+  return true;
 }
