@@ -1,5 +1,4 @@
-import $ from "jquery";
-import { compact } from "lodash-es";
+import $ from 'jquery';
 
 /**
  * Variant Selection scripts
@@ -28,7 +27,7 @@ export default class Variants {
     this.currentVariant = this._getVariantFromOptions();
 
     $(this.singleOptionSelector, this.$container).on(
-      "change",
+      'change',
       this._onSelectChange.bind(this)
     );
   }
@@ -40,33 +39,27 @@ export default class Variants {
    * @return {array} options - Values of currently selected variants
    */
   _getCurrentOptions() {
-    var currentOptions = $.map(
-      $(this.singleOptionSelector, this.$container),
-      function(element) {
-        var $element = $(element);
-        var type = $element.attr("type");
-        var currentOption = {};
+    var currentOptions = [];
 
-        if (type === "radio" || type === "checkbox") {
-          if ($element[0].checked) {
-            currentOption.value = $element.val();
-            currentOption.index = $element.data("index");
+    $.map($(this.singleOptionSelector, this.$container), function(element) {
+      var $element = $(element);
+      var type = $element.attr('type');
+      var currentOption = {};
 
-            return currentOption;
-          } else {
-            return false;
-          }
-        } else {
+      if (type === 'radio' || type === 'checkbox') {
+        if ($element[0].checked) {
           currentOption.value = $element.val();
-          currentOption.index = $element.data("index");
+          currentOption.index = $element.data('index');
 
-          return currentOption;
+          currentOptions.push(currentOption);
         }
-      }
-    );
+      } else {
+        currentOption.value = $element.val();
+        currentOption.index = $element.data('index');
 
-    // remove any unchecked input values if using radio buttons or checkboxes
-    currentOptions = compact(currentOptions);
+        currentOptions.push(currentOption);
+      }
+    });
 
     return currentOptions;
   }
@@ -106,7 +99,7 @@ export default class Variants {
     var variant = this._getVariantFromOptions();
 
     this.$container.trigger({
-      type: "variantChange",
+      type: 'variantChange',
       variant: variant
     });
 
@@ -142,7 +135,7 @@ export default class Variants {
     }
 
     this.$container.trigger({
-      type: "variantImageChange",
+      type: 'variantImageChange',
       variant: variant
     });
   }
@@ -162,7 +155,7 @@ export default class Variants {
     }
 
     this.$container.trigger({
-      type: "variantPriceChange",
+      type: 'variantPriceChange',
       variant: variant
     });
   }
@@ -179,12 +172,12 @@ export default class Variants {
 
     var newurl =
       window.location.protocol +
-      "//" +
+      '//' +
       window.location.host +
       window.location.pathname +
-      "?variant=" +
+      '?variant=' +
       variant.id;
-    window.history.replaceState({ path: newurl }, "", newurl);
+    window.history.replaceState({ path: newurl }, '', newurl);
   }
 
   /**
