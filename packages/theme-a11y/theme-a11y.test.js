@@ -113,11 +113,21 @@ describe('focusHash()', () => {
 describe('bindInPageLinks()', () => {
   beforeEach(() => {
     document.body.innerHTML =
-      '<a id="link" href="#title"></a>' + '<h1 id="title">Title</h1>';
+      '<a id="link" href="#title"></a>' +
+      '<a id="invalidLink1" href="#"></a>' +
+      '<a id="invalidLink2" href="/otherlink"></a>' +
+      '<h1 id="title">Title</h1>';
   });
 
   test('is a function exported by theme-a11y.js', () => {
     expect(typeof bindInPageLinks).toBe('function');
+  });
+
+  test('returns array of link elements that were binded', () => {
+    const links = bindInPageLinks();
+
+    expect(Array.isArray(links)).toBeTruthy;
+    expect(links.length).toBe(1);
   });
 
   test("adds an event handler that focuses the element referred to in an <a> element w/ a href='#...' when it is clicked", () => {
@@ -127,6 +137,7 @@ describe('bindInPageLinks()', () => {
     bindInPageLinks();
 
     link.click();
+
     expect(document.activeElement).toBe(title);
   });
 });

@@ -48,18 +48,26 @@ export function focusHash() {
  * When an in-page (url w/hash) link is clicked, focus the appropriate element
  */
 export function bindInPageLinks() {
-  var links = document.querySelectorAll('a[href^="#"]');
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('a[href^="#"]')
+  );
 
-  links.forEach(function(link) {
+  return links.filter(function(link) {
+    if (link.hash === '#' || link.hash === '') {
+      return false;
+    }
+
     var element = document.querySelector(link.hash);
 
     if (!element) {
-      return;
+      return false;
     }
 
     link.addEventListener('click', function() {
       pageLinkFocus(element);
     });
+
+    return true;
   });
 }
 
