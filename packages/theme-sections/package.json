@@ -1,9 +1,9 @@
 {
   "name": "@shopify/theme-sections",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0",
   "description": "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
-  "main": "dist/sections.cjs.js",
-  "modules": "dist/sections.es5.js",
+  "main": "dist/theme-sections.cjs.js",
+  "module": "theme-sections.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-sections",
   "keywords": [
     "slate"
@@ -14,14 +14,19 @@
     "url": "https://github.com/Shopify/theme-scripts/issues"
   },
   "homepage": "https://github.com/Shopify/theme-scripts#readme",
-  "peerDependencies": {
-    "jquery": "3.x",
-    "lodash-es": "4.x"
-  },
   "scripts": {
     "prepublish": "npm run build",
-    "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5": "mkdir -p dist && ../../node_modules/.bin/babel sections.js --out-file dist/sections.es5.js",
-    "build:cjs": "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc sections.js --out-file dist/sections.cjs.js --presets=shopify"
-  }
+    "build": "rollup --config",
+    "size": "size-limit"
+  },
+  "devDependencies": {
+    "rollup": "^0.62.0",
+    "rollup-plugin-uglify": "^4.0.0",
+    "size-limit": "^0.18.3"
+  },
+  "size-limit": [
+    {
+      "path": "theme-sections.js"
+    }
+  ]
 }
