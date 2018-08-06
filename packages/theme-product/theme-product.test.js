@@ -3,10 +3,10 @@
  */
 import {
   getVariantFromId,
-  getVariantFromOptionCollection,
-  getVariantFromOptionArray,
-  createOptionArrayFromOptionCollection
+  getVariantFromSerializedArray,
+  getVariantFromOptionArray
 } from './theme-product';
+import $ from 'jquery';
 import productJson from './__fixtures__/product.json';
 
 describe('getVariantFromId()', () => {
@@ -14,7 +14,7 @@ describe('getVariantFromId()', () => {
     expect(typeof getVariantFromId).toBe('function');
   });
 
-  test('throws an error if parameters are missing', () => {
+  test('throws an error if first argument is not a valid product object', () => {
     expect(() => {
       getVariantFromId();
     }).toThrow();
@@ -28,7 +28,7 @@ describe('getVariantFromId()', () => {
     }).toThrow();
   });
 
-  test('throws an error if product json object is empty', () => {
+  test('throws an error if second argument is not a valid product ID', () => {
     expect(() => {
       getVariantFromId({}, 6908023078973);
     }).toThrow();
@@ -39,53 +39,74 @@ describe('getVariantFromId()', () => {
     expect(variant).toEqual(productJson.variants[0]);
   });
 
-  test('returns an empty object when called with arguments with no succesful matches', () => {
+  test('returns null when no match is found', () => {
     const variant = getVariantFromId(productJson, 6909083098073);
-    expect(variant).toEqual({});
-  });
-
-  test("returns a product variant object when called with an object with 'id' key", () => {
-    var queries = { id: 6908198649917 };
-    const variant = getVariantFromId(productJson, queries.id);
-    expect(variant).toEqual(productJson.variants[2]);
+    expect(variant).toEqual(null);
   });
 });
 
-describe('getVariantFromOptionCollection()', () => {
+describe('getVariantFromSerializedArray()', () => {
   test('is a function exported by theme-product.js', () => {
-    expect(typeof getVariantFromOptionCollection).toBe('function');
+    expect(typeof getVariantFromSerializedArray).toBe('function');
   });
 
-  test("returns a product variant object when called with collection's options with 'name' and 'value' keys", () => {
-    const collections = [
-      {
-        name: 'Size',
-        value: '36'
-      },
-      {
-        name: 'Color',
-        value: 'Black'
-      }
-    ];
+  test('throws an error if second argument is invalid', () => {
+    expect(() => {
+      getVariantFromSerializedArray(productJson, []);
+    }).toThrow();
 
-    const variant = getVariantFromOptionCollection(productJson, collections);
+    expect(() => {
+      getVariantFromSerializedArray(productJson, 'color');
+    }).toThrow();
+
+    expect(() => {
+      getVariantFromSerializedArray(productJson, ['shoes']);
+    }).toThrow();
+  });
+
+  test('returns a product variant object when a match is found', () => {
+    document.body.innerHTML = `
+    <form>
+      <select id="Size" name="Size">
+        <option value="35">35</option>
+        <option value="36" selected>36</option>
+        <option value="37">37</option>
+      </select>
+
+      <select id="Color" name="Color">
+        <option value="Red">Red</option>
+        <option value="Black" selected>Black</option>
+      </select>
+    </form>`;
+
+    const variant = getVariantFromSerializedArray(
+      productJson,
+      $('form').serializeArray()
+    );
     expect(variant).toEqual(productJson.variants[0]);
   });
 
-  test('returns an empty object when called with a collection of options with invalid values', () => {
-    const collections = [
-      {
-        name: 'Size',
-        value: '10'
-      },
-      {
-        name: 'Color',
-        value: 'Purple'
-      }
-    ];
+  test('returns null when a match is not found', () => {
+    document.body.innerHTML = `
+    <form>
+      <select id="Size" name="Size">
+        <option value="8">8</option>
+        <option value="10" selected>10</option>
+        <option value="15">15</option>
+      </select>
 
-    const variant = getVariantFromOptionCollection(productJson, collections);
-    expect(variant).toEqual({});
+      <select id="Color" name="Color">
+        <option value="Orange">Orange</option>
+        <option value="Purple" selected>Purple</option>
+        <option value="Green">Green</option>
+      </select>
+    </form>`;
+
+    const variant = getVariantFromSerializedArray(
+      productJson,
+      $('form').serializeArray()
+    );
+    expect(variant).toEqual(null);
   });
 });
 
@@ -94,94 +115,16 @@ describe('getVariantFromOptionArray()', () => {
     expect(typeof getVariantFromOptionArray).toBe('function');
   });
 
-  test('returns a product variant object when called with an array of values', () => {
+  test('returns a product variant object when a match is found', () => {
     const arrayValues = ['38', 'Black'];
     const variant = getVariantFromOptionArray(productJson, arrayValues);
     expect(variant).toEqual(productJson.variants[2]);
   });
 
-  test('returns an empty object when when called with an array of invalid values', () => {
+  test('returns null when a match is not found', () => {
     const arrayValues = ['45', 'Black'];
 
     const variant = getVariantFromOptionArray(productJson, arrayValues);
-    expect(variant).toEqual({});
-  });
-});
-
-describe('createOptionArrayFromOptionCollection()', () => {
-  test('is a function exported by theme-product.js', () => {
-    expect(typeof createOptionArrayFromOptionCollection).toBe('function');
-  });
-
-  test('throws an error if parameters are missing', () => {
-    expect(() => {
-      createOptionArrayFromOptionCollection();
-    }).toThrow();
-
-    expect(() => {
-      createOptionArrayFromOptionCollection(productJson);
-    }).toThrow();
-  });
-
-  test('throws an error if the second parameter has invalid type', () => {
-    expect(() => {
-      createOptionArrayFromOptionCollection(productJson, false);
-    }).toThrow();
-
-    expect(() => {
-      createOptionArrayFromOptionCollection(productJson, {});
-    }).toThrow();
-
-    expect(() => {
-      createOptionArrayFromOptionCollection(productJson, '');
-    }).toThrow();
-
-    expect(() => {
-      createOptionArrayFromOptionCollection(productJson, 'test');
-    }).toThrow();
-
-    expect(() => {
-      createOptionArrayFromOptionCollection(productJson, null);
-    }).toThrow();
-
-    expect(() => {
-      createOptionArrayFromOptionCollection(productJson, undefined);
-    }).toThrow();
-  });
-
-  test('returns an array of options when called with an object of valid keys and values', () => {
-    const criteria = [
-      { name: 'Size', value: '36' },
-      { name: 'Color', value: 'Black' }
-    ];
-    const variant = createOptionArrayFromOptionCollection(
-      productJson,
-      criteria
-    );
-    const expected = ['36', 'Black'];
-    expect(variant).toEqual(expected);
-  });
-
-  test("returns an empty array when called with an object of unmatched 'name' key", () => {
-    const criteria = [
-      { name: 'Random', value: 'test' },
-      { name: 'House', value: 'Wall' }
-    ];
-    const variant = createOptionArrayFromOptionCollection(
-      productJson,
-      criteria
-    );
-    expect(variant).toEqual([]);
-  });
-
-  test("throws an error message when called with an object with 'name' key as absent", () => {
-    const criteria = [
-      { color: 'Red', image: 'myimage.jpg' },
-      { property: 'Name', value: 'Random' }
-    ];
-
-    expect(() => {
-      createOptionArrayFromOptionCollection(productJson, criteria);
-    }).toThrow();
+    expect(variant).toEqual(null);
   });
 });
