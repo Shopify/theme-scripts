@@ -106,22 +106,16 @@ Find a match in the project JSON (using a ID number) and return the variant (as 
 
 - `value`: Product ID (e.g. 6908023078973)
 
-```javascript
-{
-  id: 6908198649917;
-}
-```
-
 ---
 
 ### getVariantFromSerializedArray(product, collection)
 
-Convert the Object (with 'name' and 'value' keys like jQuery's serializeArray() method) into an Array of values, then find a match & return the variant as an Object.
+Convert the Object (with 'name' and 'value' keys like jQuery's [`serializeArray()`](https://api.jquery.com/serializeArray/) method) into an Array of values, then find a match & return the variant as an Object.
 
 - `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
   Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.
 
-- `collection`: Object with 'name' and 'value' keys (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
+- `collection`: Object with 'name' and 'value' keys
 
 ```javascript
 [
@@ -145,17 +139,8 @@ Find a match in the project JSON (using Array with option values) and return the
 - `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
   Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.
 
-- `options`: List of submitted values (e.g. ['36', 'Black'])
+- `options`: List of submitted values
 
 ```javascript
-[
-  {
-    name: 'Size',
-    value: '36'
-  },
-  {
-    name: 'Color',
-    value: 'Black'
-  }
-];
+['36', 'Black'];
 ```
