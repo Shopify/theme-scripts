@@ -1,7 +1,7 @@
 /**
- * Find a match in the project JSON (using Object "id" key or string/number directly) and return the variant (as an Object)
+ * Find a match in the project JSON (using a ID number) and return the variant (as an Object)
  * @param {Object} product Product JSON object
- * @param {*} value Accepts Number (e.g. 6908023078973)
+ * @param {Number} value Accepts Number (e.g. 6908023078973)
  * @returns {Object} The variant object once a match has been successful. Otherwise null will be return
  */
 export function getVariantFromId(product, value) {
@@ -98,7 +98,7 @@ function _validateProductStructure(product) {
   }
 
   if (Object.keys(product).length === 0 && product.constructor === Object) {
-    throw Error(`${product} is empty.`);
+    throw new Error(`${product} is empty.`);
   }
 }
 
@@ -122,6 +122,6 @@ function _validateSerializedArray(collection) {
  */
 function _validateOptionsArray(options) {
   if (Array.isArray(options) && typeof options[0] === 'object') {
-    throw new TypeError(`${options} is not a valid array of options.`);
+    throw new Error(`${options} is not a valid array of options.`);
   }
 }

@@ -99,12 +99,12 @@ Note: The JSON generated from Liquid is different from the conventional [`{{ jso
 
 ### getVariantFromId(product, value)
 
-Find a match in the project JSON (using Object "id" key or string/number directly) and return the variant (as an Object)
+Find a match in the project JSON (using a ID number) and return the variant (as an Object)
 
 - `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
   Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.
 
-- `value`: {\*} value Accepts String/Number (e.g. 6908023078973) or Object with "id" key (e.g. { id: 6908198649917 })
+- `value`: Product ID (e.g. 6908023078973)
 
 ```javascript
 {
