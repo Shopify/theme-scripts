@@ -54,7 +54,6 @@ export function getVariantFromOptionArray(product, options) {
 /**
  * Creates an array of selected options from the object
  * Loops through the project.options and check if the "option name" exist (product.options.name) and matches the target
- *
  * @param {Object} product Product JSON object
  * @param {Array} collection Array of object (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
  * @returns {Array} The result of the matched values. (e.g. ['36', 'Black'])
@@ -90,8 +89,8 @@ function _createOptionArrayFromOptionCollection(product, collection) {
 
 /**
  * Check if the product data is a valid JS object
+ * Error will be thrown if type is invalid
  * @param {Array} product Product JSON object
- * @returns {Boolean} True (boolean) if the structure is validated. Otherwise error will be thrown.
  */
 function _validateProductStructure(product) {
   if (typeof product !== 'object') {
@@ -104,7 +103,7 @@ function _validateProductStructure(product) {
 }
 
 /**
- * Validate the structure of the array.
+ * Validate the structure of the array
  * It must be formatted like jQuery's serializeArray()
  * @param {Array} collection Array of object [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }]
  */
@@ -117,7 +116,8 @@ function _validateSerializedArray(collection) {
 }
 
 /**
- * Validate the structure of the array of options
+ * Validate the structure of the array
+ * It must be formatted as list of values
  * @param {Array} collection Array of object (e.g. ['36', 'Black'])
  */
 function _validateOptionsArray(options) {

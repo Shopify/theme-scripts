@@ -97,31 +97,6 @@ Note: The JSON generated from Liquid is different from the conventional [`{{ jso
 
 ---
 
-### createOptionArrayFromOptionCollection(product, collection)
-
-Creates an array of selected options from the object
-Loops through the project.options and check if the "option name" exist (product.options.name) and matches the target
-
-- `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
-  Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.
-
-- `collection`: Array of object with mandatory 'name' and 'value' properties
-
-```javascript
-[
-  {
-    name: 'Size',
-    value: '36'
-  },
-  {
-    name: 'Color',
-    value: 'Black'
-  }
-];
-```
-
----
-
 ### getVariantFromId(product, value)
 
 Find a match in the project JSON (using Object "id" key or string/number directly) and return the variant (as an Object)
@@ -139,9 +114,9 @@ Find a match in the project JSON (using Object "id" key or string/number directl
 
 ---
 
-### getVariantFromOptionCollection(product, collection)
+### getVariantFromSerializedArray(product, collection)
 
-Convert the Object (with 'name' and 'value' keys) into an Array of values, then find a match & return the variant (as an Object)
+Convert the Object (with 'name' and 'value' keys like jQuery's serializeArray() method) into an Array of values, then find a match & return the variant as an Object.
 
 - `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
   Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.
