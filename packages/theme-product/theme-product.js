@@ -7,15 +7,15 @@
 export function getVariantFromId(product, value) {
   _validateProductStructure(product);
 
-  if (typeof value === 'number') {
-    var result = product.variants.filter(function(variant) {
-      return variant.id === value;
-    });
-
-    return result[0] || null;
+  if (typeof value !== 'number') {
+    throw new TypeError(`${value} is not a Number.`);
   }
 
-  throw new TypeError(`${value} is not a Number.`);
+  var result = product.variants.filter(function(variant) {
+    return variant.id === value;
+  });
+
+  return result[0] || null;
 }
 
 /**
