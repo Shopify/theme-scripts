@@ -8,7 +8,7 @@ export function getVariantFromId(product, value) {
   _validateProductStructure(product);
 
   if (typeof value !== 'number') {
-    throw new TypeError(`${value} is not a Number.`);
+    throw new TypeError(value + ' is not a Number.');
   }
 
   var result = product.variants.filter(function(variant) {
@@ -83,11 +83,11 @@ function _createOptionArrayFromOptionCollection(product, collection) {
  */
 function _validateProductStructure(product) {
   if (typeof product !== 'object') {
-    throw new TypeError(`${product} is not an object.`);
+    throw new TypeError(product + 'is not an object.');
   }
 
   if (Object.keys(product).length === 0 && product.constructor === Object) {
-    throw new Error(`${product} is empty.`);
+    throw new Error(product + 'is empty.');
   }
 }
 
@@ -98,23 +98,23 @@ function _validateProductStructure(product) {
  */
 function _validateSerializedArray(collection) {
   if (!Array.isArray(collection)) {
-    throw new TypeError(`${collection} is not an array.`);
+    throw new TypeError(collection + 'is not an array.');
   }
 
   if (collection.length === 0) {
-    throw new Error(`${collection} is empty.`);
+    throw new Error(collection + 'is empty.');
   }
 
   if (collection[0].hasOwnProperty('name')) {
     if (typeof collection[0].name !== 'string') {
       throw new TypeError(
-        `Invalid value type passed for name of option ${
-          collection[0].name
-        }. Value should be string.`
+        'Invalid value type passed for name of option ' +
+          collection[0].name +
+          '. Value should be string.'
       );
     }
   } else {
-    throw new Error(`${collection[0]} does not contain 'name' key.`);
+    throw new Error(collection[0] + 'does not contain name key.');
   }
 }
 
@@ -125,6 +125,6 @@ function _validateSerializedArray(collection) {
  */
 function _validateOptionsArray(options) {
   if (Array.isArray(options) && typeof options[0] === 'object') {
-    throw new Error(`${options} is not a valid array of options.`);
+    throw new Error(options + 'is not a valid array of options.');
   }
 }
