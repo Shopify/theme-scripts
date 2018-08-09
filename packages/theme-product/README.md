@@ -23,7 +23,7 @@ These files make Theme Product accessible via the `Shopify.theme.product` global
 
 ## Usage
 
-Theme product is a helper script related to Product informations. For instance, you can find the variant of a product by providing some criterias.
+theme-product.js helps developers work with and navigate a [Shopify product object](https://help.shopify.com/en/themes/liquid/objects/product). A common use is find a product variant based on a selection of product options, e.g. the variant of a t-shirt which is size S and color black.
 
 ### Product object
 
@@ -99,7 +99,7 @@ Note: The JSON generated from Liquid is different from the conventional [`{{ jso
 
 ### getVariantFromId(product, value)
 
-Find a match in the project JSON (using a ID number) and return the variant (as an Object)
+Find a variant with a matching ID in the project JSON and return it.
 
 - `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
   Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.
@@ -110,7 +110,7 @@ Find a match in the project JSON (using a ID number) and return the variant (as 
 
 ### getVariantFromSerializedArray(product, collection)
 
-Convert the Object (with 'name' and 'value' keys like jQuery's [`serializeArray()`](https://api.jquery.com/serializeArray/) method) into an Array of values, then find a match & return the variant as an Object.
+Find a variant which matches a collection of name and values (like what is returned by jQuery's [`serializeArray()`](https://api.jquery.com/serializeArray/) method) and return it.
 
 - `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
   Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.
@@ -134,7 +134,7 @@ Convert the Object (with 'name' and 'value' keys like jQuery's [`serializeArray(
 
 ### getVariantFromOptionArray(product, options)
 
-Find a match in the project JSON (using Array with option values) and return the variant (as an Object)
+Find a matching variant using an array of option values and return it.
 
 - `product`: Product JSON object. Usually it is the [`Product`](https://help.shopify.com/en/themes/liquid/objects/product) object generated from Liquid.
   Note: The JSON generated from Liquid is different from the conventional [`{{ json }}`](https://help.shopify.com/en/themes/liquid/filters/additional-filters#json) filter due to some properties not being exposed.

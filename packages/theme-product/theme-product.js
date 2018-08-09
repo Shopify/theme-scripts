@@ -15,14 +15,14 @@ export function getVariantFromId(product, value) {
     return result[0] || null;
   }
 
-  return null;
+  throw new TypeError(`${value} is not a Number.`);
 }
 
 /**
  * Convert the Object (with 'name' and 'value' keys) into an Array of values, then find a match & return the variant (as an Object)
  * @param {Object} product Product JSON object
  * @param {Object} collection Object with 'name' and 'value' keys (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])
- * @returns {Object} The variant object once a match has been successful. Otherwise null will be returned
+ * @returns {Object || null} The variant object once a match has been successful. Otherwise null will be returned
  */
 export function getVariantFromSerializedArray(product, collection) {
   _validateProductStructure(product);
@@ -36,7 +36,7 @@ export function getVariantFromSerializedArray(product, collection) {
  * Find a match in the project JSON (using Array with option values) and return the variant (as an Object)
  * @param {Object} product Product JSON object
  * @param {Array} options List of submitted values (e.g. ['36', 'Black'])
- * @returns {Object} The variant object once a match has been successful. Otherwise an empty object will be returned
+ * @returns {Object || null} The variant object once a match has been successful. Otherwise null will be returned
  */
 export function getVariantFromOptionArray(product, options) {
   _validateProductStructure(product);
@@ -63,24 +63,13 @@ function _createOptionArrayFromOptionCollection(product, collection) {
   _validateSerializedArray(collection);
 
   var optionArray = [];
-  var indexOption = -1;
 
   collection.forEach(function(option) {
-    if (typeof option.name !== 'string') {
-      throw new TypeError(
-        `Invalid value type passed for name of option ${indexOption}. Value should be string.`
-      );
-    }
-
     for (var i = 0; i < product.options.length; i++) {
       if (product.options[i].name.toLowerCase() === option.name.toLowerCase()) {
-        indexOption = i;
+        optionArray[i] = option.value;
         break;
       }
-    }
-
-    if (indexOption !== -1) {
-      optionArray[indexOption] = option.value;
     }
   });
 
@@ -110,8 +99,22 @@ function _validateProductStructure(product) {
 function _validateSerializedArray(collection) {
   if (!Array.isArray(collection)) {
     throw new TypeError(`${collection} is not an array.`);
-  } else if (collection.length === 0) {
+  }
+
+  if (collection.length === 0) {
     throw new Error(`${collection} is empty.`);
+  }
+
+  if (collection[0].hasOwnProperty('name')) {
+    if (typeof collection[0].name !== 'string') {
+      throw new TypeError(
+        `Invalid value type passed for name of option ${
+          collection[0].name
+        }. Value should be string.`
+      );
+    }
+  } else {
+    throw new Error(`${collection[0]} does not contain 'name' key.`);
   }
 }
 

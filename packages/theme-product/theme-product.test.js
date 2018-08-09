@@ -30,7 +30,7 @@ describe('getVariantFromId()', () => {
 
   test('throws an error if second argument is not a valid product ID', () => {
     expect(() => {
-      getVariantFromId({}, 6908023078973);
+      getVariantFromId(productJson, '6908023078979');
     }).toThrow();
   });
 
@@ -51,17 +51,51 @@ describe('getVariantFromSerializedArray()', () => {
   });
 
   test('throws an error if second argument is invalid', () => {
+    const myRandomObj = [
+      {
+        property: 'my value',
+        random: 'another value'
+      },
+      {
+        property: 'my value',
+        random: 'another value'
+      }
+    ];
+
+    const myInvalidObj = [
+      {
+        name: 9497490,
+        random: 'another value'
+      },
+      {
+        name: 34324,
+        random: 'another value'
+      }
+    ];
+
     expect(() => {
       getVariantFromSerializedArray(productJson, []);
     }).toThrow();
 
     expect(() => {
       getVariantFromSerializedArray(productJson, 'color');
-    }).toThrow();
+    }).toThrow(`color is not an array.`);
 
     expect(() => {
       getVariantFromSerializedArray(productJson, ['shoes']);
     }).toThrow();
+
+    expect(() => {
+      getVariantFromSerializedArray(productJson, myRandomObj);
+    }).toThrow();
+
+    expect(() => {
+      getVariantFromSerializedArray(productJson, myInvalidObj);
+    }).toThrow(
+      `Invalid value type passed for name of option ${
+        myInvalidObj[0].name
+      }. Value should be string.`
+    );
   });
 
   test('returns a product variant object when a match is found', () => {
