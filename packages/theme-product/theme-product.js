@@ -83,11 +83,11 @@ function _createOptionArrayFromOptionCollection(product, collection) {
  */
 function _validateProductStructure(product) {
   if (typeof product !== 'object') {
-    throw new TypeError(product + 'is not an object.');
+    throw new TypeError(product + ' is not an object.');
   }
 
   if (Object.keys(product).length === 0 && product.constructor === Object) {
-    throw new Error(product + 'is empty.');
+    throw new Error(product + ' is empty.');
   }
 }
 
@@ -98,11 +98,11 @@ function _validateProductStructure(product) {
  */
 function _validateSerializedArray(collection) {
   if (!Array.isArray(collection)) {
-    throw new TypeError(collection + 'is not an array.');
+    throw new TypeError(collection + ' is not an array.');
   }
 
   if (collection.length === 0) {
-    throw new Error(collection + 'is empty.');
+    throw new Error(collection + ' is empty.');
   }
 
   if (collection[0].hasOwnProperty('name')) {
