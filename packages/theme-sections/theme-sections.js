@@ -215,7 +215,7 @@ if (window.Shopify.designMode) {
   document.addEventListener('shopify:section:load', function(event) {
     var id = event.detail.sectionId;
     var container = event.target.querySelector(
-      '[' + SECTION_ID_ATTR + '="' + id + '}"]'
+      '[' + SECTION_ID_ATTR + '="' + id + '"]'
     );
     var type = container.getAttribute(SECTION_TYPE_ATTR);
 
