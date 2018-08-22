@@ -212,13 +212,16 @@ function normalizeContainers(containers) {
 }
 
 if (window.Shopify.designMode) {
-  document.addEventListener('shopify:section:load', function(event) {
-    var id = event.detail.sectionId;
-    var container = event.target.querySelector(
-      '[' + SECTION_ID_ATTR + '="' + id + '}"]'
-    );
-    var type = container.getAttribute(SECTION_TYPE_ATTR);
+  document.addEventListener('shopify:section:load', event => {
+    const container = event.target;
+    const containerDataset = container.dataset;
 
+    // Hack solution - pulling the first data-attribute since the identifier is unknown
+    const sectionData = JSON.parse(
+      containerDataset[Object.keys(containerDataset)[0]]
+    );
+
+    const type = sectionData.type;
     load(type, container);
   });
 }
