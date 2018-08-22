@@ -8,12 +8,14 @@ export default function Section(container, properties) {
   assign(this, validatePropertiesObject(properties));
 
   if (window.Shopify.designMode) {
+    this._onLoad = this._onLoad.bind(this);
     this._onUnload = this._onUnload.bind(this);
     this._onSelect = this._onSelect.bind(this);
     this._onDeselect = this._onDeselect.bind(this);
     this._onBlockSelect = this._onBlockSelect.bind(this);
     this._onBlockDeselect = this._onBlockDeselect.bind(this);
 
+    document.addEventListener('shopify:section:load', this._onLoad);
     document.addEventListener('shopify:section:unload', this._onUnload);
     document.addEventListener('shopify:section:select', this._onSelect);
     document.addEventListener('shopify:section:deselect', this._onDeselect);
@@ -60,6 +62,10 @@ Section.prototype = {
     if (typeof extension.init === 'function') {
       extension.init.apply(this);
     }
+  },
+
+  _onLoad: function _onLoad(event) {
+    this.id === event.detail.sectionId && this.onLoad(event.detail.load);
   },
 
   _onUnload: function _onUnload(event) {
