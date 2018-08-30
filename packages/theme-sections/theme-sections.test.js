@@ -10,7 +10,8 @@ import {
   load,
   unload,
   extend,
-  getInstances
+  getInstances,
+  getInstanceById
 } from './theme-sections';
 
 import Section from './section';
@@ -362,5 +363,18 @@ describe('getInstances()', () => {
       document.querySelector('#section2')
     ]);
     expect(instances.length).toBe(2);
+  });
+});
+
+describe('getInstanceById()', () => {
+  beforeEach(() => {
+    registerSections();
+    load('*');
+  });
+
+  test('retrieves section instance which matches provided id', () => {
+    var instance = getInstanceById('2');
+    expect(instance).not.toBeUndefined();
+    expect(instance.id).toBe('2');
   });
 });
