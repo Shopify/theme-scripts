@@ -18,14 +18,31 @@ import Section from './section';
 
 function registerSections() {
   document.body.innerHTML = `
-      <div id="section1" class="class1" data-section-id="1" data-section-type="type1"></div>
-      <div id="section2" class="class1" data-section-id="2" data-section-type="type1"></div>
-      <div id="section3" class="class2" data-section-id="3" data-section-type="type2"></div>
-      <div id="section4" class="class2" data-section-id="4" data-section-type="type3"></div>
-      <div id="invalidSection1" class="class2"></div>
+      <div id="shopify-section-1" class="shopify-section">
+        <div id="section1" class="class1" data-section-id="1" data-section-type="type1"></div>
+      </div>
+      <div id="shopify-section-2" class="shopify-section">
+        <div id="section2" class="class1" data-section-id="2" data-section-type="type1"></div>
+      </div>
+      <div id="shopify-section-3" class="shopify-section">
+        <div id="section3" class="class2" data-section-id="3" data-section-type="type2"></div>
+      </div>
+      <div id="shopify-section-4" class="shopify-section">
+        <div id="section4" class="class2" data-section-id="4" data-section-type="type3"></div>
+      </div>
+      <div id="shopify-section-12345" class="shopify-section">
+        <div id="invalidSection1" class="class2"></div>
+      </div>
     `;
 
-  register('type1');
+  register('type1', {
+    onLoad: jest.fn(),
+    onUnload: jest.fn(),
+    onSelect: jest.fn(),
+    onDeselect: jest.fn(),
+    onBlockSelect: jest.fn(),
+    onBlockDeselect: jest.fn()
+  });
   register('type2');
   register('type3');
 }
@@ -376,5 +393,140 @@ describe('getInstanceById()', () => {
     var instance = getInstanceById('2');
     expect(instance).not.toBeUndefined();
     expect(instance.id).toBe('2');
+  });
+});
+
+describe('adds event handlers to the document when Shopify.designMode === true, which', () => {
+  beforeAll(() => {
+    // Set designmode to true
+    window.Shopify.designMode = true;
+
+    // Reload theme-sections script so its loaded with designMode=true
+    jest.resetModules();
+    require('./theme-sections');
+  });
+  beforeEach(() => {
+    registerSections();
+  });
+
+  test('loads a new section instance when shopify:section:load event is fired', done => {
+    var validWrapper = document.getElementById('shopify-section-1');
+    var invalidWrapper = document.getElementById('shopify-section-12345');
+
+    var validEvent = new CustomEvent('shopify:section:load', {
+      bubbles: true,
+      detail: { sectionId: '1' }
+    });
+
+    var invalidEvent = new CustomEvent('shopify:section:load', {
+      bubbles: true,
+      detail: { sectionId: '12345' }
+    });
+
+    // This event listener should always fire after the one we are testing
+    document.addEventListener('shopify:section:load', () => {
+      expect(instances.length).toBe(1);
+      expect(instances[0].onLoad).toHaveBeenCalledTimes(1);
+      done();
+    });
+
+    validWrapper.dispatchEvent(validEvent);
+    invalidWrapper.dispatchEvent(invalidEvent);
+  });
+
+  test('unloads a section when shopify:section:unload event is fired', done => {
+    var wrapper = document.getElementById('shopify-section-1');
+    var event = new CustomEvent('shopify:section:unload', {
+      bubbles: true,
+      detail: { sectionId: '1' }
+    });
+
+    load('type1');
+
+    expect(instances.length).toBe(2);
+
+    document.addEventListener('shopify:section:unload', () => {
+      expect(instances.length).toBe(1);
+      expect(instances[0].onUnload).toHaveBeenCalledTimes(1);
+      done();
+    });
+
+    wrapper.dispatchEvent(event);
+  });
+
+  test('calls the onSelect method of a section when shopify:section:select event is fired', done => {
+    var wrapper = document.getElementById('shopify-section-1');
+    var event = new CustomEvent('shopify:section:select', {
+      bubbles: true,
+      detail: { sectionId: '1', load: true }
+    });
+
+    load('type1');
+
+    document.addEventListener('shopify:section:select', () => {
+      expect(instances[0].onSelect).toHaveBeenCalledTimes(1);
+      expect(instances[0].onSelect).toHaveBeenLastCalledWith(event.detail.load);
+      done();
+    });
+
+    wrapper.dispatchEvent(event);
+  });
+
+  test('calls the onDeselect method of a section when shopify:section:select event is fired', done => {
+    var wrapper = document.getElementById('shopify-section-1');
+    var event = new CustomEvent('shopify:section:deselect', {
+      bubbles: true,
+      detail: { sectionId: '1' }
+    });
+
+    load('type1');
+
+    document.addEventListener('shopify:section:deselect', () => {
+      expect(instances[0].onDeselect).toHaveBeenCalledTimes(1);
+      done();
+    });
+
+    wrapper.dispatchEvent(event);
+  });
+
+  test('calls the onBlockSelect method of a section when shopify:section:select event is fired', done => {
+    var wrapper = document.getElementById('shopify-section-1');
+    var event = new CustomEvent('shopify:block:select', {
+      bubbles: true,
+      detail: { sectionId: '1', load: true, blockId: '13' }
+    });
+
+    load('type1');
+
+    document.addEventListener('shopify:block:select', () => {
+      expect(instances[0].onBlockSelect).toHaveBeenCalledTimes(1);
+      expect(instances[0].onBlockSelect).toHaveBeenLastCalledWith(
+        event.detail.blockId,
+        event.detail.load
+      );
+      done();
+    });
+
+    wrapper.dispatchEvent(event);
+  });
+
+  test('calls the onBlockDeselect method of a section when shopify:section:select event is fired', done => {
+    var wrapper = document.getElementById('shopify-section-1');
+    var event = new CustomEvent('shopify:block:deselect', {
+      bubbles: true,
+      detail: { sectionId: '1', load: true, blockId: '13' }
+    });
+
+    load('type1');
+
+    document.addEventListener('shopify:block:deselect', () => {
+      expect(instances[0].onBlockDeselect).toHaveBeenCalledTimes(1);
+      expect(instances[0].onBlockDeselect).toHaveBeenLastCalledWith(
+        event.detail.blockId
+      );
+      done();
+    });
+
+    wrapper.dispatchEvent(event);
   });
 });

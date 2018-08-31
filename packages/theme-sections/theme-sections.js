@@ -229,9 +229,10 @@ if (window.Shopify.designMode) {
     var container = event.target.querySelector(
       '[' + SECTION_ID_ATTR + '="' + id + '"]'
     );
-    var type = container.getAttribute(SECTION_TYPE_ATTR);
 
-    load(type, container);
+    if (container !== null) {
+      load(container.getAttribute(SECTION_TYPE_ATTR), container);
+    }
   });
 
   document.addEventListener('shopify:section:unload', function(event) {
