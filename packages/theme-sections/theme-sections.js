@@ -106,7 +106,7 @@ export function unload(selector) {
       })
       .indexOf(instance.id);
     instances.splice(index, 1);
-    instance.unload();
+    instance.onUnload();
   });
 }
 
@@ -152,6 +152,18 @@ export function getInstances(selector) {
   }
 
   return filteredInstances;
+}
+
+export function getInstanceById(id) {
+  var instance;
+
+  for (var i = 0; i < instances.length; i++) {
+    if (instances[i].id === id) {
+      instance = instances[i];
+      break;
+    }
+  }
+  return instance;
 }
 
 export function isInstance(selector) {
@@ -217,8 +229,53 @@ if (window.Shopify.designMode) {
     var container = event.target.querySelector(
       '[' + SECTION_ID_ATTR + '="' + id + '"]'
     );
-    var type = container.getAttribute(SECTION_TYPE_ATTR);
 
-    load(type, container);
+    if (container !== null) {
+      load(container.getAttribute(SECTION_TYPE_ATTR), container);
+    }
+  });
+
+  document.addEventListener('shopify:section:unload', function(event) {
+    var id = event.detail.sectionId;
+    var container = event.target.querySelector(
+      '[' + SECTION_ID_ATTR + '="' + id + '"]'
+    );
+    var instance = getInstances(container)[0];
+
+    if (typeof instance === 'object') {
+      unload(container);
+    }
+  });
+
+  document.addEventListener('shopify:section:select', function(event) {
+    var instance = getInstanceById(event.detail.sectionId);
+
+    if (typeof instance === 'object') {
+      instance.onSelect(event.detail.load);
+    }
+  });
+
+  document.addEventListener('shopify:section:deselect', function(event) {
+    var instance = getInstanceById(event.detail.sectionId);
+
+    if (typeof instance === 'object') {
+      instance.onDeselect();
+    }
+  });
+
+  document.addEventListener('shopify:block:select', function(event) {
+    var instance = getInstanceById(event.detail.sectionId);
+
+    if (typeof instance === 'object') {
+      instance.onBlockSelect(event.detail.blockId, event.detail.load);
+    }
+  });
+
+  document.addEventListener('shopify:block:deselect', function(event) {
+    var instance = getInstanceById(event.detail.sectionId);
+
+    if (typeof instance === 'object') {
+      instance.onBlockDeselect(event.detail.blockId);
+    }
   });
 }
