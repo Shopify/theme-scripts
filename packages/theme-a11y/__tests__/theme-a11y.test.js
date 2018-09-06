@@ -2,15 +2,7 @@
  * @jest-environment jsdom
  */
 
-import path from 'path';
-import {
-  forceFocus,
-  focusHash,
-  bindInPageLinks,
-  focusable,
-  trapFocus,
-  removeTrapFocus
-} from './theme-a11y';
+import {forceFocus, focusHash, bindInPageLinks} from '../theme-a11y';
 
 describe('forceFocus()', () => {
   beforeEach(() => {
@@ -40,7 +32,7 @@ describe('forceFocus()', () => {
     focusableElement.tabIndex = 3;
     forceFocus(focusableElement);
 
-    expect(parseInt(focusableElement.dataset.tabIndex)).toBe(3);
+    expect(parseInt(focusableElement.dataset.tabIndex, 10)).toBe(3);
   });
 
   test('adds a focus state', () => {
@@ -54,7 +46,7 @@ describe('forceFocus()', () => {
   test('adds a class name if specified in the options', () => {
     const focusableElement = document.getElementById('focusableElement');
     const customClass = 'custom-class';
-    forceFocus(focusableElement, { className: customClass });
+    forceFocus(focusableElement, {className: customClass});
 
     expect(focusableElement.classList.contains(customClass)).toBeTruthy();
   });
@@ -133,7 +125,6 @@ describe('bindInPageLinks()', () => {
       ignore: '.js-ignore-link'
     });
 
-    expect(Array.isArray(links)).toBeTruthy;
     expect(links.length).toBe(1);
     expect(links).toEqual(
       expect.not.arrayContaining(
