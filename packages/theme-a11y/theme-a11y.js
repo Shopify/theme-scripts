@@ -103,7 +103,7 @@ export function bindInPageLinks(options) {
 }
 
 export function focusable(container) {
-  var elements = Array.from(
+  var elements = Array.prototype.slice.call(
     container.querySelectorAll(
       '[tabindex],' +
         '[draggable],' +

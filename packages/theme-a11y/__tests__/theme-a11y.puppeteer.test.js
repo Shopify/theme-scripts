@@ -3,7 +3,7 @@ import {
   focusable,
   trapFocus,
   removeTrapFocus
-} from './theme-a11y';
+} from '../theme-a11y';
 
 describe('trapFocus()', () => {
   beforeEach(async () => {
@@ -57,7 +57,6 @@ describe('trapFocus()', () => {
   test('focuses the first tabable element after tabbing the last tabable element in a container', async () => {
     await page.evaluate(() => {
       const container = document.getElementById('container');
-      const lastElement = document.getElementById('button');
       window.trapFocus(container);
     });
 
@@ -117,7 +116,7 @@ describe('trapFocus()', () => {
 describe('focusable()', () => {
   async function expectElements(valid, invalid) {
     const matchIds = await page.evaluate(() => {
-      var ids = [];
+      const ids = [];
       window.focusable(document).forEach(element => ids.push(element.id));
       return ids;
     });
