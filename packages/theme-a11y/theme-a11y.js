@@ -54,7 +54,11 @@ export function focusHash(params) {
   var element = document.getElementById(hash.slice(1));
   // is there a hash in the url? is it an element on the page?
 
-  // TODO: Ignore element if it contains an ignore selector
+  // if we are to ignore this element, early return
+  var ignoreSelector = params.ignore || false;
+  if (element && ignoreSelector && element.matches(ignoreSelector)) {
+    return false;
+  }
 
   if (hash && element) {
     forceFocus(element, params);
@@ -68,7 +72,7 @@ export function focusHash(params) {
  *
  * @param {Object} params - Settings unique to your theme
  * @param {string} params.className - Class name to apply to element on focus.
- * @param {string} params.ignore - Selector for elements to not include.
+ * @param {string} params.ignore - CSS selector for elements to not include.
  */
 
 export function bindInPageLinks(params) {
@@ -76,10 +80,14 @@ export function bindInPageLinks(params) {
     document.querySelectorAll('a[href^="#"]')
   );
 
- // TODO: Ignore element if it contains an ignore selector
+  var ignoreSelector = params.ignore || false;
 
   return links.filter(function(link) {
     if (link.hash === '#' || link.hash === '') {
+      return false;
+    }
+
+    if (ignoreSelector && link.matches(ignoreSelector)) {
       return false;
     }
 
@@ -130,7 +138,7 @@ export function focusable(container) {
  * @param {Element} elementToFocus - Element to be focused on first
  * @param {Object} params - Settings unique to your theme
  * @param {string} params.className - Class name to apply to element on focus.
- * @param {string} params.ignore - Selector for elements to not include.
+ * @param {string} params.ignore - CSS selector for elements to not include.
  */
 
 var trapFocusHandlers = {};
