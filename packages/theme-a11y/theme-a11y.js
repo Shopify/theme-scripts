@@ -5,20 +5,27 @@
  */
 
 /**
- * For use when focus shifts to a container rather than a link
+ * Moves focus to an HTML element
  * eg for In-page links, after scroll, focus shifts to content area so that
- * next `tab` is where user expects if focusing a link, just $link.focus();
+ * next `tab` is where user expects. Used in bindInPageLinks()
+ * eg move focus to a modal that is opened. Used in trapFocus()
+ *
+ * @param {Element} container - Container DOM element to trap focus inside of
+ * @param {Object} config - Settings unique to your theme
+ * @param {string} config.className - Class name to apply to element on focus.
  */
-export function pageLinkFocus(element, config) {
+export function forceFocus(element, config) {
   config = config || {};
 
-  var className = config.className || 'js-focus-hidden';
+  var className = config.className ? config.className : null;
   var savedTabIndex = element.tabIndex;
 
   element.tabIndex = -1;
   element.dataset.tabIndex = savedTabIndex;
   element.focus();
-  element.classList.add(className);
+  if (className) {
+    element.classList.add(className);
+  }
   element.addEventListener('blur', callback);
 
   function callback(event) {
@@ -26,31 +33,50 @@ export function pageLinkFocus(element, config) {
 
     element.tabIndex = savedTabIndex;
     delete element.dataset.tabIndex;
-    element.classList.remove(className);
+    if (className) {
+      element.classList.remove(className);
+    }
   }
 }
 
 /**
  * If there's a hash in the url, focus the appropriate element
+ * This compensates for older browsers that do not move keyboard focus to anchor links.
+ * Recommendation: To be called once the page in loaded.
+ *
+ * @param {Object} params - Settings unique to your theme
+ * @param {string} params.className - Class name to apply to element on focus.
+ * @param {string} params.ignore - Selector for elements to not include.
  */
 
-export function focusHash() {
+export function focusHash(params) {
   var hash = window.location.hash;
   var element = document.getElementById(hash.slice(1));
   // is there a hash in the url? is it an element on the page?
 
+  // TODO: Ignore element if it contains an ignore selector
+
   if (hash && element) {
-    pageLinkFocus(element);
+    forceFocus(element, params);
   }
 }
 
 /**
  * When an in-page (url w/hash) link is clicked, focus the appropriate element
+ * This compensates for older browsers that do not move keyboard focus to anchor links.
+ * Recommendation: To be called once the page in loaded.
+ *
+ * @param {Object} params - Settings unique to your theme
+ * @param {string} params.className - Class name to apply to element on focus.
+ * @param {string} params.ignore - Selector for elements to not include.
  */
-export function bindInPageLinks() {
+
+export function bindInPageLinks(params) {
   var links = Array.prototype.slice.call(
     document.querySelectorAll('a[href^="#"]')
   );
+
+ // TODO: Ignore element if it contains an ignore selector
 
   return links.filter(function(link) {
     if (link.hash === '#' || link.hash === '') {
@@ -64,7 +90,7 @@ export function bindInPageLinks() {
     }
 
     link.addEventListener('click', function() {
-      pageLinkFocus(element);
+      forceFocus(element, params);
     });
 
     return true;
@@ -102,11 +128,14 @@ export function focusable(container) {
  *
  * @param {Element} container - Container DOM element to trap focus inside of
  * @param {Element} elementToFocus - Element to be focused on first
+ * @param {Object} params - Settings unique to your theme
+ * @param {string} params.className - Class name to apply to element on focus.
+ * @param {string} params.ignore - Selector for elements to not include.
  */
 
 var trapFocusHandlers = {};
 
-export function trapFocus(container, elementToFocus) {
+export function trapFocus(container, elementToFocus, params) {
   elementToFocus = elementToFocus || container;
 
   var elements = focusable(container);
@@ -155,7 +184,7 @@ export function trapFocus(container, elementToFocus) {
   document.addEventListener('focusout', trapFocusHandlers.focusout);
   document.addEventListener('focusin', trapFocusHandlers.focusin);
 
-  pageLinkFocus(elementToFocus);
+  forceFocus(elementToFocus, params);
 }
 
 /**
