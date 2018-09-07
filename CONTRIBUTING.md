@@ -28,6 +28,70 @@ Write some features. Run the tests with:
 yarn test
 ```
 
+## How to test locally
+
+The following details how to setup your local environment when you wish to create a new branch of a theme script package.  It uses work on a new release of `@shopify/themes-a11y` as an example.
+
+### Create a link to your local package to another project
+Navigate to the package and type [`yarn link`](https://yarnpkg.com/en/docs/cli/link).
+
+``` bash
+theme-scripts $ cd packages/themes-a11y
+theme-a11y $ yarn link
+```
+
+You will get a success message telling you how to use this linked package in another project.
+
+``` bash
+success Registered "@shopify/theme-a11y".
+info You can now run `yarn link "@shopify/theme-a11y"`
+```
+
+Go to a local project you want to test out the script in.
+
+``` bash
+cd ../some-path/my-theme
+my-theme $ yarn link "@shopify/theme-a11y"
+```
+
+If it worked, the feedback will read:
+```bash
+success Using linked package for "@shopify/theme-a11y".
+```
+
+**Note**: Do not run a new `yarn install`. This will reset your project to use the packages set in your `package.json`, which may replace your linked package.
+
+
+### Removing a link to a package
+
+To unlink your package so other local projects stop using it, use [`yarn unlink`](https://yarnpkg.com/en/docs/cli/unlink).  This is also called “unregistering” the package.
+
+``` bash
+theme-a11y $ yarn unlink
+```
+
+You will get a success message saying how to unlink the package from other projects.
+``` bash
+success Unregistered "@shopify/theme-a11y".
+info You can now run `yarn unlink "@shopify/theme-a11y"` in the projects where you no longer want to use this package.
+```
+
+#### Unlinking your project
+When you don’t want your project to be using your local package, go to your local project and type `yarn unlink <package>`
+
+``` bash
+cd ../projects/my-theme
+my-theme $ yarn unlink "@shopify/theme-a11y"
+
+# Response: success Removed linked package "@shopify/theme-a11y".
+```
+
+After you do this, it is a good idea to reset your `node_modules` so that your scripts are no longer trying to import the unlinked package.  A quick command to remove the folder and reinstalling dependencies:
+
+```bash
+my-theme $ rm -r node_modules && yarn install
+```
+
 ## Documentation
 
 If your change affects how people use the project (i.e. adding or removing
