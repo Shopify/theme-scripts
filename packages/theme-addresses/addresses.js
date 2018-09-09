@@ -6,28 +6,28 @@
 
 // set a given selector with value, if value is one of the options
 export function setSelectorByValue(selector, value) {
-  for (let i = 0, count = selector.options.length; i < count; i++) {
-    const option = selector.options[i];
-    if (value === option.value || value === option.innerHTML) {
+  for (var i = 0, count = selector.options.length; i < count; i++) {
+    var option = selector.options[i];
+    if (value == option.value || value == option.innerHTML) {
       selector.selectedIndex = i;
       return i;
     }
   }
-  return -1;
 }
 
 // send request as a POST
-export function postLink(path, options = {}) {
-  const method = options.method || 'post';
-  const params = options.parameters || {};
+export function postLink(path, options) {
+  options = options || {};
+  var method = options.method || 'post';
+  var params = options.parameters || {};
 
-  const form = document.createElement('form');
+  var form = document.createElement('form');
   form.setAttribute('method', method);
   form.setAttribute('action', path);
 
-  for (const key in params) {
+  for (var key in params) {
     if (params.hasOwnProperty(key)) {
-      const hiddenField = document.createElement('input');
+      var hiddenField = document.createElement('input');
       hiddenField.setAttribute('type', 'hidden');
       hiddenField.setAttribute('name', key);
       hiddenField.setAttribute('value', params[key]);
@@ -53,57 +53,57 @@ export function postLink(path, options = {}) {
  *     ...
  *   </select>
  */
-export class CountryProvinceSelector {
-  constructor(countryDomId, provinceDomId, options) {
-    this.countryEl = document.getElementById(countryDomId);
-    this.provinceEl = document.getElementById(provinceDomId);
-    this.provinceContainer = document.getElementById(options.hideElement || provinceDomId);
+export function CountryProvinceSelector(countryDomId, provinceDomId, options) {
+  this.countryEl = document.getElementById(countryDomId);
+  this.provinceEl = document.getElementById(provinceDomId);
+  this.provinceContainer = document.getElementById(options.hideElement || provinceDomId);
 
-    this.countryEl.addEventListener('change', this.countryHandler.bind(this));
+  this.countryEl.addEventListener('change', this.countryHandler.bind(this));
 
-    this.initCountry();
-    this.initProvince();
-  }
+  this.initCountry();
+  this.initProvince();
+}
 
-  initCountry() {
-    const value = this.countryEl.getAttribute('data-default');
+CountryProvinceSelector.prototype = {
+  initCountry: function() {
+    var value = this.countryEl.getAttribute('data-default');
     setSelectorByValue(this.countryEl, value);
     this.countryHandler();
-  }
+  },
 
-  initProvince() {
-    const value = this.provinceEl.getAttribute('data-default');
+  initProvince: function() {
+    var value = this.provinceEl.getAttribute('data-default');
     if (value && this.provinceEl.options.length > 0) {
       setSelectorByValue(this.provinceEl, value);
     }
-  }
+  },
 
-  countryHandler() {
-    const opt = this.countryEl.options[this.countryEl.selectedIndex];
-    const raw = opt.getAttribute('data-provinces');
-    const provinces = JSON.parse(raw);
+  countryHandler: function() {
+    var opt = this.countryEl.options[this.countryEl.selectedIndex];
+    var raw = opt.getAttribute('data-provinces');
+    var provinces = JSON.parse(raw);
 
     this.clearOptions(this.provinceEl);
-    if (provinces && provinces.length === 0) {
+    if (provinces && provinces.length == 0) {
       this.provinceContainer.style.display = 'none';
     } else {
       this.setOptions(this.provinceEl, provinces);
       this.provinceContainer.style.display = '';
     }
-  }
+  },
 
-  clearOptions(selector) {
+  clearOptions: function(selector) {
     while (selector.firstChild) {
       selector.removeChild(selector.firstChild);
     }
-  }
+  },
 
-  setOptions(selector, values) {
-    for (let i = 0; i < values.length; i++) {
-      const opt = document.createElement('option');
+  setOptions: function(selector, values) {
+    for (var i = 0; i < values.length; i++) {
+      var opt = document.createElement('option');
       opt.value = values[i][0];
       opt.innerHTML = values[i][1];
       selector.appendChild(opt);
     }
   }
-}
+};

@@ -12,11 +12,6 @@ describe('setSelectorByValue', () => {
     expect(setSelectorByValue(countryEl, 'Canada')).toBe(1);
     expect(countryEl.value).toBe('Canada');
   });
-
-  test('returns -1 if value is not one of the options', () => {
-    expect(setSelectorByValue(countryEl, 'United States')).toBe(-1);
-    expect(countryEl.value).not.toBe('United States');
-  });
 });
 
 describe('postLink', () => {
