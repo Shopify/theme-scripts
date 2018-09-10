@@ -1,4 +1,4 @@
-import { setSelectorByValue, postLink, CountryProvinceSelector } from './addresses';
+import { setSelectorByValue, postLink, CountryProvinceSelector } from './theme-addresses';
 
 describe('setSelectorByValue', () => {
   let countryEl;

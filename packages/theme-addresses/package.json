@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha.7",
   "description": "A library that contains useful functions that can be used in addresses.liquid",
   "main": "dist/theme-addresses.cjs.js",
-  "moule": "addresses.js",
+  "moule": "theme-addresses.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-addresses",
   "keywords": [
     "slate"
@@ -26,7 +26,7 @@
   },
   "size-limit": [
     {
-      "path": "addresses.js"
+      "path": "theme-addresses.js"
     }
   ]
 }

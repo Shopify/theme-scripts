@@ -2,14 +2,14 @@ import { uglify } from "rollup-plugin-uglify";
 
 export default [
   {
-    input: "addresses.js",
+    input: "theme-addresses.js",
     output: {
       file: "dist/theme-addresses.cjs.js",
       format: "cjs"
     }
   },
   {
-    input: "addresses.js",
+    input: "theme-addresses.js",
     output: {
       file: "dist/theme-addresses.js",
       format: "iife",
@@ -17,7 +17,7 @@ export default [
     }
   },
   {
-    input: "addresses.js",
+    input: "theme-addresses.js",
     output: {
       file: "dist/theme-addresses.min.js",
       format: "iife",
