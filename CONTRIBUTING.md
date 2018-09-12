@@ -28,6 +28,51 @@ Write some features. Run the tests with:
 yarn test
 ```
 
+## How to test locally
+
+The following details how to setup your local environment when you wish to create a new branch of a theme script package. It uses work on a new release of `@shopify/themes-a11y` as an example.
+
+### Create a link to your local package to another project
+Navigate to the package and type [`yarn link`](https://yarnpkg.com/en/docs/cli/link).
+
+``` bash
+theme-scripts $ cd packages/themes-a11y
+theme-a11y $ yarn link
+
+# success Registered "@shopify/theme-a11y".
+# info You can now run `yarn link "@shopify/theme-a11y"`
+```
+
+Go to a local project you want to test out the script in.
+
+``` bash
+cd ../some-path/my-theme
+my-theme $ yarn link "@shopify/theme-a11y"
+
+# success Using linked package for "@shopify/theme-a11y".
+```
+
+
+### Removing a link to a package
+
+To unlink your package so other local projects stop using it, use [`yarn unlink`](https://yarnpkg.com/en/docs/cli/unlink).  This is also called “unregistering” the package.
+
+``` bash
+theme-a11y $ yarn unlink
+
+# success Unregistered "@shopify/theme-a11y".
+```
+
+When you don’t want your project to be using your local package, go to your local project and type `yarn unlink <package>`
+
+``` bash
+cd ../projects/my-theme
+my-theme $ yarn unlink "@shopify/theme-a11y"
+
+# success Removed linked package "@shopify/theme-a11y".
+# info You will need to run `yarn` to re-install the package that was linked.
+```
+
 ## Documentation
 
 If your change affects how people use the project (i.e. adding or removing
