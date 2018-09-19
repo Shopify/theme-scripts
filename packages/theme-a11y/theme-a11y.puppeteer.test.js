@@ -1,11 +1,11 @@
 import {
-  pageLinkFocus,
+  forceFocus,
   focusable,
   trapFocus,
   removeTrapFocus
-} from './theme-a11y';
+} from "./theme-a11y";
 
-describe('trapFocus()', () => {
+describe("trapFocus()", () => {
   beforeEach(async () => {
     // This is a super smelly way of exposing the functions needed to perform the
     // tests I want. Would love a better way!
@@ -13,7 +13,7 @@ describe('trapFocus()', () => {
     <script type="module">
       window.trapFocusHandlers = {};
       window.removeTrapFocus = ${removeTrapFocus.toString()};
-      window.pageLinkFocus = ${pageLinkFocus.toString()};
+      window.forceFocus = ${forceFocus.toString()};
       window.focusable = ${focusable.toString()};
       window.trapFocus = ${trapFocus.toString()};
     </script>
@@ -29,62 +29,62 @@ describe('trapFocus()', () => {
     </div>`);
   });
 
-  test('sets the intial focus on the container by default', async () => {
+  test("sets the intial focus on the container by default", async () => {
     await page.evaluate(() => {
-      const container = document.getElementById('container');
+      const container = document.getElementById("container");
       window.trapFocus(container);
     });
 
     const activeElement = await page.evaluate(() => document.activeElement.id);
 
-    await expect(activeElement).toBe('container');
+    await expect(activeElement).toBe("container");
   });
 
-  test('accepts an optional second parameter to specify what element to initially focus on', async () => {
+  test("accepts an optional second parameter to specify what element to initially focus on", async () => {
     await page.evaluate(() => {
-      const container = document.getElementById('container');
-      const input2 = document.getElementById('textInput2');
+      const container = document.getElementById("container");
+      const input2 = document.getElementById("textInput2");
       window.trapFocus(container, input2);
     });
 
     const activeElement = await page.evaluate(() => document.activeElement.id);
 
-    await expect(activeElement).toBe('textInput2');
+    await expect(activeElement).toBe("textInput2");
   });
 
-  test('focuses the first tabable element after tabbing the last tabable element in a container', async () => {
+  test("focuses the first tabable element after tabbing the last tabable element in a container", async () => {
     await page.evaluate(() => {
-      const container = document.getElementById('container');
-      const lastElement = document.getElementById('button');
+      const container = document.getElementById("container");
+      const lastElement = document.getElementById("button");
       window.trapFocus(container);
     });
 
-    await page.keyboard.press('Tab');
+    await page.keyboard.press("Tab");
 
     const activeElement = await page.evaluate(() => document.activeElement.id);
 
-    await expect(activeElement).toBe('textInput1');
+    await expect(activeElement).toBe("textInput1");
   });
 
-  test('focuses on the last tabable and visible element when shift-tabbing from first tabbable element', async () => {
+  test("focuses on the last tabable and visible element when shift-tabbing from first tabbable element", async () => {
     await page.evaluate(() => {
-      const container = document.getElementById('container');
+      const container = document.getElementById("container");
       window.trapFocus(container);
     });
 
-    await page.keyboard.down('Shift');
-    await page.keyboard.press('Tab');
-    await page.keyboard.up('Shift');
+    await page.keyboard.down("Shift");
+    await page.keyboard.press("Tab");
+    await page.keyboard.up("Shift");
 
     const activeElement = await page.evaluate(() => document.activeElement.id);
 
-    await expect(activeElement).toBe('button');
+    await expect(activeElement).toBe("button");
   });
 
-  test('focuses first tabable and visible element if focus leaves the container', async () => {
+  test("focuses first tabable and visible element if focus leaves the container", async () => {
     const activeElement = await page.evaluate(() => {
-      const container = document.getElementById('container');
-      const outsideLink = document.getElementById('outsideLink');
+      const container = document.getElementById("container");
+      const outsideLink = document.getElementById("outsideLink");
 
       window.trapFocus(container);
       outsideLink.focus();
@@ -92,27 +92,27 @@ describe('trapFocus()', () => {
       return document.activeElement.id;
     });
 
-    await expect(activeElement).toBe('textInput1');
+    await expect(activeElement).toBe("textInput1");
   });
 
-  test('removes the previous trapFocus() before applying applying a new instance of trapFocus()', async () => {
+  test("removes the previous trapFocus() before applying applying a new instance of trapFocus()", async () => {
     await page.evaluate(() => {
-      window.trapFocus(document.getElementById('container'));
-      window.trapFocus(document.getElementById('container2'));
+      window.trapFocus(document.getElementById("container"));
+      window.trapFocus(document.getElementById("container2"));
     });
 
-    await page.keyboard.down('Shift');
-    await page.keyboard.press('Tab');
-    await page.keyboard.press('Tab');
-    await page.keyboard.up('Shift');
+    await page.keyboard.down("Shift");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.up("Shift");
 
     const activeElement = await page.evaluate(() => document.activeElement.id);
 
-    await expect(activeElement).toBe('textInput3');
+    await expect(activeElement).toBe("textInput3");
   });
 });
 
-describe('focusable()', () => {
+describe("focusable()", () => {
   async function expectElements(valid, invalid) {
     const matchIds = await page.evaluate(() => {
       var ids = [];
@@ -122,16 +122,16 @@ describe('focusable()', () => {
 
     expect(matchIds).toEqual(expect.arrayContaining(valid));
 
-    if (typeof invalid !== 'undefined') {
+    if (typeof invalid !== "undefined") {
       expect(matchIds).not.toEqual(expect.arrayContaining(invalid));
     }
   }
 
-  test('is a function exported by theme-a11y.js', () => {
-    expect(typeof focusable).toBe('function');
+  test("is a function exported by theme-a11y.js", () => {
+    expect(typeof focusable).toBe("function");
   });
 
-  test('selects valid <a> elements', async () => {
+  test("selects valid <a> elements", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -140,13 +140,13 @@ describe('focusable()', () => {
       <a id="withoutHref"></a>
     `);
 
-    const valid = ['withHref'];
-    const invalid = ['withoutHref'];
+    const valid = ["withHref"];
+    const invalid = ["withoutHref"];
 
     await expectElements(valid, invalid);
   });
 
-  test('selects valid <area> elements', async () => {
+  test("selects valid <area> elements", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -156,12 +156,12 @@ describe('focusable()', () => {
       </map>
     `);
 
-    const valid = ['area'];
+    const valid = ["area"];
 
     await expectElements(valid);
   });
 
-  test('selects enabled <button> elements', async () => {
+  test("selects enabled <button> elements", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -170,13 +170,13 @@ describe('focusable()', () => {
       <button id="disabledButton" disabled></button>
     `);
 
-    const valid = ['button'];
-    const invalid = ['disabledButton'];
+    const valid = ["button"];
+    const invalid = ["disabledButton"];
 
     await expectElements(valid, invalid);
   });
 
-  test('selects enabled, non-hidden input elements', async () => {
+  test("selects enabled, non-hidden input elements", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -185,13 +185,13 @@ describe('focusable()', () => {
       <input type="hidden" id="hiddenInput"></input>
     `);
 
-    const valid = ['input'];
-    const invalid = ['hiddenInput'];
+    const valid = ["input"];
+    const invalid = ["hiddenInput"];
 
     await expectElements(valid, invalid);
   });
 
-  test('selects valid <object> elements', async () => {
+  test("selects valid <object> elements", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -199,12 +199,12 @@ describe('focusable()', () => {
       <object id="object" data="movie.swf" type="application/x-shockwave-flash" />
     `);
 
-    const valid = ['object'];
+    const valid = ["object"];
 
     await expectElements(valid);
   });
 
-  test('selects enabled <select> elements', async () => {
+  test("selects enabled <select> elements", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -217,13 +217,13 @@ describe('focusable()', () => {
       </select>
     `);
 
-    const valid = ['validSelect'];
-    const invalid = ['disabledSelect'];
+    const valid = ["validSelect"];
+    const invalid = ["disabledSelect"];
 
     await expectElements(valid, invalid);
   });
 
-  test('selects enabled <textarea> elements', async () => {
+  test("selects enabled <textarea> elements", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -232,13 +232,13 @@ describe('focusable()', () => {
       <textarea id="disabledTextArea" disabled></textarea>
     `);
 
-    const valid = ['validTextArea'];
-    const invalid = ['disabledTextArea'];
+    const valid = ["validTextArea"];
+    const invalid = ["disabledTextArea"];
 
     await expectElements(valid, invalid);
   });
 
-  test('selects elements with tabindex attribute', async () => {
+  test("selects elements with tabindex attribute", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -247,13 +247,13 @@ describe('focusable()', () => {
       <div id="withoutTabIndex"></div>
     `);
 
-    const valid = ['withTabIndex'];
-    const invalid = ['withoutTabIndex'];
+    const valid = ["withTabIndex"];
+    const invalid = ["withoutTabIndex"];
 
     await expectElements(valid, invalid);
   });
 
-  test('selects elements with draggable attribute', async () => {
+  test("selects elements with draggable attribute", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -263,13 +263,13 @@ describe('focusable()', () => {
       <div id="withoutDraggable"></div>
     `);
 
-    const valid = ['draggableTrue'];
-    const invalid = ['draggableFalse', 'withoutDraggable'];
+    const valid = ["draggableTrue"];
+    const invalid = ["draggableFalse", "withoutDraggable"];
 
     await expectElements(valid, invalid);
   });
 
-  test('selects only elements which are visible', async () => {
+  test("selects only elements which are visible", async () => {
     await page.setContent(`
       <script type="module">
         window.focusable = ${focusable.toString()};
@@ -282,21 +282,21 @@ describe('focusable()', () => {
       </div>
     `);
 
-    const valid = ['visibleButton', 'transparentButton'];
-    const invalid = ['hiddenButton', 'hiddenChildButton'];
+    const valid = ["visibleButton", "transparentButton"];
+    const invalid = ["hiddenButton", "hiddenChildButton"];
 
     await expectElements(valid, invalid);
   });
 });
 
-describe('trapFocus()', () => {
-  test('is a function exported by theme-a11y.js', () => {
-    expect(typeof trapFocus).toBe('function');
+describe("trapFocus()", () => {
+  test("is a function exported by theme-a11y.js", () => {
+    expect(typeof trapFocus).toBe("function");
   });
 });
 
-describe('removeTrapFocus()', () => {
-  test('is a function exported by theme-a11y.js', () => {
-    expect(typeof removeTrapFocus).toBe('function');
+describe("removeTrapFocus()", () => {
+  test("is a function exported by theme-a11y.js", () => {
+    expect(typeof removeTrapFocus).toBe("function");
   });
 });

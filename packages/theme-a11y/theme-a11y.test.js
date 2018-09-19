@@ -51,14 +51,6 @@ describe("forceFocus()", () => {
     expect(document.activeElement).toBe(focusableElement);
   });
 
-  test("adds the default class name 'js-focus-hidden'", () => {
-    const focusableElement = document.getElementById("focusableElement");
-    const defaultClass = "js-focus-hidden";
-    forceFocus(focusableElement);
-
-    expect(focusableElement.classList.contains(defaultClass)).toBeTruthy();
-  });
-
   test("adds an overrided class name", () => {
     const focusableElement = document.getElementById("focusableElement");
     const customClass = "custom-class";

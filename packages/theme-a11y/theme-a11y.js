@@ -143,6 +143,7 @@ export function focusable(container) {
 var trapFocusHandlers = {};
 
 export function trapFocus(container, options) {
+  options = options || {};
   var elements = focusable(container);
   var elementToFocus = options.elementToFocus || container;
   var first = elements[0];
