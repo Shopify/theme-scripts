@@ -26,7 +26,7 @@ export function forceFocus(element, config) {
   if (className) {
     element.classList.add(className);
   }
-  element.addEventListener('blur', callback);
+  element.addEventListener("blur", callback);
 
   function callback(event) {
     event.target.removeEventListener(event.type, callback);
@@ -44,24 +44,24 @@ export function forceFocus(element, config) {
  * This compensates for older browsers that do not move keyboard focus to anchor links.
  * Recommendation: To be called once the page in loaded.
  *
- * @param {Object} params - Settings unique to your theme
- * @param {string} params.className - Class name to apply to element on focus.
- * @param {string} params.ignore - Selector for elements to not include.
+ * @param {Object} options - Settings unique to your theme
+ * @param {string} options.className - Class name to apply to element on focus.
+ * @param {string} options.ignore - Selector for elements to not include.
  */
 
-export function focusHash(params) {
+export function focusHash(options) {
   var hash = window.location.hash;
   var element = document.getElementById(hash.slice(1));
   // is there a hash in the url? is it an element on the page?
 
   // if we are to ignore this element, early return
-  var ignoreSelector = params.ignore || false;
+  var ignoreSelector = options.ignore || false;
   if (element && ignoreSelector && element.matches(ignoreSelector)) {
     return false;
   }
 
   if (hash && element) {
-    forceFocus(element, params);
+    forceFocus(element, options);
   }
 }
 
@@ -70,20 +70,20 @@ export function focusHash(params) {
  * This compensates for older browsers that do not move keyboard focus to anchor links.
  * Recommendation: To be called once the page in loaded.
  *
- * @param {Object} params - Settings unique to your theme
- * @param {string} params.className - Class name to apply to element on focus.
- * @param {string} params.ignore - CSS selector for elements to not include.
+ * @param {Object} options - Settings unique to your theme
+ * @param {string} options.className - Class name to apply to element on focus.
+ * @param {string} options.ignore - CSS selector for elements to not include.
  */
 
-export function bindInPageLinks(params) {
+export function bindInPageLinks(options) {
   var links = Array.prototype.slice.call(
     document.querySelectorAll('a[href^="#"]')
   );
 
-  var ignoreSelector = params.ignore || false;
+  var ignoreSelector = options.ignore || false;
 
   return links.filter(function(link) {
-    if (link.hash === '#' || link.hash === '') {
+    if (link.hash === "#" || link.hash === "") {
       return false;
     }
 
@@ -97,8 +97,8 @@ export function bindInPageLinks(params) {
       return false;
     }
 
-    link.addEventListener('click', function() {
-      forceFocus(element, params);
+    link.addEventListener("click", function() {
+      forceFocus(element, options);
     });
 
     return true;
@@ -108,15 +108,15 @@ export function bindInPageLinks(params) {
 export function focusable(container) {
   var elements = Array.from(
     container.querySelectorAll(
-      '[tabindex],' +
-        '[draggable],' +
-        'a[href],' +
-        'area,' +
-        'button:enabled,' +
-        'input:not([type=hidden]):enabled,' +
-        'object,' +
-        'select:enabled,' +
-        'textarea:enabled'
+      "[tabindex]," +
+        "[draggable]," +
+        "a[href]," +
+        "area," +
+        "button:enabled," +
+        "input:not([type=hidden]):enabled," +
+        "object," +
+        "select:enabled," +
+        "textarea:enabled"
     )
   );
 
@@ -136,17 +136,15 @@ export function focusable(container) {
  *
  * @param {Element} container - Container DOM element to trap focus inside of
  * @param {Element} elementToFocus - Element to be focused on first
- * @param {Object} params - Settings unique to your theme
- * @param {string} params.className - Class name to apply to element on focus.
- * @param {string} params.ignore - CSS selector for elements to not include.
+ * @param {Object} options - Settings unique to your theme
+ * @param {string} options.className - Class name to apply to element on focus.
  */
 
 var trapFocusHandlers = {};
 
-export function trapFocus(container, elementToFocus, params) {
-  elementToFocus = elementToFocus || container;
-
+export function trapFocus(container, options) {
   var elements = focusable(container);
+  var elementToFocus = options.elementToFocus || container;
   var first = elements[0];
   var last = elements[elements.length - 1];
 
@@ -163,11 +161,11 @@ export function trapFocus(container, elementToFocus, params) {
       event.target !== first
     )
       return;
-    document.addEventListener('keydown', trapFocusHandlers.keydown);
+    document.addEventListener("keydown", trapFocusHandlers.keydown);
   };
 
   trapFocusHandlers.focusout = function() {
-    document.removeEventListener('keydown', trapFocusHandlers.keydown);
+    document.removeEventListener("keydown", trapFocusHandlers.keydown);
   };
 
   trapFocusHandlers.keydown = function(event) {
@@ -189,17 +187,17 @@ export function trapFocus(container, elementToFocus, params) {
     }
   };
 
-  document.addEventListener('focusout', trapFocusHandlers.focusout);
-  document.addEventListener('focusin', trapFocusHandlers.focusin);
+  document.addEventListener("focusout", trapFocusHandlers.focusout);
+  document.addEventListener("focusin", trapFocusHandlers.focusin);
 
-  forceFocus(elementToFocus, params);
+  forceFocus(elementToFocus, options);
 }
 
 /**
  * Removes the trap of focus from the page
  */
 export function removeTrapFocus() {
-  document.removeEventListener('focusin', trapFocusHandlers.focusin);
-  document.removeEventListener('focusout', trapFocusHandlers.focusout);
-  document.removeEventListener('keydown', trapFocusHandlers.keydown);
+  document.removeEventListener("focusin", trapFocusHandlers.focusin);
+  document.removeEventListener("focusout", trapFocusHandlers.focusout);
+  document.removeEventListener("keydown", trapFocusHandlers.keydown);
 }
