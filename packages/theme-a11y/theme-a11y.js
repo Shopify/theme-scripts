@@ -11,13 +11,13 @@
  * eg move focus to a modal that is opened. Used in trapFocus()
  *
  * @param {Element} container - Container DOM element to trap focus inside of
- * @param {Object} config - Settings unique to your theme
- * @param {string} config.className - Class name to apply to element on focus.
+ * @param {Object} options - Settings unique to your theme
+ * @param {string} options.className - Class name to apply to element on focus.
  */
-export function forceFocus(element, config) {
-  config = config || {};
+export function forceFocus(element, options) {
+  options = options || {};
 
-  var className = config.className ? config.className : null;
+  var className = options.className ? options.className : null;
   var savedTabIndex = element.tabIndex;
 
   element.tabIndex = -1;
