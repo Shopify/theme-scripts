@@ -119,15 +119,19 @@ describe('bindInPageLinks()', () => {
       '<a id="link" href="#title"></a>' +
       '<a id="invalidLink1" href="#"></a>' +
       '<a id="invalidLink2" href="/otherlink"></a>' +
-      '<h1 id="title">Title</h1>';
+      '<a id="ignoredLink" class="js-ignore-link" href="#title2"></a>' +
+      '<h1 id="title">Title</h1>' +
+      '<h2 id="title2">Title 2</h2>';
   });
 
   test('is a function exported by theme-a11y.js', () => {
     expect(typeof bindInPageLinks).toBe('function');
   });
 
-  test('returns array of link elements that were binded', () => {
-    const links = bindInPageLinks();
+  test('returns array of link elements that were binded and not ignored', () => {
+    const links = bindInPageLinks({
+      ignore: '.js-ignore-link'
+    });
 
     expect(Array.isArray(links)).toBeTruthy;
     expect(links.length).toBe(1);
