@@ -100,6 +100,17 @@ describe('focusHash()', () => {
 
     expect(document.activeElement).toBe(focusableElement);
   });
+
+  test('does not change the focus if element specified in the URL hash is ignored', () => {
+    const body = document.getElementsByTagName('body');
+
+    window.location.hash = 'focusableElement';
+    focusHash({
+      ignore: '#focusableElement'
+    });
+
+    expect(document.activeElement).toBe(body[0]);
+  });
 });
 
 describe('bindInPageLinks()', () => {
