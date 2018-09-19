@@ -26,7 +26,7 @@ export function forceFocus(element, config) {
   if (className) {
     element.classList.add(className);
   }
-  element.addEventListener("blur", callback);
+  element.addEventListener('blur', callback);
 
   function callback(event) {
     event.target.removeEventListener(event.type, callback);
@@ -85,7 +85,7 @@ export function bindInPageLinks(options) {
   var ignoreSelector = options.ignore || false;
 
   return links.filter(function(link) {
-    if (link.hash === "#" || link.hash === "") {
+    if (link.hash === '#' || link.hash === '') {
       return false;
     }
 
@@ -99,7 +99,7 @@ export function bindInPageLinks(options) {
       return false;
     }
 
-    link.addEventListener("click", function() {
+    link.addEventListener('click', function() {
       forceFocus(element, options);
     });
 
@@ -110,15 +110,15 @@ export function bindInPageLinks(options) {
 export function focusable(container) {
   var elements = Array.from(
     container.querySelectorAll(
-      "[tabindex]," +
-        "[draggable]," +
-        "a[href]," +
-        "area," +
-        "button:enabled," +
-        "input:not([type=hidden]):enabled," +
-        "object," +
-        "select:enabled," +
-        "textarea:enabled"
+      '[tabindex],' +
+        '[draggable],' +
+        'a[href],' +
+        'area,' +
+        'button:enabled,' +
+        'input:not([type=hidden]):enabled,' +
+        'object,' +
+        'select:enabled,' +
+        'textarea:enabled'
     )
   );
 
@@ -166,11 +166,11 @@ export function trapFocus(container, options) {
       event.target !== first
     )
       return;
-    document.addEventListener("keydown", trapFocusHandlers.keydown);
+    document.addEventListener('keydown', trapFocusHandlers.keydown);
   };
 
   trapFocusHandlers.focusout = function() {
-    document.removeEventListener("keydown", trapFocusHandlers.keydown);
+    document.removeEventListener('keydown', trapFocusHandlers.keydown);
   };
 
   trapFocusHandlers.keydown = function(event) {
@@ -192,8 +192,8 @@ export function trapFocus(container, options) {
     }
   };
 
-  document.addEventListener("focusout", trapFocusHandlers.focusout);
-  document.addEventListener("focusin", trapFocusHandlers.focusin);
+  document.addEventListener('focusout', trapFocusHandlers.focusout);
+  document.addEventListener('focusin', trapFocusHandlers.focusin);
 
   forceFocus(elementToFocus, options);
 }
@@ -202,7 +202,7 @@ export function trapFocus(container, options) {
  * Removes the trap of focus from the page
  */
 export function removeTrapFocus() {
-  document.removeEventListener("focusin", trapFocusHandlers.focusin);
-  document.removeEventListener("focusout", trapFocusHandlers.focusout);
-  document.removeEventListener("keydown", trapFocusHandlers.keydown);
+  document.removeEventListener('focusin', trapFocusHandlers.focusin);
+  document.removeEventListener('focusout', trapFocusHandlers.focusout);
+  document.removeEventListener('keydown', trapFocusHandlers.keydown);
 }
