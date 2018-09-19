@@ -50,6 +50,7 @@ export function forceFocus(element, config) {
  */
 
 export function focusHash(options) {
+  options = options || {};
   var hash = window.location.hash;
   var element = document.getElementById(hash.slice(1));
   // is there a hash in the url? is it an element on the page?
@@ -76,6 +77,7 @@ export function focusHash(options) {
  */
 
 export function bindInPageLinks(options) {
+  options = options || {};
   var links = Array.prototype.slice.call(
     document.querySelectorAll('a[href^="#"]')
   );
