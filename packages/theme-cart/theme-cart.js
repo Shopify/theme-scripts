@@ -166,7 +166,7 @@ export function getNote() {
  * Sets cart note
  * @returns {Promise} Resolves with the cart state object
  */
-export function setNote(note) {
+export function updateNote(note) {
   return request.cartUpdate({ note: note });
 }
 

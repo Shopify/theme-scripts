@@ -171,12 +171,12 @@ cart.getNote().then(note => {
 });
 ```
 
-### setNote()
+### updateNote()
 
 Sets the value of the cart note. Returns a promise which resolves with the updated value.
 
 ```js
-cart.setNote().then(note => {
+cart.updateNote().then(note => {
   console.log('The customer has written the following note:', note);
 });
 ```

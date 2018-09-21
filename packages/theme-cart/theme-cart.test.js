@@ -405,7 +405,7 @@ describe('getNote()', () => {
   });
 });
 
-describe('setNote()', () => {
+describe('updateNote()', () => {
   beforeAll(() => {
     fetchMock.mock('/cart/update.js', () => (url, options) => {
       const body = JSON.parse(options.body);
@@ -415,13 +415,13 @@ describe('setNote()', () => {
 
   afterAll(fetchMock.restore);
   test('returns a promise', () => {
-    expect(cart.setNote).toBeDefined();
-    expect(cart.setNote('').then).toBeDefined();
+    expect(cart.updateNote).toBeDefined();
+    expect(cart.updateNote('').then).toBeDefined();
   });
 
   test('resolves with the cart state object', async () => {
     const value = 'New note value';
-    await expect(cart.setNote(value)).resolves.toMatchObject(
+    await expect(cart.updateNote(value)).resolves.toMatchObject(
       Object.assign(populatedState, { note: value })
     );
   });
