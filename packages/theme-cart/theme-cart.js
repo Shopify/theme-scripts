@@ -135,7 +135,7 @@ export function getAttributes() {
  * Sets all cart attributes
  * @returns {Promise} Resolves with the cart state object
  */
-export function setAttributes(attributes) {
+export function updateAttributes(attributes) {
   return request.cartUpdate({ attributes: attributes });
 }
 
@@ -148,7 +148,7 @@ export function clearAttributes() {
     for (var key in attributes) {
       attributes[key] = '';
     }
-    return setAttributes(attributes);
+    return updateAttributes(attributes);
   });
 }
 

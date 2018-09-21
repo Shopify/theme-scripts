@@ -143,7 +143,7 @@ cart.getAttributes().then(attributes => {
 });
 ```
 
-### setAttributes()
+### updateAttributes()
 
 Sets the value of the [cart attributes](https://help.shopify.com/en/themes/customization/cart/get-more-information-with-cart-attributes) object. Returns a promise which resolves with the attributes object.
 

@@ -339,7 +339,7 @@ describe('getAttributes()', () => {
   });
 });
 
-describe('setAttributes()', () => {
+describe('updateAttributes()', () => {
   beforeAll(() => {
     fetchMock.mock('/cart/update.js', (url, options) => {
       const body = JSON.parse(options.body);
@@ -352,13 +352,13 @@ describe('setAttributes()', () => {
   afterAll(fetchMock.restore);
 
   test('returns a promise', () => {
-    expect(cart.setAttributes).toBeDefined();
-    expect(cart.setAttributes().then).toBeDefined();
+    expect(cart.updateAttributes).toBeDefined();
+    expect(cart.updateAttributes().then).toBeDefined();
   });
 
   test('fulfills with the cart state object', async () => {
     const attributes = { someKey: 'someValue' };
-    const returned = await cart.setAttributes(attributes);
+    const returned = await cart.updateAttributes(attributes);
 
     expect(returned).toMatchObject(populatedState);
     expect(returned.attributes).toMatchObject(attributes);
