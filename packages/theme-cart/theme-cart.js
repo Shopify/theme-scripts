@@ -89,23 +89,21 @@ export function addItem(id, options) {
  * @param {object} options Optional values to pass to /cart/add.js
  * @param {number} options.quantity The quantity of items to be added to the cart
  * @param {object} options.properties Line item property key/values (https://help.shopify.com/en/themes/liquid/objects/line_item#line_item-properties)
- * @returns {Promise} Resolves with the line item object (See response of cart/add.js https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#add-to-cart)
+ * @returns {Promise} Resolves with the state object of the cart (https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#get-cart)
  */
 export function updateItem(key, options) {
   validate.key(key);
   validate.options(options);
 
   return getItemIndex(key).then(function(line) {
-    return request.cartChange(line, options).then(function(state) {
-      return state.items[line - 1];
-    });
+    return request.cartChange(line, options);
   });
 }
 
 /**
  * Removes a line item from the cart
  * @param {string} key The unique key of the line item (https://help.shopify.com/en/themes/liquid/objects/line_item#line_item-key)
- * @returns {Promise} Resolves with the line item object (See response of cart/add.js https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#add-to-cart)
+ * @returns {Promise} Resolves with the state object of the cart (https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#get-cart)
  */
 export function removeItem(key) {
   validate.key(key);
@@ -166,12 +164,10 @@ export function getNote() {
 
 /**
  * Sets cart note
- * @returns {Promise} Resolves with the cart note string
+ * @returns {Promise} Resolves with the cart state object
  */
 export function setNote(note) {
-  return request.cartUpdate({ note: note }).then(function(state) {
-    return state.note;
-  });
+  return request.cartUpdate({ note: note });
 }
 
 /**

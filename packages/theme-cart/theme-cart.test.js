@@ -222,13 +222,13 @@ describe('updateItem()', () => {
     ).not.toThrowError();
   });
 
-  test('fulfills with the line item object that was changed', async () => {
+  test('fulfills with the cart state object', async () => {
     const item = require('./__fixtures__/cart-populated.json').items[0];
     const quantity = 2;
     const newItem = Object.assign(item, { quantity });
     await expect(
       cart.updateItem(item.key, { quantity })
-    ).resolves.toMatchObject(newItem);
+    ).resolves.toMatchObject(populatedState);
   });
 
   test('makes a request to the `cart/change.js` endpoint using the line number as an identifier', async () => {
@@ -400,7 +400,7 @@ describe('getNote()', () => {
     expect(cart.getNote).toBeDefined();
     expect(cart.getNote().then).toBeDefined();
   });
-  test('resolves with the note value in the cart state object', async () => {
+  test('resolves with the note value', async () => {
     await expect(cart.getNote()).resolves.toBe(populatedState.note);
   });
 });
@@ -421,7 +421,9 @@ describe('setNote()', () => {
 
   test('resolves with the cart state object', async () => {
     const value = 'New note value';
-    await expect(cart.setNote(value)).resolves.toBe(value);
+    await expect(cart.setNote(value)).resolves.toMatchObject(
+      Object.assign(populatedState, { note: value })
+    );
   });
 });
 
