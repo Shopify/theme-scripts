@@ -1,12 +1,15 @@
 {
   "name": "@shopify/theme-cart",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0",
   "description": "A library that helps theme developers integrate their projects with the Shopify Cart API",
-  "main": "dist/cart.cjs.js",
-  "modules": "dist/cart.es5.js",
+  "main": "dist/theme-cart.cjs.js",
+  "module": "theme-cart.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-cart",
   "keywords": [
-    "slate"
+    "Shopify",
+    "themes",
+    "javascript",
+    "cart"
   ],
   "author": "Shopify Inc.",
   "license": "MIT",
@@ -14,14 +17,20 @@
     "url": "https://github.com/Shopify/theme-scripts/issues"
   },
   "homepage": "https://github.com/Shopify/theme-scripts#readme",
-  "peerDependencies": {
-    "jquery": "3.x",
-    "lodash-es": "4.x"
-  },
   "scripts": {
     "prepublish": "npm run build",
-    "build": "npm run build:es5 & npm run build:cjs",
-    "build:es5": "mkdir -p dist && ../../node_modules/.bin/babel cart.js --out-file dist/cart.es5.js",
-    "build:cjs": "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc cart.js --out-file dist/cart.cjs.js --presets=shopify"
-  }
+    "build": "rollup --config",
+    "size": "size-limit"
+  },
+  "devDependencies": {
+    "fetch-mock": "^7.0.0-alpha.6",
+    "rollup": "^0.66.0",
+    "rollup-plugin-uglify": "^6.0.0",
+    "size-limit": "^0.20.0"
+  },
+  "size-limit": [
+    {
+      "path": "theme-cart.js"
+    }
+  ]
 }
