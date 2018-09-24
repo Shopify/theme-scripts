@@ -135,6 +135,11 @@ describe('bindInPageLinks()', () => {
 
     expect(Array.isArray(links)).toBeTruthy;
     expect(links.length).toBe(1);
+    expect(links).toEqual(
+      expect.not.arrayContaining(
+        Array.from(document.querySelectorAll('.js-ignore-link'))
+      )
+    );
   });
 
   test("adds an event handler that focuses the element referred to in an <a> element w/ a href='#...' when it is clicked", () => {
