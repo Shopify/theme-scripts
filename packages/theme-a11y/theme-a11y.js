@@ -17,14 +17,13 @@
 export function forceFocus(element, options) {
   options = options || {};
 
-  var className = options.className ? options.className : null;
   var savedTabIndex = element.tabIndex;
 
   element.tabIndex = -1;
   element.dataset.tabIndex = savedTabIndex;
   element.focus();
-  if (className) {
-    element.classList.add(className);
+  if (typeof options.className !== 'undefined') {
+    element.classList.add(options.className);
   }
   element.addEventListener('blur', callback);
 
@@ -33,8 +32,8 @@ export function forceFocus(element, options) {
 
     element.tabIndex = savedTabIndex;
     delete element.dataset.tabIndex;
-    if (className) {
-      element.classList.remove(className);
+    if (typeof options.className !== 'undefined') {
+      element.classList.remove(options.className);
     }
   }
 }
