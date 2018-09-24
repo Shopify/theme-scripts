@@ -4,7 +4,7 @@
 
 import path from 'path';
 import {
-  pageLinkFocus,
+  forceFocus,
   focusHash,
   bindInPageLinks,
   focusable,
@@ -12,7 +12,7 @@ import {
   removeTrapFocus
 } from './theme-a11y';
 
-describe('pageLinkFocus()', () => {
+describe('forceFocus()', () => {
   beforeEach(() => {
     document.body.innerHTML =
       '<div id="nonFocusableElement"></div>' +
@@ -20,17 +20,17 @@ describe('pageLinkFocus()', () => {
   });
 
   test('is a function exported by theme-a11y.js', () => {
-    expect(typeof pageLinkFocus).toBe('function');
+    expect(typeof forceFocus).toBe('function');
   });
 
   test("adds a 'tabindex=-1' attribute", () => {
     const nonFocusableElement = document.getElementById('nonFocusableElement');
     const focusableElement = document.getElementById('focusableElement');
 
-    pageLinkFocus(nonFocusableElement);
+    forceFocus(nonFocusableElement);
     expect(nonFocusableElement.tabIndex).toBe(-1);
 
-    pageLinkFocus(focusableElement);
+    forceFocus(focusableElement);
     expect(focusableElement.tabIndex).toBe(-1);
   });
 
@@ -38,7 +38,7 @@ describe('pageLinkFocus()', () => {
     const focusableElement = document.getElementById('focusableElement');
 
     focusableElement.tabIndex = 3;
-    pageLinkFocus(focusableElement);
+    forceFocus(focusableElement);
 
     expect(parseInt(focusableElement.dataset.tabIndex)).toBe(3);
   });
@@ -46,23 +46,15 @@ describe('pageLinkFocus()', () => {
   test('adds a focus state', () => {
     const focusableElement = document.getElementById('focusableElement');
 
-    pageLinkFocus(focusableElement);
+    forceFocus(focusableElement);
 
     expect(document.activeElement).toBe(focusableElement);
   });
 
-  test("adds the default class name 'js-focus-hidden'", () => {
-    const focusableElement = document.getElementById('focusableElement');
-    const defaultClass = 'js-focus-hidden';
-    pageLinkFocus(focusableElement);
-
-    expect(focusableElement.classList.contains(defaultClass)).toBeTruthy();
-  });
-
-  test('adds an overrided class name', () => {
+  test('adds a class name if specified in the options', () => {
     const focusableElement = document.getElementById('focusableElement');
     const customClass = 'custom-class';
-    pageLinkFocus(focusableElement, { className: customClass });
+    forceFocus(focusableElement, { className: customClass });
 
     expect(focusableElement.classList.contains(customClass)).toBeTruthy();
   });
@@ -72,8 +64,8 @@ describe('pageLinkFocus()', () => {
     const nonFocusableElement = document.getElementById('nonFocusableElement');
     const clone = focusableElement.cloneNode(true);
 
-    pageLinkFocus(focusableElement);
-    pageLinkFocus(nonFocusableElement);
+    forceFocus(focusableElement);
+    forceFocus(nonFocusableElement);
 
     expect(focusableElement).toEqual(clone);
   });
@@ -103,10 +95,21 @@ describe('focusHash()', () => {
     const focusableElement = document.getElementById('focusableElement');
 
     window.location.hash = 'otherElement';
-    pageLinkFocus(focusableElement);
+    forceFocus(focusableElement);
     focusHash();
 
     expect(document.activeElement).toBe(focusableElement);
+  });
+
+  test('does not focus if element specified in the URL hash is ignored', () => {
+    const body = document.getElementsByTagName('body');
+
+    window.location.hash = 'focusableElement';
+    focusHash({
+      ignore: '#focusableElement'
+    });
+
+    expect(document.activeElement).toBe(body[0]);
   });
 });
 
@@ -116,18 +119,27 @@ describe('bindInPageLinks()', () => {
       '<a id="link" href="#title"></a>' +
       '<a id="invalidLink1" href="#"></a>' +
       '<a id="invalidLink2" href="/otherlink"></a>' +
-      '<h1 id="title">Title</h1>';
+      '<a id="ignoredLink" class="js-ignore-link" href="#title2"></a>' +
+      '<h1 id="title">Title</h1>' +
+      '<h2 id="title2">Title 2</h2>';
   });
 
   test('is a function exported by theme-a11y.js', () => {
     expect(typeof bindInPageLinks).toBe('function');
   });
 
-  test('returns array of link elements that were binded', () => {
-    const links = bindInPageLinks();
+  test('returns array of link elements that were binded and not ignored', () => {
+    const links = bindInPageLinks({
+      ignore: '.js-ignore-link'
+    });
 
     expect(Array.isArray(links)).toBeTruthy;
     expect(links.length).toBe(1);
+    expect(links).toEqual(
+      expect.not.arrayContaining(
+        Array.from(document.querySelectorAll('.js-ignore-link'))
+      )
+    );
   });
 
   test("adds an event handler that focuses the element referred to in an <a> element w/ a href='#...' when it is clicked", () => {

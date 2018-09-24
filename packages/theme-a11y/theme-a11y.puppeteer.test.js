@@ -1,5 +1,5 @@
 import {
-  pageLinkFocus,
+  forceFocus,
   focusable,
   trapFocus,
   removeTrapFocus
@@ -13,7 +13,7 @@ describe('trapFocus()', () => {
     <script type="module">
       window.trapFocusHandlers = {};
       window.removeTrapFocus = ${removeTrapFocus.toString()};
-      window.pageLinkFocus = ${pageLinkFocus.toString()};
+      window.forceFocus = ${forceFocus.toString()};
       window.focusable = ${focusable.toString()};
       window.trapFocus = ${trapFocus.toString()};
     </script>
@@ -44,7 +44,9 @@ describe('trapFocus()', () => {
     await page.evaluate(() => {
       const container = document.getElementById('container');
       const input2 = document.getElementById('textInput2');
-      window.trapFocus(container, input2);
+      window.trapFocus(container, {
+        elementToFocus: input2
+      });
     });
 
     const activeElement = await page.evaluate(() => document.activeElement.id);
