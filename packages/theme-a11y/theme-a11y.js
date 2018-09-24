@@ -52,11 +52,9 @@ export function focusHash(options) {
   options = options || {};
   var hash = window.location.hash;
   var element = document.getElementById(hash.slice(1));
-  // is there a hash in the url? is it an element on the page?
 
   // if we are to ignore this element, early return
-  var ignoreSelector = options.ignore || false;
-  if (element && ignoreSelector && element.matches(ignoreSelector)) {
+  if (element && options.ignore && element.matches(options.ignore)) {
     return false;
   }
 
@@ -81,14 +79,12 @@ export function bindInPageLinks(options) {
     document.querySelectorAll('a[href^="#"]')
   );
 
-  var ignoreSelector = options.ignore || false;
-
   return links.filter(function(link) {
     if (link.hash === '#' || link.hash === '') {
       return false;
     }
 
-    if (ignoreSelector && link.matches(ignoreSelector)) {
+    if (options.ignore && link.matches(options.ignore)) {
       return false;
     }
 
