@@ -51,7 +51,7 @@ describe('forceFocus()', () => {
     expect(document.activeElement).toBe(focusableElement);
   });
 
-  test('adds an overrided class name', () => {
+  test('adds a class name if specified in the options', () => {
     const focusableElement = document.getElementById('focusableElement');
     const customClass = 'custom-class';
     forceFocus(focusableElement, { className: customClass });
