@@ -5,6 +5,7 @@ export default function Section(container, properties) {
   this.id = container.getAttribute(SECTION_ID_ATTR);
   this.extensions = [];
 
+  // eslint-disable-next-line es5/no-es6-static-methods
   Object.assign(this, validatePropertiesObject(properties));
 
   this.onLoad();
@@ -21,8 +22,11 @@ Section.prototype = {
   extend: function extend(extension) {
     this.extensions.push(extension); // Save original extension
 
+    // eslint-disable-next-line es5/no-es6-static-methods
     var extensionClone = Object.assign({}, extension);
     delete extensionClone.init; // Remove init function before assigning extension properties
+
+    // eslint-disable-next-line es5/no-es6-static-methods
     Object.assign(this, extensionClone);
 
     if (typeof extension.init === 'function') {
@@ -65,7 +69,7 @@ function validatePropertiesObject(value) {
 if (typeof Object.assign != 'function') {
   // Must be writable: true, enumerable: false, configurable: true
   Object.defineProperty(Object, 'assign', {
-    value: function assign(target, varArgs) {
+    value: function assign(target) {
       // .length of function is 2
       'use strict';
       if (target == null) {
