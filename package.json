@@ -9,7 +9,7 @@
     "bootstrap": "yarn && lerna bootstrap",
     "build": "lerna run build",
     "publish": "lerna publish",
-    "lint": "yarn eslint packages/theme-a11y packages/theme-cart"
+    "lint": "yarn eslint packages/theme-a11y packages/theme-cart packages/theme-product"
   },
   "repository": "https://github.com/Shopify/theme-scripts",
   "keywords": [

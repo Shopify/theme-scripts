@@ -1,13 +1,13 @@
 /**
  * @jest-environment jsdom
  */
+import $ from 'jquery';
 import {
   getVariantFromId,
   getVariantFromSerializedArray,
   getVariantFromOptionArray
-} from './theme-product';
-import $ from 'jquery';
-import productJson from './__fixtures__/product.json';
+} from '../theme-product';
+import productJson from '../__fixtures__/product.json';
 
 describe('getVariantFromId()', () => {
   test('is a function exported by theme-product.js', () => {
@@ -79,7 +79,7 @@ describe('getVariantFromSerializedArray()', () => {
 
     expect(() => {
       getVariantFromSerializedArray(productJson, 'color');
-    }).toThrow(`color is not an array.`);
+    }).toThrow('color is not an array.');
 
     expect(() => {
       getVariantFromSerializedArray(productJson, ['shoes']);
@@ -99,8 +99,7 @@ describe('getVariantFromSerializedArray()', () => {
   });
 
   test('returns a product variant object when a match is found', () => {
-    document.body.innerHTML = `
-    <form>
+    document.body.innerHTML = `<form>
       <select id="Size" name="Size">
         <option value="35">35</option>
         <option value="36" selected>36</option>
@@ -121,8 +120,7 @@ describe('getVariantFromSerializedArray()', () => {
   });
 
   test('returns null when a match is not found', () => {
-    document.body.innerHTML = `
-    <form>
+    document.body.innerHTML = `<form>
       <select id="Size" name="Size">
         <option value="8">8</option>
         <option value="10" selected>10</option>
