@@ -2,3 +2,8 @@ node_modules/
 dist/
 packages/**/rollup.config.js
 jest.config.js
+wallaby.js
+packages/theme-currency
+packages/theme-images
+packages/theme-rte
+packages/theme-variants
