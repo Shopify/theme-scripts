@@ -12,9 +12,9 @@ import {
   extend,
   getInstances,
   getInstanceById
-} from './theme-sections';
+} from '../theme-sections';
 
-import Section from './section';
+import Section from '../section';
 
 function registerSections() {
   document.body.innerHTML = `
@@ -66,11 +66,11 @@ describe('register()', () => {
     `;
 
     const container = document.querySelector('#section1');
-    var type = 'slideshow';
-    var properties = { newValue: 'some-value' };
+    const type = 'slideshow';
+    const properties = {newValue: 'some-value'};
 
-    var TypedSection = register(type, properties);
-    var instance = new TypedSection(container);
+    const TypedSection = register(type, properties);
+    const instance = new TypedSection(container);
 
     expect(typeof TypedSection).toBe('function');
     expect(TypedSection.constructor.prototype).toMatchObject(Section.prototype);
@@ -79,16 +79,16 @@ describe('register()', () => {
   });
 
   test('adds a new section type to the global registered sections object ', () => {
-    var type = 'slideshow';
-    var properties = { newValue: 'some-value' };
+    const type = 'slideshow';
+    const properties = {newValue: 'some-value'};
 
-    var TypedSection = register(type, properties);
+    const TypedSection = register(type, properties);
 
     expect(registered[type]).toBe(TypedSection);
   });
 
   test('adds the section type to the prototype of the new Section constructor', () => {
-    var type = 'slideshow';
+    const type = 'slideshow';
 
     register(type);
     expect(registered[type].prototype.type).toBe(type);
@@ -117,23 +117,23 @@ describe('.unregister()', () => {
 
   test('can unregister all registered section types in the document', () => {
     unregister('*');
-    expect(typeof registered['type1']).toBe('undefined');
-    expect(typeof registered['type2']).toBe('undefined');
-    expect(typeof registered['type3']).toBe('undefined');
+    expect(typeof registered.type1).toBe('undefined');
+    expect(typeof registered.type2).toBe('undefined');
+    expect(typeof registered.type3).toBe('undefined');
   });
 
   test('can unregister an array of registered section types in the document', () => {
     unregister(['type1', 'type2']);
-    expect(typeof registered['type1']).toBe('undefined');
-    expect(typeof registered['type2']).toBe('undefined');
-    expect(typeof registered['type3']).not.toBe('undefined');
+    expect(typeof registered.type1).toBe('undefined');
+    expect(typeof registered.type2).toBe('undefined');
+    expect(typeof registered.type3).not.toBe('undefined');
   });
 
   test('can unregister a single registered section type in the document', () => {
     unregister('type1');
-    expect(typeof registered['type1']).toBe('undefined');
-    expect(typeof registered['type2']).not.toBe('undefined');
-    expect(typeof registered['type3']).not.toBe('undefined');
+    expect(typeof registered.type1).toBe('undefined');
+    expect(typeof registered.type2).not.toBe('undefined');
+    expect(typeof registered.type3).not.toBe('undefined');
   });
 });
 
@@ -277,7 +277,7 @@ describe('.extend()', () => {
   });
 
   test('applies an extension to all section instances on the page', () => {
-    var extension = { someKey: 'someValue' };
+    const extension = {someKey: 'someValue'};
 
     extend('*', extension);
 
@@ -287,10 +287,10 @@ describe('.extend()', () => {
   });
 
   test('applies an extension to section instances with types that match the provided array of types', () => {
-    var extension = { someKey: 'someValue' };
+    const extension = {someKey: 'someValue'};
     extend(['type1', 'type2'], extension);
 
-    var instancesWithExtension = instances.filter(
+    const instancesWithExtension = instances.filter(
       instance => instance.someKey === 'someValue'
     );
 
@@ -298,10 +298,10 @@ describe('.extend()', () => {
   });
 
   test('applies an extension to section instances which match a single type', () => {
-    var extension = { someKey: 'someValue' };
+    const extension = {someKey: 'someValue'};
     extend('type1', extension);
 
-    var instancesWithExtension = instances.filter(
+    const instancesWithExtension = instances.filter(
       instance => instance.someKey === 'someValue'
     );
 
@@ -309,11 +309,11 @@ describe('.extend()', () => {
   });
 
   test('applies an extension to section instances which match a single container element', () => {
-    var extension = { someKey: 'someValue' };
-    var container = document.querySelector('#section1');
+    const extension = {someKey: 'someValue'};
+    const container = document.querySelector('#section1');
     extend(container, extension);
 
-    var instancesWithExtension = instances.filter(
+    const instancesWithExtension = instances.filter(
       instance => instance.someKey === 'someValue'
     );
 
@@ -321,11 +321,11 @@ describe('.extend()', () => {
   });
 
   test('applies an extension to section instances which match a Nodelist of container elements', () => {
-    var extension = { someKey: 'someValue' };
-    var containers = document.querySelectorAll('.class1');
+    const extension = {someKey: 'someValue'};
+    const containers = document.querySelectorAll('.class1');
     extend(containers, extension);
 
-    var instancesWithExtension = instances.filter(
+    const instancesWithExtension = instances.filter(
       instance => instance.someKey === 'someValue'
     );
 
@@ -333,14 +333,14 @@ describe('.extend()', () => {
   });
 
   test('applies an extension to section instances which match an array of container elements', () => {
-    var extension = { someKey: 'someValue' };
-    var containers = [
+    const extension = {someKey: 'someValue'};
+    const containers = [
       document.querySelector('#section1'),
       document.querySelector('#section2')
     ];
     extend(containers, extension);
 
-    var instancesWithExtension = instances.filter(
+    const instancesWithExtension = instances.filter(
       instance => instance.someKey === 'someValue'
     );
 
@@ -355,31 +355,27 @@ describe('getInstances()', () => {
   });
 
   test('retrieves all section instances when passed "*"', () => {
-    var instances = getInstances('*');
-    expect(instances.length).toBe(4);
+    expect(getInstances('*').length).toBe(4);
   });
   test('retrieves all section instances which match a single type', () => {
-    var instances = getInstances('type3');
-    expect(instances.length).toBe(1);
+    expect(getInstances('type3').length).toBe(1);
   });
   test('retrieves all section instances which match an array of types', () => {
-    var instances = getInstances(['type1', 'type2']);
-    expect(instances.length).toBe(3);
+    expect(getInstances(['type1', 'type2']).length).toBe(3);
   });
   test('retrieves all section instances which match a single container element', () => {
-    var instances = getInstances(document.querySelector('#section1'));
-    expect(instances.length).toBe(1);
+    expect(getInstances(document.querySelector('#section1')).length).toBe(1);
   });
   test('retrieves all section instances which match a Nodelist of container elements', () => {
-    var instances = getInstances(document.querySelectorAll('.class1'));
-    expect(instances.length).toBe(2);
+    expect(getInstances(document.querySelectorAll('.class1')).length).toBe(2);
   });
   test('retrieves all section instances which match an array of container elements', () => {
-    var instances = getInstances([
-      document.querySelector('#section1'),
-      document.querySelector('#section2')
-    ]);
-    expect(instances.length).toBe(2);
+    expect(
+      getInstances([
+        document.querySelector('#section1'),
+        document.querySelector('#section2')
+      ]).length
+    ).toBe(2);
   });
 });
 
@@ -390,7 +386,7 @@ describe('getInstanceById()', () => {
   });
 
   test('retrieves section instance which matches provided id', () => {
-    var instance = getInstanceById('2');
+    const instance = getInstanceById('2');
     expect(instance).not.toBeUndefined();
     expect(instance.id).toBe('2');
   });
@@ -403,24 +399,24 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
 
     // Reload theme-sections script so its loaded with designMode=true
     jest.resetModules();
-    require('./theme-sections');
+    require('../theme-sections');
   });
   beforeEach(() => {
     registerSections();
   });
 
   test('loads a new section instance when shopify:section:load event is fired', done => {
-    var validWrapper = document.getElementById('shopify-section-1');
-    var invalidWrapper = document.getElementById('shopify-section-12345');
+    const validWrapper = document.getElementById('shopify-section-1');
+    const invalidWrapper = document.getElementById('shopify-section-12345');
 
-    var validEvent = new CustomEvent('shopify:section:load', {
+    const validEvent = new CustomEvent('shopify:section:load', {
       bubbles: true,
-      detail: { sectionId: '1' }
+      detail: {sectionId: '1'}
     });
 
-    var invalidEvent = new CustomEvent('shopify:section:load', {
+    const invalidEvent = new CustomEvent('shopify:section:load', {
       bubbles: true,
-      detail: { sectionId: '12345' }
+      detail: {sectionId: '12345'}
     });
 
     // This event listener should always fire after the one we are testing
@@ -435,10 +431,10 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
   });
 
   test('unloads a section when shopify:section:unload event is fired', done => {
-    var wrapper = document.getElementById('shopify-section-1');
-    var event = new CustomEvent('shopify:section:unload', {
+    const wrapper = document.getElementById('shopify-section-1');
+    const event = new CustomEvent('shopify:section:unload', {
       bubbles: true,
-      detail: { sectionId: '1' }
+      detail: {sectionId: '1'}
     });
 
     load('type1');
@@ -455,10 +451,10 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
   });
 
   test('calls the onSelect method of a section when shopify:section:select event is fired', done => {
-    var wrapper = document.getElementById('shopify-section-1');
-    var event = new CustomEvent('shopify:section:select', {
+    const wrapper = document.getElementById('shopify-section-1');
+    const event = new CustomEvent('shopify:section:select', {
       bubbles: true,
-      detail: { sectionId: '1', load: true }
+      detail: {sectionId: '1', load: true}
     });
 
     load('type1');
@@ -473,10 +469,10 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
   });
 
   test('calls the onDeselect method of a section when shopify:section:select event is fired', done => {
-    var wrapper = document.getElementById('shopify-section-1');
-    var event = new CustomEvent('shopify:section:deselect', {
+    const wrapper = document.getElementById('shopify-section-1');
+    const event = new CustomEvent('shopify:section:deselect', {
       bubbles: true,
-      detail: { sectionId: '1' }
+      detail: {sectionId: '1'}
     });
 
     load('type1');
@@ -490,10 +486,10 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
   });
 
   test('calls the onBlockSelect method of a section when shopify:section:select event is fired', done => {
-    var wrapper = document.getElementById('shopify-section-1');
-    var event = new CustomEvent('shopify:block:select', {
+    const wrapper = document.getElementById('shopify-section-1');
+    const event = new CustomEvent('shopify:block:select', {
       bubbles: true,
-      detail: { sectionId: '1', load: true, blockId: '13' }
+      detail: {sectionId: '1', load: true, blockId: '13'}
     });
 
     load('type1');
@@ -511,10 +507,10 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
   });
 
   test('calls the onBlockDeselect method of a section when shopify:section:select event is fired', done => {
-    var wrapper = document.getElementById('shopify-section-1');
-    var event = new CustomEvent('shopify:block:deselect', {
+    const wrapper = document.getElementById('shopify-section-1');
+    const event = new CustomEvent('shopify:block:deselect', {
       bubbles: true,
-      detail: { sectionId: '1', load: true, blockId: '13' }
+      detail: {sectionId: '1', load: true, blockId: '13'}
     });
 
     load('type1');
