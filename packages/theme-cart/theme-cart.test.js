@@ -18,7 +18,6 @@ const fetchAPISettings = {
 const mockCartChange = function(url, options) {
   const body = JSON.parse(options.body);
   const line = body.line;
-  console.log(populatedState.items);
   const item = populatedState.items[line - 1];
 
   item.quantity = body.quantity || item.quantity;
@@ -368,7 +367,6 @@ describe('updateAttributes()', () => {
 describe('clearAttributes()', () => {
   beforeAll(() => {
     fetchMock.mock('/cart/update.js', (url, options) => {
-      console.log(options.body);
       const body = JSON.parse(options.body);
       return Object.assign(populatedState, {
         attributes: body.attributes
