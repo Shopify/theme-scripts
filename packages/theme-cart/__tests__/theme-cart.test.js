@@ -1,9 +1,8 @@
-require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-const cart = require('./theme-cart');
 const fetchMock = require('fetch-mock');
-const populatedState = require('./__fixtures__/cart-populated.json');
+const cart = require('../theme-cart');
+const populatedState = require('../__fixtures__/cart-populated.json');
 
 // For now, we need these settings to ensure Fetch works correctly with Shopify Cart API
 // https://github.com/Shopify/shopify/issues/94144
@@ -15,7 +14,7 @@ const fetchAPISettings = {
   }
 };
 
-const mockCartChange = function(url, options) {
+function mockCartChange(url, options) {
   const body = JSON.parse(options.body);
   const line = body.line;
   const item = populatedState.items[line - 1];
@@ -30,24 +29,25 @@ const mockCartChange = function(url, options) {
   }
 
   return populatedState;
-};
+}
 
-const mockCartAdd = function(url, options) {
+function mockCartAdd(url, options) {
   const body = JSON.parse(options.body);
 
   // Simulate /cart/add.js 422 error object when request quantity is unavailable
   if (typeof body.quantity !== 'undefined' && body.quantity > 9) {
-    throw { status: 422 };
+    // eslint-disable-next-line no-throw-literal
+    throw {status: 422};
   }
 
   return populatedState.items[0];
-};
+}
 
 describe('getState()', () => {
-  const body = require('./__fixtures__/cart-empty.json');
+  const body = require('../__fixtures__/cart-empty.json');
 
   beforeEach(() => {
-    fetchMock.mock('/cart.js', { body });
+    fetchMock.mock('/cart.js', {body});
   });
 
   afterEach(fetchMock.restore);
@@ -70,16 +70,16 @@ describe('getState()', () => {
 });
 
 describe('getItemIndex()', () => {
-  const body = require('./__fixtures__/cart-populated.json');
+  const body = require('../__fixtures__/cart-populated.json');
 
   beforeEach(() => {
-    fetchMock.mock('/cart.js', { body });
+    fetchMock.mock('/cart.js', {body});
   });
 
   afterEach(fetchMock.restore);
 
   test('returns a promise', () => {
-    expect(cart.getItemIndex('383838383:282hd82hd').then).toBeDefined();
+    expect(cart.getItemIndex('123456:123456').then).toBeDefined();
   });
 
   test('rejects if first argument is not a line item key', () => {
@@ -89,7 +89,7 @@ describe('getItemIndex()', () => {
   });
 
   test('rejects if line item is not found', async () => {
-    await expect(cart.getItemIndex('123456:123456')).rejects.toThrowError();
+    await expect(cart.getItemIndex('not:found')).rejects.toThrowError();
   });
 
   test('fulfills with the line item index (base 1) if found', async () => {
@@ -101,10 +101,10 @@ describe('getItemIndex()', () => {
 });
 
 describe('getItem()', () => {
-  const body = require('./__fixtures__/cart-populated.json');
+  const body = require('../__fixtures__/cart-populated.json');
 
   beforeEach(() => {
-    fetchMock.mock('/cart.js', { body });
+    fetchMock.mock('/cart.js', {body});
   });
 
   afterEach(fetchMock.restore);
@@ -121,9 +121,7 @@ describe('getItem()', () => {
 
   test('fulfills with line item object if a match is found', async () => {
     const key = body.items[0].key;
-    const item = await expect(cart.getItem(key)).resolves.toMatchObject(
-      body.items[0]
-    );
+    await expect(cart.getItem(key)).resolves.toMatchObject(body.items[0]);
   });
 
   test('rejects if line item is not found', async () => {
@@ -132,8 +130,6 @@ describe('getItem()', () => {
 });
 
 describe('addItem()', () => {
-  const body = require('./__fixtures__/cart-populated.json');
-
   beforeEach(() => {
     fetchMock.mock('/cart/add.js', mockCartAdd);
   });
@@ -149,33 +145,33 @@ describe('addItem()', () => {
 
   test('optional second argument is an object with a `quantity` key', async () => {
     const spy = jest.spyOn(global, 'fetch');
-    const item = require('./__fixtures__/cart-populated.json').items[0];
+    const item = require('../__fixtures__/cart-populated.json').items[0];
     const id = item.id;
     const quantity = 3;
-    const options = { quantity };
+    const options = {quantity};
 
     await cart.addItem(id, options);
 
     expect(spy).toHaveBeenLastCalledWith(
       '/cart/add.js',
-      expect.objectContaining({ body: JSON.stringify({ id, ...options }) })
+      expect.objectContaining({body: JSON.stringify({id, ...options})})
     );
   });
 
   test('optional second argument is an object with a `properties` key', async () => {
     const spy = jest.spyOn(global, 'fetch');
-    const item = require('./__fixtures__/cart-populated.json').items[0];
+    const item = require('../__fixtures__/cart-populated.json').items[0];
     const id = item.id;
     const properties = {
       someKey: 'someValue'
     };
-    const options = { properties };
+    const options = {properties};
 
     await cart.addItem(id, options);
 
     expect(spy).toHaveBeenLastCalledWith(
       '/cart/add.js',
-      expect.objectContaining({ body: JSON.stringify({ id, ...options }) })
+      expect.objectContaining({body: JSON.stringify({id, ...options})})
     );
   });
 
@@ -184,7 +180,7 @@ describe('addItem()', () => {
   });
 
   test('fulfills with the line item which was added to the cart', async () => {
-    const item = require('./__fixtures__/cart-populated.json').items[0];
+    const item = require('../__fixtures__/cart-populated.json').items[0];
     const id = item.id;
 
     await expect(cart.addItem(id)).resolves.toMatchObject(item);
@@ -199,47 +195,46 @@ describe('updateItem()', () => {
 
   afterAll(fetchMock.restore);
 
-  test('returns a promise', async () => {
+  test('returns a promise', () => {
     expect(
-      cart.updateItem(populatedState.items[0].key, { quantity: 2 }).then
+      cart.updateItem(populatedState.items[0].key, {quantity: 2}).then
     ).toBeDefined();
   });
 
   test('throws error if first argument is not a line item key', () => {
-    expect(() => cart.updateItem(123456, { quantity: 2 })).toThrowError();
-    expect(() => cart.updateItem('123456', { quantity: 2 })).toThrowError();
+    expect(() => cart.updateItem(123456, {quantity: 2})).toThrowError();
+    expect(() => cart.updateItem('123456', {quantity: 2})).toThrowError();
   });
 
-  test('throws error if the second argument is not an object containing quantity key/value or properties key/value', async () => {
+  test('throws error if the second argument is not an object containing quantity key/value or properties key/value', () => {
     expect(() => cart.updateItem('123456:123456')).toThrowError(TypeError);
     expect(() => cart.updateItem('123456:123456', {})).toThrowError(Error);
     expect(() =>
-      cart.updateItem('123456:123456', { quantity: 2 })
+      cart.updateItem('123456:123456', {quantity: 2})
     ).not.toThrowError();
     expect(() =>
-      cart.updateItem('123456:123456', { properties: {} })
+      cart.updateItem('123456:123456', {properties: {}})
     ).not.toThrowError();
   });
 
   test('fulfills with the cart state object', async () => {
-    const item = require('./__fixtures__/cart-populated.json').items[0];
+    const item = require('../__fixtures__/cart-populated.json').items[0];
     const quantity = 2;
-    const newItem = Object.assign(item, { quantity });
     await expect(
-      cart.updateItem(item.key, { quantity })
+      cart.updateItem(item.key, {quantity})
     ).resolves.toMatchObject(populatedState);
   });
 
   test('makes a request to the `cart/change.js` endpoint using the line number as an identifier', async () => {
     const spyFetch = jest.spyOn(global, 'fetch');
-    const item = require('./__fixtures__/cart-populated.json').items[0];
+    const item = require('../__fixtures__/cart-populated.json').items[0];
 
-    await cart.updateItem(item.key, { quantity: 2 });
+    await cart.updateItem(item.key, {quantity: 2});
 
     expect(spyFetch).toHaveBeenLastCalledWith(
       '/cart/change.js',
       expect.objectContaining({
-        body: JSON.stringify({ line: 1, quantity: 2 })
+        body: JSON.stringify({line: 1, quantity: 2})
       })
     );
   });
@@ -253,10 +248,10 @@ describe('removeItem()', () => {
 
   afterAll(fetchMock.restore);
 
-  test('returns a promise', async () => {
+  test('returns a promise', () => {
     expect(
       cart.removeItem(populatedState.items[0].key, {
-        properties: { someKey: 'someValue' }
+        properties: {someKey: 'someValue'}
       }).then
     ).toBeDefined();
   });
@@ -267,9 +262,7 @@ describe('removeItem()', () => {
   });
 
   test('fulfills with the updated cart state', async () => {
-    const item = require('./__fixtures__/cart-populated.json').items[0];
-    const quantity = 0;
-    const newItem = Object.assign(item, { quantity });
+    const item = require('../__fixtures__/cart-populated.json').items[0];
     await expect(cart.removeItem(item.key)).resolves.toMatchObject(
       populatedState
     );
@@ -277,24 +270,24 @@ describe('removeItem()', () => {
 
   test('makes a request to the `cart/change.js` endpoint using the line number as an identifier', async () => {
     const spyFetch = jest.spyOn(global, 'fetch');
-    const item = require('./__fixtures__/cart-populated.json').items[0];
+    const item = require('../__fixtures__/cart-populated.json').items[0];
 
     await cart.removeItem(item.key);
 
     expect(spyFetch).toHaveBeenLastCalledWith(
       '/cart/change.js',
       expect.objectContaining({
-        body: JSON.stringify({ line: 1, quantity: 0 })
+        body: JSON.stringify({line: 1, quantity: 0})
       })
     );
   });
 });
 
 describe('clearItems()', () => {
-  const body = require('./__fixtures__/cart-empty.json');
+  const body = require('../__fixtures__/cart-empty.json');
 
   beforeEach(() => {
-    fetchMock.mock('/cart/clear.js', { body });
+    fetchMock.mock('/cart/clear.js', {body});
   });
 
   afterEach(fetchMock.restore);
@@ -322,7 +315,7 @@ describe('clearItems()', () => {
 
 describe('getAttributes()', () => {
   beforeEach(() => {
-    fetchMock.mock('/cart.js', { body: populatedState });
+    fetchMock.mock('/cart.js', {body: populatedState});
   });
 
   afterEach(fetchMock.restore);
@@ -356,7 +349,7 @@ describe('updateAttributes()', () => {
   });
 
   test('fulfills with the cart state object', async () => {
-    const attributes = { someKey: 'someValue' };
+    const attributes = {someKey: 'someValue'};
     const returned = await cart.updateAttributes(attributes);
 
     expect(returned).toMatchObject(populatedState);
@@ -372,7 +365,7 @@ describe('clearAttributes()', () => {
         attributes: body.attributes
       });
     });
-    fetchMock.mock('/cart.js', { body: populatedState });
+    fetchMock.mock('/cart.js', {body: populatedState});
   });
 
   afterAll(fetchMock.restore);
@@ -389,7 +382,7 @@ describe('clearAttributes()', () => {
 
 describe('getNote()', () => {
   beforeAll(() => {
-    fetchMock.mock('/cart.js', { body: populatedState });
+    fetchMock.mock('/cart.js', {body: populatedState});
   });
 
   afterAll(fetchMock.restore);
@@ -407,7 +400,7 @@ describe('updateNote()', () => {
   beforeAll(() => {
     fetchMock.mock('/cart/update.js', () => (url, options) => {
       const body = JSON.parse(options.body);
-      return Object.assign(populatedState, { note: body.note });
+      return Object.assign(populatedState, {note: body.note});
     });
   });
 
@@ -420,7 +413,7 @@ describe('updateNote()', () => {
   test('resolves with the cart state object', async () => {
     const value = 'New note value';
     await expect(cart.updateNote(value)).resolves.toMatchObject(
-      Object.assign(populatedState, { note: value })
+      Object.assign(populatedState, {note: value})
     );
   });
 });
@@ -429,7 +422,7 @@ describe('clearNote()', () => {
   beforeAll(() => {
     fetchMock.mock('/cart/update.js', () => (url, options) => {
       const body = JSON.parse(options.body);
-      return Object.assign(populatedState, { note: body.note });
+      return Object.assign(populatedState, {note: body.note});
     });
   });
   afterAll(fetchMock.restore);
@@ -441,13 +434,13 @@ describe('clearNote()', () => {
 
   test('resolves with the cleared note value in the cart state object', async () => {
     await expect(cart.clearNote()).resolves.toMatchObject(
-      Object.assign(populatedState, { note: '' })
+      Object.assign(populatedState, {note: ''})
     );
   });
 });
 
 describe('getShippingRates()', () => {
-  const shippingRates = require('./__fixtures__/shipping-rates.json');
+  const shippingRates = require('../__fixtures__/shipping-rates.json');
 
   beforeAll(() => {
     fetchMock.mock('/cart/shipping_rates.json', shippingRates);
