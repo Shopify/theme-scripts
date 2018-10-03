@@ -170,12 +170,12 @@ cart.getNote().then(note => {
 });
 ```
 
-### updateNote()
+### updateNote([note](https://help.shopify.com/en/themes/liquid/objects/cart#cart-note))
 
 Sets the value of the cart note. Returns a promise which fulfills with the [cart state](https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#get-cart).
 
 ```js
-cart.updateNote().then(state => {
+cart.updateNote(note).then(state => {
   console.log('The customer has written the following note:', state.note);
 });
 ```
