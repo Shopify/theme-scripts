@@ -1,11 +1,13 @@
 function getDefaultRequestConfig() {
-  return {
-    credentials: 'same-origin',
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': 'application/json;'
-    }
-  };
+  return JSON.parse(
+    JSON.stringify({
+      credentials: 'same-origin',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json;'
+      }
+    })
+  );
 }
 
 function fetchJSON(url, config) {
