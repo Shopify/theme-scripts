@@ -19,15 +19,15 @@ var buildProvince = function (provinceNodeElement, provinces) {
 }
 
 /**
- * Helper function that determins if province selector needs to be build
+ * Helper function that determines if province selector needs to be build
  */
-var resolveProvinces = function(countryNodeElement, provinceNodeElement, selectedValue, configrations) {
+var resolveProvinces = function(countryNodeElement, provinceNodeElement, selectedValue, options) {
   var selectedOption = countryNodeElement.querySelectorAll('option[value="' + selectedValue +'"]')[0];
   var provinces = JSON.parse(selectedOption.getAttribute('data-provinces'));
 
   if (provinces.length) {
     buildProvince(provinceNodeElement, provinces)
-    configrations && configrations.hideClass && provinceNodeElement.classList.remove(configrations.hideClass);
+    options && options.hideClass && provinceNodeElement.classList.remove(options.hideClass);
   }
 }
 
@@ -35,18 +35,18 @@ var resolveProvinces = function(countryNodeElement, provinceNodeElement, selecte
  * Builds the country and province selector with the given node element
  * @param {Node} countryNodeElement The select Node element for country
  * @param {Node} provinceNodeElement The select Node element for province
- * @param {Object} configrations Additional settings available
+ * @param {Object} options Additional settings available
  *   hideClass        - The classname that will be toggled for province selector
  */
-CountryProvinceSelector.prototype.build = function (countryNodeElement, provinceNodeElement, configrations) {
+CountryProvinceSelector.prototype.build = function (countryNodeElement, provinceNodeElement, options) {
   var defaultValue = countryNodeElement.getAttribute('data-default');
 
   countryNodeElement.innerHTML = this.countryOptions;
   countryNodeElement.value = defaultValue;
-  configrations && configrations.hideClass && provinceNodeElement.classList.add(configrations.hideClass);
+  options && options.hideClass && provinceNodeElement.classList.add(options.hideClass);
 
   if (defaultValue) {
-    resolveProvinces(countryNodeElement, provinceNodeElement, defaultValue, configrations)
+    resolveProvinces(countryNodeElement, provinceNodeElement, defaultValue, options)
   }
 
   // Listen for value change on the country select
@@ -55,7 +55,7 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
     var selectedValue = target.value;
     
     provinceNodeElement.innerHTML = ''
-    configrations && configrations.hideClass && provinceNodeElement.classList.add(configrations.hideClass);
-    resolveProvinces(target, provinceNodeElement, selectedValue, configrations)
+    options && options.hideClass && provinceNodeElement.classList.add(options.hideClass);
+    resolveProvinces(target, provinceNodeElement, selectedValue, options)
   });
 }

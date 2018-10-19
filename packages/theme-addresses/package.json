@@ -1,0 +1,33 @@
+{
+  "name": "@shopify/theme-addresses",
+  "version": "1.0.0",
+  "description": "A library that helps developers work with addresses within Shopify Themes",
+  "main": "dist/theme-addresses.cjs.js",
+  "module": "theme-addresses.js",
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-addresses",
+  "keywords": [
+    "slate"
+  ],
+  "author": "Shopify Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Shopify/theme-scripts/issues"
+  },
+  "homepage": "https://github.com/Shopify/theme-scripts#readme",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "rollup --config",
+    "size": "size-limit"
+  },
+  "devDependencies": {
+    "fetch-mock": "^6.5.2",
+    "rollup": "^0.62.0",
+    "rollup-plugin-uglify": "^4.0.0",
+    "size-limit": "^0.18.3"
+  },
+  "size-limit": [
+    {
+      "path": "theme-addresses.js"
+    }
+  ]
+}
