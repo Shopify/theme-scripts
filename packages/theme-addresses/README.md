@@ -32,7 +32,7 @@ Prepares an instance of a `CountryProvinceSelector` with the given country optio
     * [`{{ country_option_tags | json }}`](https://help.shopify.com/en/themes/liquid/objects/country-option-tags)
 
 Example
-```html
+```js
 // In theme.liquid, somewhere before the end of </head> tag
     ...
     {% if template.directory == 'customers' %}
