@@ -60,6 +60,12 @@ Populates the given Select node element with country and province options.
 - `options`:
     * `hideClass`: The classname that will be toggled for province selector
 
+The Select node element should look like the following:
+```html
+    <select ... id="addressTestCountry" data-default="{{ form.country }}"></select>
+    <select ... id="addressTestProvince" data-default="{{ form.province }}"></select>
+```
+
 Example
 ```js
 import {CountryProvinceSelector} from '@shopify/theme-addresses';
