@@ -29,9 +29,13 @@ function resolveProvinces (countryNodeElement, provinceNodeElement, selectedValu
   var selectedOption = countryNodeElement.querySelectorAll('option[value="' + selectedValue +'"]')[0];
   var provinces = JSON.parse(selectedOption.getAttribute('data-provinces'));
 
+  provinceNodeElement.innerHTML = '';
+
   if (provinces.length) {
     buildProvince(provinceNodeElement, provinces)
     options.hideClass && provinceNodeElement.classList.remove(options.hideClass);
+  } else {
+    options.hideClass && provinceNodeElement.classList.add(options.hideClass);
   }
 }
 
@@ -59,8 +63,6 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
     var target = event.target;
     var selectedValue = target.value;
     
-    provinceNodeElement.innerHTML = ''
-    options.hideClass && provinceNodeElement.classList.add(options.hideClass);
     resolveProvinces(target, provinceNodeElement, selectedValue, options);
   });
 }
