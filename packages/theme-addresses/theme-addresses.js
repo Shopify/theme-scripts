@@ -3,7 +3,7 @@
  * @param {Object} countryOptions Country JSON object
  */
 export function CountryProvinceSelector(countryOptions) {
-  this.countryOptions = countryOptions
+  this.countryOptions = countryOptions;
 }
 
 /**
@@ -17,9 +17,9 @@ function buildProvince (provinceNodeElement, provinces) {
     optionElement.value = option[0];
     optionElement.textContent = option[1];
 
-    provinceNodeElement.appendChild(optionElement)
+    provinceNodeElement.appendChild(optionElement);
   })
-  provinceNodeElement.value = defaultValue
+  provinceNodeElement.value = defaultValue;
 }
 
 /**
@@ -51,7 +51,7 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
   options.hideClass && provinceNodeElement.classList.add(options.hideClass);
 
   if (defaultValue) {
-    resolveProvinces(countryNodeElement, provinceNodeElement, defaultValue, options)
+    resolveProvinces(countryNodeElement, provinceNodeElement, defaultValue, options);
   }
 
   // Listen for value change on the country select
@@ -61,6 +61,6 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
     
     provinceNodeElement.innerHTML = ''
     options.hideClass && provinceNodeElement.classList.add(options.hideClass);
-    resolveProvinces(target, provinceNodeElement, selectedValue, options)
+    resolveProvinces(target, provinceNodeElement, selectedValue, options);
   });
 }
