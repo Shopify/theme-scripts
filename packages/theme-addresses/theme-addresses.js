@@ -9,25 +9,29 @@ export function CountryProvinceSelector(countryOptions) {
 /**
  * Helper function that builds the province selector
  */
-var buildProvince = function (provinceNodeElement, provinces) {
+function buildProvince (provinceNodeElement, provinces) {
   var defaultValue = provinceNodeElement.getAttribute('data-default');
 
-  provinceNodeElement.innerHTML = provinces.map(function (option) {
-    return '<option value="' + option[0] + '">' + option[1] + '</option>';
-  }).join('');
+  provinces.forEach(function (option) {
+    var optionElement = document.createElement('option');
+    optionElement.value = option[0];
+    optionElement.textContent = option[1];
+
+    provinceNodeElement.appendChild(optionElement)
+  })
   provinceNodeElement.value = defaultValue
 }
 
 /**
  * Helper function that determines if province selector needs to be build
  */
-var resolveProvinces = function(countryNodeElement, provinceNodeElement, selectedValue, options) {
+function resolveProvinces (countryNodeElement, provinceNodeElement, selectedValue, options) {
   var selectedOption = countryNodeElement.querySelectorAll('option[value="' + selectedValue +'"]')[0];
   var provinces = JSON.parse(selectedOption.getAttribute('data-provinces'));
 
   if (provinces.length) {
     buildProvince(provinceNodeElement, provinces)
-    options && options.hideClass && provinceNodeElement.classList.remove(options.hideClass);
+    options.hideClass && provinceNodeElement.classList.remove(options.hideClass);
   }
 }
 
@@ -40,10 +44,11 @@ var resolveProvinces = function(countryNodeElement, provinceNodeElement, selecte
  */
 CountryProvinceSelector.prototype.build = function (countryNodeElement, provinceNodeElement, options) {
   var defaultValue = countryNodeElement.getAttribute('data-default');
+  options = options || {}
 
   countryNodeElement.innerHTML = this.countryOptions;
   countryNodeElement.value = defaultValue;
-  options && options.hideClass && provinceNodeElement.classList.add(options.hideClass);
+  options.hideClass && provinceNodeElement.classList.add(options.hideClass);
 
   if (defaultValue) {
     resolveProvinces(countryNodeElement, provinceNodeElement, defaultValue, options)
@@ -55,7 +60,7 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
     var selectedValue = target.value;
     
     provinceNodeElement.innerHTML = ''
-    options && options.hideClass && provinceNodeElement.classList.add(options.hideClass);
+    options.hideClass && provinceNodeElement.classList.add(options.hideClass);
     resolveProvinces(target, provinceNodeElement, selectedValue, options)
   });
 }
