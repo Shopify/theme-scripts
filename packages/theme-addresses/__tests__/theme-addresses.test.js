@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import $ from 'jquery';
 import {
   CountryProvinceSelector
 } from '../theme-addresses';
@@ -34,13 +33,13 @@ describe('CountryProvinceSelector.build()', () => {
     </form>`;
 
     const countryProvinceSelector = new CountryProvinceSelector(countryOptions);
-    const countrySelector = $('#addressTestCountry');
-    const provinceSelector = $('#addressTestProvince');
+    const countrySelector = document.querySelector('#addressTestCountry');
+    const provinceSelector = document.querySelector('#addressTestProvince');
   
-    countryProvinceSelector.build(countrySelector[0], provinceSelector[0]);
+    countryProvinceSelector.build(countrySelector, provinceSelector);
 
-    expect(countrySelector.find('option').length).not.toEqual(0);
-    expect(countrySelector[0].value).toEqual('---');
+    expect(countrySelector.querySelectorAll('option').length).not.toEqual(0);
+    expect(countrySelector.value).toEqual('---');
   });
 
   test('populates the given country and province selectors when a default is set for country', () => {
@@ -50,13 +49,13 @@ describe('CountryProvinceSelector.build()', () => {
     </form>`;
 
     const countryProvinceSelector = new CountryProvinceSelector(countryOptions);
-    const countrySelector = $('#addressTestCountry');
-    const provinceSelector = $('#addressTestProvince');
+    const countrySelector = document.querySelector('#addressTestCountry');
+    const provinceSelector = document.querySelector('#addressTestProvince');
   
-    countryProvinceSelector.build(countrySelector[0], provinceSelector[0]);
+    countryProvinceSelector.build(countrySelector, provinceSelector);
 
-    expect(countrySelector[0].value).toEqual('Canada');
-    expect(provinceSelector.find('option').length).not.toEqual(0);
+    expect(countrySelector.value).toEqual('Canada');
+    expect(provinceSelector.querySelectorAll('option').length).not.toEqual(0);
   });
 
   test('populates the given country and province selectors when a default is set for country and province', () => {
@@ -66,13 +65,13 @@ describe('CountryProvinceSelector.build()', () => {
     </form>`;
 
     const countryProvinceSelector = new CountryProvinceSelector(countryOptions);
-    const countrySelector = $('#addressTestCountry');
-    const provinceSelector = $('#addressTestProvince');
+    const countrySelector = document.querySelector('#addressTestCountry');
+    const provinceSelector = document.querySelector('#addressTestProvince');
   
-    countryProvinceSelector.build(countrySelector[0], provinceSelector[0]);
+    countryProvinceSelector.build(countrySelector, provinceSelector);
 
-    expect(countrySelector[0].value).toEqual('Canada');
-    expect(provinceSelector[0].value).toEqual('Quebec');
+    expect(countrySelector.value).toEqual('Canada');
+    expect(provinceSelector.value).toEqual('Quebec');
   });
 
   test('sets hideClass when provided', () => {
@@ -82,11 +81,11 @@ describe('CountryProvinceSelector.build()', () => {
     </form>`;
 
     const countryProvinceSelector = new CountryProvinceSelector(countryOptions);
-    const countrySelector = $('#addressTestCountry');
-    const provinceSelector = $('#addressTestProvince');
+    const countrySelector = document.querySelector('#addressTestCountry');
+    const provinceSelector = document.querySelector('#addressTestProvince');
   
-    countryProvinceSelector.build(countrySelector[0], provinceSelector[0], {hideClass: 'hide'});
+    countryProvinceSelector.build(countrySelector, provinceSelector, {hideClass: 'hide'});
 
-    expect(provinceSelector[0].classList.contains('hide')).toEqual(true);
+    expect(provinceSelector.classList.contains('hide')).toEqual(true);
   });
 });
