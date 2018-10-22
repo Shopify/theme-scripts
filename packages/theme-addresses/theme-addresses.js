@@ -26,7 +26,7 @@ function buildProvince (provinceNodeElement, provinces) {
  * Helper function that determines if province selector needs to be build
  */
 function resolveProvinces (countryNodeElement, provinceNodeElement, selectedValue, options) {
-  var selectedOption = countryNodeElement.querySelectorAll('option[value="' + selectedValue +'"]')[0];
+  var selectedOption = countryNodeElement.querySelector('option[value="' + selectedValue +'"]');
   var provinces = JSON.parse(selectedOption.getAttribute('data-provinces'));
 
   provinceNodeElement.innerHTML = '';
