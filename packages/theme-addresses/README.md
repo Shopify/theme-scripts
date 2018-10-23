@@ -53,17 +53,17 @@ const billingCountryProvinceSelector = new CountryProvinceSelector(window.theme.
 
 ### build(countryNodeElement, provinceNodeElement, options)
 
-Populates the given Select node element with country and province options.
+Populates the given `<select>` elements with country and province options.
 
-- `countryNodeElement`: The Select node element for countries
-- `provinceNodeElement`: The Select node element for provinces according to the selected country
+- `countryNodeElement`: The `<select>` element for countries
+- `provinceNodeElement`: The `<select>` element for provinces according to the selected country
 - `options`:
     * `hideClass`: The classname that will be toggled for province selector
 
 The Select node element should look like the following:
 ```html
-    <select ... id="addressTestCountry" data-default="{{ form.country }}"></select>
-    <select ... id="addressTestProvince" data-default="{{ form.province }}"></select>
+    <select ... id="newCountry" data-default="{{ form.country }}"></select>
+    <select ... id="newProvince" data-default="{{ form.province }}"></select>
 ```
 
 Example
@@ -72,8 +72,8 @@ import {CountryProvinceSelector} from '@shopify/theme-addresses';
 
 const billingCountryProvinceSelector = new CountryProvinceSelector(window.theme.allCountryOptionTags);
 
-billingCountryProvinceSelector.build(document.querySelector('#addressTestCountry'), document.querySelector('#addressTestProvince'));
-billingCountryProvinceSelector.build(document.querySelector('#addressTestCountry2'), document.querySelector('#addressTestProvince2'), {hideClass: 'hide'});
+billingCountryProvinceSelector.build(document.querySelector('#newCountry'), document.querySelector('#newProvince'));
+billingCountryProvinceSelector.build(document.querySelector('#editCountry'), document.querySelector('#editProvince'), {hideClass: 'hide'});
 ```
 
 We do not dictate what selector library you can use in your themes as long as the element being passed in is a native Node element.
@@ -85,8 +85,8 @@ import {CountryProvinceSelector} from '@shopify/theme-addresses';
 
 const billingCountryProvinceSelector = new CountryProvinceSelector(window.theme.allCountryOptionTags);
 
-billingCountryProvinceSelector.build($('#addressTestCountry')[0], $('#addressTestProvince')[0]);
-billingCountryProvinceSelector.build($('#addressTestCountry2')[0], $('#addressTestProvince2')[0], {hideClass: 'hide'});
+billingCountryProvinceSelector.build($('#newCountry')[0], $('#newProvince')[0]);
+billingCountryProvinceSelector.build($('#editCountry')[0], $('#editProvince')[0], {hideClass: 'hide'});
 ```
 
 
