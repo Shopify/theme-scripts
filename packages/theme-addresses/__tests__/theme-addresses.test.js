@@ -94,10 +94,10 @@ describe('CountryProvinceSelector.build()', () => {
   
     countryProvinceSelector.build(countrySelector, provinceSelector, {hideClass: 'hide'});
 
-    expect(provinceSelector.classList.contains('hide')).toEqual(true);
+    expect(provinceSelector.classList.contains('hide')).toBeTruthy();
   });
 
-  test('each pair of country province delectors should not interfer with each other', () => {
+  test('each pair of country province delectors should not interfere with each other', () => {
     document.body.innerHTML = `<form>
       <select id="addressTestCountry1" data-default="New Zealand"></select>
       <select id="addressTestProvince1"></select>

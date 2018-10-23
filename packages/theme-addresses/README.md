@@ -1,5 +1,7 @@
 # @shopify/theme-addresses
 
+theme-addresses.js helps developers work with common address releated operations, such as, building the country and province selectors
+
 ## Getting Started
 
 Theme Scripts can be used in any theme project. To take advantage of semantic versioning and easy updates, we recommend using NPM or Yarn to include them in your project:
@@ -19,9 +21,7 @@ If you prefer not to use a package manager, you can download the latest version 
 - [theme-addresses.js](http://unpkg.com/@shopify/theme-addresses@latest/dist/theme-addresses.js)
 - [theme-addresses.min.js](http://unpkg.com/@shopify/theme-addresses@latest/dist/theme-addresses.min.js)
 
-## Usage
-
-theme-addresses.js helps developers work with common address releated operations, such as, building the country and province selectors
+## Methods
 
 ### CountryProvinceSelector(countryOptions)
 
@@ -32,7 +32,7 @@ Prepares an instance of a `CountryProvinceSelector` with the given country optio
     * [`{{ country_option_tags | json }}`](https://help.shopify.com/en/themes/liquid/objects/country-option-tags)
 
 Example
-```js
+```html
 // In theme.liquid, somewhere before the end of </head> tag
     ...
     {% if template.directory == 'customers' %}
