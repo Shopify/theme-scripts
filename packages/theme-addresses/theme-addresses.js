@@ -21,8 +21,8 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
   countryNodeElement.value = defaultValue;
   options.hideClass && provinceNodeElement.classList.add(options.hideClass);
 
-  if (defaultValue) {
-    resolveProvinces(countryNodeElement, provinceNodeElement, defaultValue, options);
+  if (defaultValue && getOption(countryNodeElement, defaultValue)) {
+    buildProvince(countryNodeElement, provinceNodeElement, defaultValue, options);
   }
 
   // Listen for value change on the country select
@@ -30,14 +30,23 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
     var target = event.target;
     var selectedValue = target.value;
     
-    resolveProvinces(target, provinceNodeElement, selectedValue, options);
+    buildProvince(target, provinceNodeElement, selectedValue, options);
   });
 }
 
 /**
- * Helper function that builds the province selector
+ * Helper function - returns the <option> with the specified value from the
+ * given node element
+ * A null can be returned of no such <option> found
  */
-function buildProvince (provinceNodeElement, provinces) {
+function getOption(nodeElement, value) {
+  return nodeElement.querySelector('option[value="' + value +'"]')
+}
+
+/**
+ * Helper function - builds the province selector
+ */
+function buildOptions (provinceNodeElement, provinces) {
   var defaultValue = provinceNodeElement.getAttribute('data-default');
 
   provinces.forEach(function (option) {
@@ -48,24 +57,22 @@ function buildProvince (provinceNodeElement, provinces) {
     provinceNodeElement.appendChild(optionElement);
   })
 
-  if (defaultValue) {
+  if (defaultValue && getOption(provinceNodeElement, defaultValue)) {
     provinceNodeElement.value = defaultValue;
-  } else {
-    provinceNodeElement.value = ''
   }
 }
 
 /**
- * Helper function that determines if province selector needs to be build
+ * Helper function - determines if province selector needs to be build
  */
-function resolveProvinces (countryNodeElement, provinceNodeElement, selectedValue, options) {
-  var selectedOption = countryNodeElement.querySelector('option[value="' + selectedValue +'"]');
+function buildProvince (countryNodeElement, provinceNodeElement, selectedValue, options) {
+  var selectedOption = getOption(countryNodeElement, selectedValue);
   var provinces = JSON.parse(selectedOption.getAttribute('data-provinces'));
 
   provinceNodeElement.options.length = 0;
 
   if (provinces.length) {
-    buildProvince(provinceNodeElement, provinces)
+    buildOptions(provinceNodeElement, provinces)
     options.hideClass && provinceNodeElement.classList.remove(options.hideClass);
   } else {
     options.hideClass && provinceNodeElement.classList.add(options.hideClass);
