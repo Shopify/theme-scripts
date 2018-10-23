@@ -20,8 +20,6 @@ describe('CountryProvinceSelector', () => {
     }).not.toThrow();
     expect(typeof countryProvinceSelector.build).toBe('function');
   });
-
-  // Hmm ... how to validate the countryOptions that is being passed in is a valid html?
 });
 
 describe('CountryProvinceSelector.build()', () => {
