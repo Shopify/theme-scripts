@@ -55,8 +55,8 @@ const billingCountryProvinceSelector = new CountryProvinceSelector(window.theme.
 
 Populates the given `<select>` elements with country and province options.
 
-- `countryNodeElement`: The `<select>` element for countries
-- `provinceNodeElement`: The `<select>` element for provinces according to the selected country
+- `countryNodeElement`: The `<select>` node element for countries
+- `provinceNodeElement`: The `<select>` node element for provinces according to the selected country
 - `options`:
     * `hideClass`: The classname that will be toggled for province selector
 

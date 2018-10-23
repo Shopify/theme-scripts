@@ -1,6 +1,6 @@
 /**
  * CountryProvinceSelector Constructor
- * @param {Object} countryOptions Country JSON object
+ * @param {Object} countryOptions the country options in html string
  */
 export function CountryProvinceSelector(countryOptions) {
   this.countryOptions = countryOptions;
@@ -8,8 +8,8 @@ export function CountryProvinceSelector(countryOptions) {
 
 /**
  * Builds the country and province selector with the given node element
- * @param {Node} countryNodeElement The select Node element for country
- * @param {Node} provinceNodeElement The select Node element for province
+ * @param {Node} countryNodeElement The <select> element for country
+ * @param {Node} provinceNodeElement The <select> element for province
  * @param {Object} options Additional settings available
  * @param {string} option.hideClass The classname that will be toggled for province selector
  */
@@ -35,16 +35,16 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
 }
 
 /**
- * Helper function - returns the <option> with the specified value from the
+ * Returns the <option> with the specified value from the
  * given node element
- * A null can be returned of no such <option> found
+ * A null is returned if no such <option> is found
  */
 function getOption(nodeElement, value) {
   return nodeElement.querySelector('option[value="' + value +'"]')
 }
 
 /**
- * Helper function - builds the province selector
+ * Builds the options for province selector
  */
 function buildOptions (provinceNodeElement, provinces) {
   var defaultValue = provinceNodeElement.getAttribute('data-default');
@@ -63,7 +63,7 @@ function buildOptions (provinceNodeElement, provinces) {
 }
 
 /**
- * Helper function - determines if province selector needs to be build
+ * Builds the province selector
  */
 function buildProvince (countryNodeElement, provinceNodeElement, selectedValue, options) {
   var selectedOption = getOption(countryNodeElement, selectedValue);
