@@ -30,7 +30,8 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
     var target = event.target;
     var selectedValue = target.value;
     
-    buildProvince(target, provinceNodeElement, selectedValue, options);
+    var provinces = buildProvince(target, provinceNodeElement, selectedValue, options);
+    options.onCountryChange && options.onCountryChange(provinces, provinceNodeElement, countryNodeElement);
   });
 
   options.onProvinceChange && provinceNodeElement.addEventListener('change', options.onProvinceChange);
@@ -91,5 +92,5 @@ function buildProvince (countryNodeElement, provinceNodeElement, selectedValue, 
     buildOptions(provinceNodeElement, provinces)
   }
 
-  options.onCountryChange && options.onCountryChange(provinces, provinceNodeElement, countryNodeElement);
+  return provinces;
 }

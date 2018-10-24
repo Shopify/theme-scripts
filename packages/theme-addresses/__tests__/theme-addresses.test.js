@@ -91,9 +91,9 @@ describe('CountryProvinceSelector.build()', () => {
     expect(provinceSelector.value).toEqual('Quebec');
   });
 
-  test('sets hideClass when provided', () => {
+  test('triggers onCountryChange callback', (done) => {
     document.body.innerHTML = `<form>
-      <select id="country" data-default="Bahamas"></select>
+      <select id="country" data-default="Canada"></select>
       <select id="province"></select>
     </form>`;
 
@@ -101,9 +101,40 @@ describe('CountryProvinceSelector.build()', () => {
     const countrySelector = document.querySelector('#country');
     const provinceSelector = document.querySelector('#province');
   
-    countryProvinceSelector.build(countrySelector, provinceSelector, {hideClass: 'hide'});
+    countryProvinceSelector.build(countrySelector, provinceSelector, {
+      onCountryChange: (provinces, provinceNodeElement, countryNodeElement) => {
+        expect(provinces.length).not.toEqual(0);
+        expect(provinceNodeElement).toEqual(provinceSelector);
+        expect(countryNodeElement).toEqual(countrySelector);
+        done();
+      }
+    });
 
-    expect(provinceSelector.classList.contains('hide')).toBeTruthy();
+    countrySelector.value = 'New Zealand'
+    countrySelector.dispatchEvent(new Event('change'));
+
+  });
+
+  test('triggers onProvinceChange callback', (done) => {
+    document.body.innerHTML = `<form>
+      <select id="country" data-default="Canada"></select>
+      <select id="province"></select>
+    </form>`;
+
+    const countryProvinceSelector = new CountryProvinceSelector(countryOptions);
+    const countrySelector = document.querySelector('#country');
+    const provinceSelector = document.querySelector('#province');
+  
+    countryProvinceSelector.build(countrySelector, provinceSelector, {
+      onProvinceChange: (event) => {
+        expect(event).not.toBeNull();
+        done();
+      }
+    });
+
+    provinceSelector.value = 'Quebec';
+    provinceSelector.dispatchEvent(new Event('change'));
+
   });
 
   test('each pair of country province delectors should not interfere with each other', () => {
