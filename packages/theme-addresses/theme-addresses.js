@@ -11,7 +11,8 @@ export function CountryProvinceSelector(countryOptions) {
  * @param {Node} countryNodeElement The <select> element for country
  * @param {Node} provinceNodeElement The <select> element for province
  * @param {Object} options Additional settings available
- * @param {string} option.hideClass The classname that will be toggled for province selector
+ * @param {CountryProvinceSelector~onCountryChange} option.onCountryChange callback after a country `change` event
+ * @param {CountryProvinceSelector~onProvinceChange} option.onProvinceChange callback after a province `change` event
  */
 CountryProvinceSelector.prototype.build = function (countryNodeElement, provinceNodeElement, options) {
   var defaultValue = countryNodeElement.getAttribute('data-default');
@@ -19,7 +20,6 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
 
   countryNodeElement.innerHTML = this.countryOptions;
   countryNodeElement.value = defaultValue;
-  options.hideClass && provinceNodeElement.classList.add(options.hideClass);
 
   if (defaultValue && getOption(countryNodeElement, defaultValue)) {
     buildProvince(countryNodeElement, provinceNodeElement, defaultValue, options);
@@ -32,7 +32,23 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
     
     buildProvince(target, provinceNodeElement, selectedValue, options);
   });
+
+  options.onProvinceChange && provinceNodeElement.addEventListener('change', options.onProvinceChange);
 }
+
+/**
+ * This callback is called after a user interacted with a country `<select>`
+ * @callback CountryProvinceSelector~onCountryChange
+ * @param {array} provinces the parsed provinces
+ * @param {Node} provinceNodeElement province `<select>` element
+ * @param {Node} countryNodeElement country `<select>` element
+ */
+
+ /**
+ * This callback is called after a user interacted with a province `<select>`
+ * @callback CountryProvinceSelector~onProvinceChange
+ * @param {Event} event the province selector `change` event object
+ */
 
 /**
  * Returns the <option> with the specified value from the
@@ -73,8 +89,7 @@ function buildProvince (countryNodeElement, provinceNodeElement, selectedValue, 
 
   if (provinces.length) {
     buildOptions(provinceNodeElement, provinces)
-    options.hideClass && provinceNodeElement.classList.remove(options.hideClass);
-  } else {
-    options.hideClass && provinceNodeElement.classList.add(options.hideClass);
   }
+
+  options.onCountryChange && options.onCountryChange(provinces, provinceNodeElement, countryNodeElement);
 }
