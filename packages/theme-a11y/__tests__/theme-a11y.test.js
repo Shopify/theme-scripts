@@ -2,7 +2,12 @@
  * @jest-environment jsdom
  */
 
-import {forceFocus, focusHash, bindInPageLinks} from '../theme-a11y';
+import {
+  forceFocus,
+  focusHash,
+  bindInPageLinks,
+  accessibleLinks
+} from '../theme-a11y';
 
 describe('forceFocus()', () => {
   beforeEach(() => {
@@ -142,5 +147,122 @@ describe('bindInPageLinks()', () => {
     link.click();
 
     expect(document.activeElement).toBe(title);
+  });
+});
+
+describe('accessibleLinks()', () => {
+  test('is a function exported by theme-a11y.js', () => {
+    expect(typeof accessibleLinks).toBe('function');
+  });
+
+  test('outputs a HTML list of accessible messages', () => {
+    accessibleLinks();
+    const messagesOutput = document.querySelectorAll('li');
+    expect(messagesOutput).toHaveLength(3);
+  });
+
+  test('overwrite default messages if parameters are provided', () => {
+    document.body.innerHTML = `
+      <a href="http://www.google.ca">Click me</a>
+      <a href="/collections/shoes">Shoes</a>
+    `;
+
+    const messages = {
+      newWindow: 'the following link will open in a new window',
+      external: 'this link is an external link.',
+      newWindowExternal:
+        'this link is an external link and will open in a new window'
+    };
+    const keys = Object.keys(messages);
+
+    accessibleLinks(messages);
+    const messagesOutput = Array.from(document.querySelectorAll('li'));
+
+    const areMessagesMatched = messagesOutput.every((messageOutput, index) => {
+      return messages[keys[index]] === messageOutput.innerHTML;
+    });
+
+    expect(areMessagesMatched).toBeTruthy();
+  });
+
+  test('adds aria-describedby attribute to external links', () => {
+    document.body.innerHTML = `
+      <a href="http://www.google.ca">Click me</a>
+      <a href="/collections/shoes">Shoes</a>
+      <a href="/collections/shoes/products/nike-free-run">Nike Free Run</a>
+      <a href="http://www.cnn.com">CNN</a>
+    `;
+
+    accessibleLinks();
+    const links = Array.from(document.querySelectorAll('a'));
+
+    const externalLinks = links.filter(link => {
+      return (
+        link.hostname !== 'localhost' &&
+        link.getAttribute('aria-describedby') !== null
+      );
+    });
+
+    expect(externalLinks).toHaveLength(2);
+  });
+
+  test('adds rel="noopener" to links that open to a new window', () => {
+    document.body.innerHTML = `
+      <a href="/pages/summer-promotion" target="_blank">Summer promotion</a>
+      <a href="http://www.cnn.com">CNN</a>
+      <a href="http://www.shopify.com">Shopify</a>
+    `;
+
+    accessibleLinks();
+
+    const links = Array.from(document.querySelectorAll('a'));
+    const externalLinks = links.filter(link => {
+      return (
+        link.hostname === 'localhost' &&
+        link.getAttribute('aria-describedby') === 'a11y-new-window-message'
+      );
+    });
+
+    expect(externalLinks).toHaveLength(1);
+    expect(externalLinks[0].getAttribute('rel')).toBe('noopener');
+  });
+
+  test('shows a different accessible message when a link is external and opens to a new window', () => {
+    document.body.innerHTML = `
+      <a href="http://www.cnn.com" target="_blank">CNN</a>
+    `;
+    accessibleLinks();
+    const externalLinks = document.querySelectorAll('a');
+    expect(externalLinks[0].getAttribute('aria-describedby')).toBe(
+      'a11y-new-window-external-message'
+    );
+  });
+
+  test('targets only specific elements', () => {
+    document.body.innerHTML = `
+      <a href="http://www.facebook.com" class="links-menu" target="_blank">Share on Facebook</a>
+      <a href="http://www.twitter.com" class="links-menu" target="_blank">Share on Twitter</a>
+      <a href="http://www.shopify.com">Powered by Shopify</a>
+    `;
+
+    accessibleLinks({}, document.querySelectorAll('.links-menu'));
+
+    const externalLinks = Array.from(document.querySelectorAll('a'));
+    const externalLinksSelected = externalLinks.filter(link => {
+      return link.getAttribute('aria-describedby') !== null;
+    });
+    expect(externalLinksSelected).toHaveLength(2);
+  });
+
+  test('changes the prefix of the ID key of the message', () => {
+    document.body.innerHTML = `
+      <a href="http://www.google.ca">Click me</a>
+      <a href="/collections/shoes">Shoes</a>
+    `;
+
+    accessibleLinks({}, null, 'shopify');
+    const messagesOutput = document.querySelectorAll('li');
+    const expected = 'shopify-new-window-message';
+    expect(messagesOutput[0].getAttribute('id')).toBe(expected);
   });
 });
