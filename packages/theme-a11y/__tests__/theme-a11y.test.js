@@ -156,7 +156,9 @@ describe('accessibleLinks()', () => {
   });
 
   test('outputs a HTML list of accessible messages', () => {
-    accessibleLinks();
+    document.body.innerHTML = `<a href="http://www.google.ca">Click me</a>`;
+
+    accessibleLinks(document.querySelectorAll('a'));
     const messagesOutput = document.querySelectorAll('li');
     expect(messagesOutput).toHaveLength(3);
   });
@@ -174,8 +176,9 @@ describe('accessibleLinks()', () => {
         'this link is an external link and will open in a new window'
     };
     const keys = Object.keys(messages);
+    const elements = document.querySelectorAll('a');
 
-    accessibleLinks(messages);
+    accessibleLinks(elements, {messages});
     const messagesOutput = Array.from(document.querySelectorAll('li'));
 
     const areMessagesMatched = messagesOutput.every((messageOutput, index) => {
@@ -193,7 +196,7 @@ describe('accessibleLinks()', () => {
       <a href="http://www.cnn.com">CNN</a>
     `;
 
-    accessibleLinks();
+    accessibleLinks(document.querySelectorAll('a'));
     const links = Array.from(document.querySelectorAll('a'));
 
     const externalLinks = links.filter(link => {
@@ -213,7 +216,7 @@ describe('accessibleLinks()', () => {
       <a href="http://www.shopify.com">Shopify</a>
     `;
 
-    accessibleLinks();
+    accessibleLinks(document.querySelectorAll('a'));
 
     const links = Array.from(document.querySelectorAll('a'));
     const externalLinks = links.filter(link => {
@@ -231,7 +234,7 @@ describe('accessibleLinks()', () => {
     document.body.innerHTML = `
       <a href="http://www.cnn.com" target="_blank">CNN</a>
     `;
-    accessibleLinks();
+    accessibleLinks(document.querySelectorAll('a'));
     const externalLinks = document.querySelectorAll('a');
     expect(externalLinks[0].getAttribute('aria-describedby')).toBe(
       'a11y-new-window-external-message'
@@ -245,7 +248,7 @@ describe('accessibleLinks()', () => {
       <a href="http://www.shopify.com">Powered by Shopify</a>
     `;
 
-    accessibleLinks({}, document.querySelectorAll('.links-menu'));
+    accessibleLinks(document.querySelectorAll('.links-menu'));
 
     const externalLinks = Array.from(document.querySelectorAll('a'));
     const externalLinksSelected = externalLinks.filter(link => {
@@ -260,7 +263,9 @@ describe('accessibleLinks()', () => {
       <a href="/collections/shoes">Shoes</a>
     `;
 
-    accessibleLinks({}, null, 'shopify');
+    accessibleLinks(document.querySelectorAll('.links-menu'), {
+      prefix: 'shopify'
+    });
     const messagesOutput = document.querySelectorAll('li');
     const expected = 'shopify-new-window-message';
     expect(messagesOutput[0].getAttribute('id')).toBe(expected);

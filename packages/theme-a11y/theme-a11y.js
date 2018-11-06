@@ -202,124 +202,72 @@ export function removeTrapFocus() {
 
 /**
  * Add a preventive message to external links and links that open to a new window.
- * @param {object} messages - Custom messages to overwrite with keys: newWindow, external, newWindowExternal
- * @param {string} messages.newWindow - When the link opens in a new window (e.g. target="_blank")
- * @param {string} messages.external - When the link is external (e.g. www.cnn.com)
- * @param {string} messages.newWindowExternal - When the link is external and opens in a new window (<a href="http://www.shopify.com" target="_blank">Shopify</a>)
- * @param {object} targetLinks - Specific elements to be targeted
- * @param {object} prefix - Prefix to namespace "id" of the messages
+ * @param {object} elements - Specific elements to be targeted
+ * @param {object} options.messages - Custom messages to overwrite with keys: newWindow, external, newWindowExternal
+ * @param {string} options.messages.newWindow - When the link opens in a new window (e.g. target="_blank")
+ * @param {string} options.messages.external - When the link is to a different host domain.
+ * @param {string} options.messages.newWindowExternal - When the link is to a different host domain and opens in a new window.
+ * @param {object} options.prefix - Prefix to namespace "id" of the messages
  */
-export function accessibleLinks(messages, targetLinks, prefix) {
-  var accessibleLinksHandlers = {};
-  var messagesSource = messages || {};
-  var body = document.querySelector('body');
-  var prefixName = prefix || 'a11y';
-  var idSelectors = {
-    newWindow: prefixName + '-new-window-message',
-    external: prefixName + '-external-message',
-    newWindowExternal: prefixName + '-new-window-external-message'
+export function accessibleLinks(elements, options) {
+  options = options || {};
+  options.messages = options.messages || {};
+
+  var messages = {
+    newWindow: options.messages.newWindow || 'Opens in a new window.',
+    external: options.messages.external || 'Opens external website.',
+    newWindowExternal:
+      options.messages.newWindowExternal ||
+      'Opens external website in a new window.'
   };
 
-  if (targetLinks === undefined || targetLinks === null) {
-    targetLinks = document.querySelectorAll('a[href]:not([aria-describedby])');
+  var prefix = options.prefix || 'a11y';
+
+  var messageSelectors = {
+    newWindow: prefix + '-new-window-message',
+    external: prefix + '-external-message',
+    newWindowExternal: prefix + '-new-window-external-message'
+  };
+
+  if (elements !== '' && typeof elements !== 'object') {
+    throw new TypeError(elements + ' is not an Element object.');
   }
 
-  if (targetLinks !== '' && typeof targetLinks !== 'object') {
-    throw new TypeError(targetLinks + ' is not an Element object.');
-  }
-
-  accessibleLinksHandlers.generateHTML = function(customMessages) {
-    if (typeof customMessages !== 'object') {
-      customMessages = {};
-    }
-
-    var localMessages = Object.assign(
-      {
-        newWindow: 'Opens in a new window.',
-        external: 'Opens external website.',
-        newWindowExternal: 'Opens external website in a new window.'
-      },
-      customMessages
-    );
-
+  function generateHTML(messages) {
     var container = document.createElement('ul');
-    var htmlMessages = '';
-
-    for (var message in localMessages) {
-      htmlMessages +=
-        '<li id=' +
-        idSelectors[message] +
-        '>' +
-        localMessages[message] +
-        '</li>';
-    }
+    var htmlMessages = Object.keys(messages).reduce(function(html, key) {
+      return (html +=
+        '<li id=' + messageSelectors[key] + '>' + messages[key] + '</li>');
+    }, '');
 
     container.setAttribute('hidden', true);
     container.innerHTML = htmlMessages;
 
-    body.appendChild(container);
-  };
+    document.body.appendChild(container);
+  }
 
-  accessibleLinksHandlers.externalSite = function(link) {
+  function externalSite(link) {
     return link.hostname !== window.location.hostname;
-  };
+  }
 
-  targetLinks.forEach(function(link) {
+  elements.forEach(function(link) {
     var target = link.getAttribute('target');
     var rel = link.getAttribute('rel');
-    var isExternal = accessibleLinksHandlers.externalSite(link);
+    var isExternal = externalSite(link);
     var isTargetBlank = target === '_blank';
 
-    if (isExternal) {
-      link.setAttribute('aria-describedby', idSelectors.external);
-    }
-
-    if (isTargetBlank) {
+    if (isExternal && isTargetBlank) {
+      link.setAttribute('aria-describedby', messageSelectors.newWindowExternal);
+    } else if (isExternal) {
+      link.setAttribute('aria-describedby', messageSelectors.external);
+    } else if (isTargetBlank) {
       if (rel === null || rel.indexOf('noopener') === -1) {
         link.setAttribute('rel', 'noopener');
       }
 
-      link.setAttribute('aria-describedby', idSelectors.newWindow);
-    }
-
-    if (isExternal && isTargetBlank) {
-      link.setAttribute('aria-describedby', idSelectors.newWindowExternal);
+      link.setAttribute('aria-describedby', messageSelectors.newWindow);
     }
   });
 
-  accessibleLinksHandlers.generateHTML(messagesSource);
-}
-
-// Object.assign() polyfill from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
-if (typeof Object.assign != 'function') {
-  // Must be writable: true, enumerable: false, configurable: true
-  Object.defineProperty(Object, 'assign', {
-    value: function assign(target) {
-      // .length of function is 2
-      'use strict';
-      if (target == null) {
-        // TypeError if undefined or null
-        throw new TypeError('Cannot convert undefined or null to object');
-      }
-
-      var to = Object(target);
-
-      for (var index = 1; index < arguments.length; index++) {
-        var nextSource = arguments[index];
-
-        if (nextSource != null) {
-          // Skip over if undefined or null
-          for (var nextKey in nextSource) {
-            // Avoid bugs when hasOwnProperty is shadowed
-            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-              to[nextKey] = nextSource[nextKey];
-            }
-          }
-        }
-      }
-      return to;
-    },
-    writable: true,
-    configurable: true
-  });
+  generateHTML(messages);
 }
