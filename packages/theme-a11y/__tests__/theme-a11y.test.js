@@ -170,10 +170,9 @@ describe('accessibleLinks()', () => {
     `;
 
     const messages = {
-      newWindow: 'the following link will open in a new window',
-      external: 'this link is an external link.',
-      newWindowExternal:
-        'this link is an external link and will open in a new window'
+      newWindow: 'Opens in a new window.',
+      external: 'Opens external website.',
+      newWindowExternal: 'Opens external website in a new window.'
     };
     const keys = Object.keys(messages);
     const elements = document.querySelectorAll('a');
