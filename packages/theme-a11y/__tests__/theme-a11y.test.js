@@ -158,7 +158,7 @@ describe('accessibleLinks()', () => {
   test('outputs a HTML list of accessible messages', () => {
     document.body.innerHTML = `<a href="http://www.google.ca">Click me</a>`;
 
-    accessibleLinks(document.querySelectorAll('a'));
+    accessibleLinks('a');
     const messagesOutput = document.querySelectorAll('li');
     expect(messagesOutput).toHaveLength(3);
   });
@@ -175,9 +175,8 @@ describe('accessibleLinks()', () => {
       newWindowExternal: 'Opens external website in a new window.'
     };
     const keys = Object.keys(messages);
-    const elements = document.querySelectorAll('a');
 
-    accessibleLinks(elements, {messages});
+    accessibleLinks('a', {messages});
     const messagesOutput = Array.from(document.querySelectorAll('li'));
 
     const areMessagesMatched = messagesOutput.every((messageOutput, index) => {
@@ -195,7 +194,7 @@ describe('accessibleLinks()', () => {
       <a href="http://www.cnn.com">CNN</a>
     `;
 
-    accessibleLinks(document.querySelectorAll('a'));
+    accessibleLinks('a');
     const links = Array.from(document.querySelectorAll('a'));
 
     const externalLinks = links.filter(link => {
@@ -215,7 +214,7 @@ describe('accessibleLinks()', () => {
       <a href="http://www.shopify.com">Shopify</a>
     `;
 
-    accessibleLinks(document.querySelectorAll('a'));
+    accessibleLinks('a');
 
     const links = Array.from(document.querySelectorAll('a'));
     const externalLinks = links.filter(link => {
@@ -233,7 +232,7 @@ describe('accessibleLinks()', () => {
     document.body.innerHTML = `
       <a href="http://www.cnn.com" target="_blank">CNN</a>
     `;
-    accessibleLinks(document.querySelectorAll('a'));
+    accessibleLinks('a');
     const externalLinks = document.querySelectorAll('a');
     expect(externalLinks[0].getAttribute('aria-describedby')).toBe(
       'a11y-new-window-external-message'
@@ -247,7 +246,7 @@ describe('accessibleLinks()', () => {
       <a href="http://www.shopify.com">Powered by Shopify</a>
     `;
 
-    accessibleLinks(document.querySelectorAll('.links-menu'));
+    accessibleLinks('.links-menu');
 
     const externalLinks = Array.from(document.querySelectorAll('a'));
     const externalLinksSelected = externalLinks.filter(link => {
@@ -262,11 +261,24 @@ describe('accessibleLinks()', () => {
       <a href="/collections/shoes">Shoes</a>
     `;
 
-    accessibleLinks(document.querySelectorAll('.links-menu'), {
+    accessibleLinks('.links-menu', {
       prefix: 'shopify'
     });
     const messagesOutput = document.querySelectorAll('li');
     const expected = 'shopify-new-window-message';
     expect(messagesOutput[0].getAttribute('id')).toBe(expected);
+  });
+
+  test('throws error when target elements is invalid', () => {
+    document.body.innerHTML = `<a href="http://www.google.ca">Click me</a>`;
+
+    expect(() => {
+      accessibleLinks();
+    }).toThrow();
+
+    expect(() => {
+      const target = document.querySelectorAll('li');
+      accessibleLinks(target);
+    }).toThrow();
   });
 });

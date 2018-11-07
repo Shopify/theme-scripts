@@ -202,7 +202,7 @@ export function removeTrapFocus() {
 
 /**
  * Add a preventive message to external links and links that open to a new window.
- * @param {object} elements - Specific elements to be targeted
+ * @param {string} elements - Specific elements to be targeted
  * @param {object} options.messages - Custom messages to overwrite with keys: newWindow, external, newWindowExternal
  * @param {string} options.messages.newWindow - When the link opens in a new window (e.g. target="_blank")
  * @param {string} options.messages.external - When the link is to a different host domain.
@@ -210,6 +210,16 @@ export function removeTrapFocus() {
  * @param {object} options.prefix - Prefix to namespace "id" of the messages
  */
 export function accessibleLinks(elements, options) {
+  if (typeof elements !== 'string') {
+    throw new TypeError(elements + ' is not a String.');
+  }
+
+  elements = document.querySelectorAll(elements);
+
+  if (!elements) {
+    throw new TypeError(elements + ' does not exist.');
+  }
+
   options = options || {};
   options.messages = options.messages || {};
 
@@ -228,10 +238,6 @@ export function accessibleLinks(elements, options) {
     external: prefix + '-external-message',
     newWindowExternal: prefix + '-new-window-external-message'
   };
-
-  if (elements !== '' && typeof elements !== 'object') {
-    throw new TypeError(elements + ' is not an Element object.');
-  }
 
   function generateHTML(messages) {
     var container = document.createElement('ul');

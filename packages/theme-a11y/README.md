@@ -27,9 +27,9 @@ These files make Theme A11y accessible via the `Shopify.theme.a11y` global varia
 
 Add a descriptive message to external links and links that open to a new window.
 
-- `messages`: Custom messages object to overwrite with keys: newWindow, external, newWindowExternal
-- `messages.newWindow` - When the link opens in a new window (e.g. `target="_blank"`)
-- `messages.external` - When the link is to a different host domain.
-- `messages.newWindowExternal` - When the link is to a different host domain and opens in a new window.
-- `targetLinks`: Links selector to be targeted (Optional)
-- `prefix`: Prefix to namespace "id" of the messages
+- `elements` - Specific elements to be targeted
+- `options.messages`: Custom messages object to overwrite with keys: newWindow, external, newWindowExternal
+- `options.messages.newWindow` - When the link opens in a new window (e.g. `target="_blank"`)
+- `options.messages.external` - When the link is to a different host domain.
+- `options.messages.newWindowExternal` - When the link is to a different host domain and opens in a new window.
+- `options.prefix`: Prefix to namespace "id" of the messages
