@@ -261,7 +261,7 @@ describe('accessibleLinks()', () => {
       <a href="/collections/shoes">Shoes</a>
     `;
 
-    accessibleLinks('.links-menu', {
+    accessibleLinks('a', {
       prefix: 'shopify'
     });
     const messagesOutput = document.querySelectorAll('li');
@@ -277,8 +277,11 @@ describe('accessibleLinks()', () => {
     }).toThrow();
 
     expect(() => {
-      const target = document.querySelectorAll('li');
-      accessibleLinks(target);
+      accessibleLinks(['a']);
     }).toThrow();
+  });
+
+  test('returns silently when there are no results', () => {
+    expect(accessibleLinks('strong')).toBeUndefined();
   });
 });

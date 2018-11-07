@@ -216,8 +216,8 @@ export function accessibleLinks(elements, options) {
 
   elements = document.querySelectorAll(elements);
 
-  if (!elements) {
-    throw new TypeError(elements + ' does not exist.');
+  if (elements.length === 0) {
+    return;
   }
 
   options = options || {};
