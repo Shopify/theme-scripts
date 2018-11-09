@@ -228,6 +228,25 @@ describe('accessibleLinks()', () => {
     expect(externalLinks[0].getAttribute('rel')).toBe('noopener');
   });
 
+  test('adds rel="noopener" to links that are external and open to a new window', () => {
+    document.body.innerHTML = `
+      <a href="http://www.cnn.com" target="_blank">CNN</a>
+      <a href="http://www.google.ca" target="_blank">Google</a>
+      <a href="http://www.shopify.ca">Shopify</a>
+    `;
+    accessibleLinks('a');
+
+    const links = Array.from(document.querySelectorAll('a'));
+    const externalLinksNoopener = links.filter(link => {
+      return (
+        link.getAttribute('rel') === 'noopener' &&
+        link.getAttribute('aria-describedby') ===
+          'a11y-new-window-external-message'
+      );
+    });
+    expect(externalLinksNoopener).toHaveLength(2);
+  });
+
   test('shows a different accessible message when a link is external and opens to a new window', () => {
     document.body.innerHTML = `
       <a href="http://www.cnn.com" target="_blank">CNN</a>

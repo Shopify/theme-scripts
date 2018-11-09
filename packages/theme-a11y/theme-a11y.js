@@ -261,16 +261,17 @@ export function accessibleLinks(elements, options) {
     var rel = link.getAttribute('rel');
     var isExternal = externalSite(link);
     var isTargetBlank = target === '_blank';
+    var isRelNoopenerEmpty = rel === null || rel.indexOf('noopener') === -1;
+
+    if (isTargetBlank && isRelNoopenerEmpty) {
+      link.setAttribute('rel', 'noopener');
+    }
 
     if (isExternal && isTargetBlank) {
       link.setAttribute('aria-describedby', messageSelectors.newWindowExternal);
     } else if (isExternal) {
       link.setAttribute('aria-describedby', messageSelectors.external);
     } else if (isTargetBlank) {
-      if (rel === null || rel.indexOf('noopener') === -1) {
-        link.setAttribute('rel', 'noopener');
-      }
-
       link.setAttribute('aria-describedby', messageSelectors.newWindow);
     }
   });
