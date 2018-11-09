@@ -185,3 +185,18 @@ export function clearNote() {
 export function getShippingRates() {
   return request.cartShippingRates();
 }
+
+/**
+ * Check if cookies are enabled in the browser
+ * @returns {Boolean}
+ */
+export function cookiesEnabled() {
+  var cookieEnabled = Boolean(window.navigator.cookieEnabled);
+
+  if (!cookieEnabled) {
+    document.cookie = 'cookieTest';
+    cookieEnabled = Boolean(document.cookie.indexOf('cookieTest') !== -1);
+  }
+
+  return cookieEnabled;
+}

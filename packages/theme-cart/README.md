@@ -199,3 +199,16 @@ cart.getShippingRates().then(rates => {
   console.log('Got shipping rates:', rates);
 });
 ```
+
+### cookiesEnabled()
+
+Browser cookies are required to use the cart. Returns true if the browser supports cookies.
+
+```js
+if (cookiesEnabled()) {
+  document.documentElement.className = document.documentElement.className.replace(
+    'supports-no-cookies',
+    'supports-cookies'
+  );
+}
+```
