@@ -199,3 +199,82 @@ export function removeTrapFocus() {
   document.removeEventListener('focusout', trapFocusHandlers.focusout);
   document.removeEventListener('keydown', trapFocusHandlers.keydown);
 }
+
+/**
+ * Add a preventive message to external links and links that open to a new window.
+ * @param {string} elements - Specific elements to be targeted
+ * @param {object} options.messages - Custom messages to overwrite with keys: newWindow, external, newWindowExternal
+ * @param {string} options.messages.newWindow - When the link opens in a new window (e.g. target="_blank")
+ * @param {string} options.messages.external - When the link is to a different host domain.
+ * @param {string} options.messages.newWindowExternal - When the link is to a different host domain and opens in a new window.
+ * @param {object} options.prefix - Prefix to namespace "id" of the messages
+ */
+export function accessibleLinks(elements, options) {
+  if (typeof elements !== 'string') {
+    throw new TypeError(elements + ' is not a String.');
+  }
+
+  elements = document.querySelectorAll(elements);
+
+  if (elements.length === 0) {
+    return;
+  }
+
+  options = options || {};
+  options.messages = options.messages || {};
+
+  var messages = {
+    newWindow: options.messages.newWindow || 'Opens in a new window.',
+    external: options.messages.external || 'Opens external website.',
+    newWindowExternal:
+      options.messages.newWindowExternal ||
+      'Opens external website in a new window.'
+  };
+
+  var prefix = options.prefix || 'a11y';
+
+  var messageSelectors = {
+    newWindow: prefix + '-new-window-message',
+    external: prefix + '-external-message',
+    newWindowExternal: prefix + '-new-window-external-message'
+  };
+
+  function generateHTML(messages) {
+    var container = document.createElement('ul');
+    var htmlMessages = Object.keys(messages).reduce(function(html, key) {
+      return (html +=
+        '<li id=' + messageSelectors[key] + '>' + messages[key] + '</li>');
+    }, '');
+
+    container.setAttribute('hidden', true);
+    container.innerHTML = htmlMessages;
+
+    document.body.appendChild(container);
+  }
+
+  function externalSite(link) {
+    return link.hostname !== window.location.hostname;
+  }
+
+  elements.forEach(function(link) {
+    var target = link.getAttribute('target');
+    var rel = link.getAttribute('rel');
+    var isExternal = externalSite(link);
+    var isTargetBlank = target === '_blank';
+    var isRelNoopenerEmpty = rel === null || rel.indexOf('noopener') === -1;
+
+    if (isTargetBlank && isRelNoopenerEmpty) {
+      link.setAttribute('rel', 'noopener');
+    }
+
+    if (isExternal && isTargetBlank) {
+      link.setAttribute('aria-describedby', messageSelectors.newWindowExternal);
+    } else if (isExternal) {
+      link.setAttribute('aria-describedby', messageSelectors.external);
+    } else if (isTargetBlank) {
+      link.setAttribute('aria-describedby', messageSelectors.newWindow);
+    }
+  });
+
+  generateHTML(messages);
+}
