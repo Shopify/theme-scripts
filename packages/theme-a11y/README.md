@@ -20,3 +20,16 @@ If you prefer not to use a package manager, you can download the latest version 
 - [theme-a11y.min.js](http://unpkg.com/@shopify/theme-a11y@latest/dist/theme-a11y.min.js)
 
 These files make Theme A11y accessible via the `Shopify.theme.a11y` global variable.
+
+---
+
+### accessibleLinks(elements, options)
+
+Add a descriptive message to external links and links that open to a new window.
+
+- `elements` - Specific elements to be targeted
+- `options.messages` - Custom messages object to overwrite with keys: newWindow, external, newWindowExternal
+- `options.messages.newWindow` - When the link opens in a new window (e.g. `target="_blank"`)
+- `options.messages.external` - When the link is to a different host domain.
+- `options.messages.newWindowExternal` - When the link is to a different host domain and opens in a new window.
+- `options.prefix` - Prefix to namespace "id" of the messages
