@@ -74,7 +74,7 @@ import {CountryProvinceSelector} from '@shopify/theme-addresses';
 const billingCountryProvinceSelector = new CountryProvinceSelector(window.theme.allCountryOptionTags);
 
 billingCountryProvinceSelector.build(document.querySelector('#newCountry'), document.querySelector('#newProvince'));
-billingCountryProvinceSelector.build(document.querySelector('#editCountry'), document.querySelector('#editProvince'), {hideClass: 'hide'});
+billingCountryProvinceSelector.build(document.querySelector('#editCountry'), document.querySelector('#editProvince'));
 ```
 
 We do not dictate what selector library you can use in your themes as long as the element being passed in is a native Node element.
@@ -87,7 +87,7 @@ import {CountryProvinceSelector} from '@shopify/theme-addresses';
 const billingCountryProvinceSelector = new CountryProvinceSelector(window.theme.allCountryOptionTags);
 
 billingCountryProvinceSelector.build($('#newCountry')[0], $('#newProvince')[0]);
-billingCountryProvinceSelector.build($('#editCountry')[0], $('#editProvince')[0], {hideClass: 'hide'});
+billingCountryProvinceSelector.build($('#editCountry')[0], $('#editProvince')[0]);
 ```
 
 ### onCountryChange(provinces, provinceNodeElement, countryNodeElement)
@@ -103,3 +103,31 @@ The callback when a `change` event happens on the country select.
 The callback when a `change` event happens on the province select.
 
 - `event`: The `change` event object of the province select
+
+Example
+
+```html
+    <select ... id="newCountry" data-default="{{ form.country }}"></select>
+    <div id="newProvinceContainer">
+        <p>Provinces</p>
+        <select ... id="newProvince" data-default="{{ form.province }}"></select>
+    </div>
+```
+
+```js
+import {CountryProvinceSelector} from '@shopify/theme-addresses';
+
+const newProvinceContainer = document.querySelector('#newProvinceContainer')
+const billingCountryProvinceSelector = new CountryProvinceSelector(window.theme.allCountryOptionTags);
+
+billingCountryProvinceSelector.build(
+    document.querySelector('#newCountry'),
+    document.querySelector('#newProvince'),
+    onCountryChange: (provinces) => {
+        if (provinces.length) {
+            newProvinceContainer.classList.remove('hide');
+        } else {
+            newProvinceContainer.classList.add('hide');
+        }
+    });
+```
