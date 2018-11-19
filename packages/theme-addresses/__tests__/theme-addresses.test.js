@@ -13,6 +13,14 @@ describe('CountryProvinceSelector', () => {
     expect(typeof CountryProvinceSelector).toBe('function');
   });
 
+  test('should throw when given parameter is not a string', () => {
+    let countryProvinceSelector;
+    expect(() => {
+      countryProvinceSelector = new CountryProvinceSelector(1);
+    }).toThrow();
+    expect(countryProvinceSelector).toBeUndefined();
+  });
+
   test('returns an object with a build function', () => {
     let countryProvinceSelector;
     expect(() => {
@@ -23,6 +31,34 @@ describe('CountryProvinceSelector', () => {
 });
 
 describe('CountryProvinceSelector.build()', () => {
+  test('should throw if countryNodeElement is not an object', () => {
+    document.body.innerHTML = `<form>
+      <select id="country"></select>
+      <select id="province"></select>
+    </form>`;
+
+    const countryProvinceSelector = new CountryProvinceSelector(countryOptions);
+    const provinceSelector = document.querySelector('#province');
+  
+    expect(() => {
+      countryProvinceSelector.build(1, provinceSelector);
+    }).toThrow();
+  });
+
+  test('should throw if provinceNodeElement is not an object', () => {
+    document.body.innerHTML = `<form>
+      <select id="country"></select>
+      <select id="province"></select>
+    </form>`;
+
+    const countryProvinceSelector = new CountryProvinceSelector(countryOptions);
+    const countrySelector = document.querySelector('#country');
+  
+    expect(() => {
+      countryProvinceSelector.build(countrySelector, 1);
+    }).toThrow();
+  });
+
   test('populates the given country selectors when no default is set', () => {
     document.body.innerHTML = `<form>
       <select id="country"></select>

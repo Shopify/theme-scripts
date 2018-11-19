@@ -1,8 +1,11 @@
 /**
  * CountryProvinceSelector Constructor
- * @param {Object} countryOptions the country options in html string
+ * @param {String} countryOptions the country options in html string
  */
 export function CountryProvinceSelector(countryOptions) {
+  if (typeof countryOptions !== 'string') {
+    throw new TypeError(countryOptions + ' is not a string.');
+  }
   this.countryOptions = countryOptions;
 }
 
@@ -15,6 +18,14 @@ export function CountryProvinceSelector(countryOptions) {
  * @param {CountryProvinceSelector~onProvinceChange} option.onProvinceChange callback after a province `change` event
  */
 CountryProvinceSelector.prototype.build = function (countryNodeElement, provinceNodeElement, options) {
+  if (typeof countryNodeElement !== 'object') {
+    throw new TypeError(countryNodeElement + ' is not a object.');
+  }
+
+  if (typeof provinceNodeElement !== 'object') {
+    throw new TypeError(provinceNodeElement + ' is not a object.');
+  }
+
   var defaultValue = countryNodeElement.getAttribute('data-default');
   options = options || {}
 
