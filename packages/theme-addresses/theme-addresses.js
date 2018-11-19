@@ -22,7 +22,7 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
   countryNodeElement.value = defaultValue;
 
   if (defaultValue && getOption(countryNodeElement, defaultValue)) {
-    buildProvince(countryNodeElement, provinceNodeElement, defaultValue, options);
+    buildProvince(countryNodeElement, provinceNodeElement, defaultValue);
   }
 
   // Listen for value change on the country select
@@ -30,7 +30,7 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
     var target = event.target;
     var selectedValue = target.value;
     
-    var provinces = buildProvince(target, provinceNodeElement, selectedValue, options);
+    var provinces = buildProvince(target, provinceNodeElement, selectedValue);
     options.onCountryChange && options.onCountryChange(provinces, provinceNodeElement, countryNodeElement);
   });
 
@@ -82,7 +82,7 @@ function buildOptions (provinceNodeElement, provinces) {
 /**
  * Builds the province selector
  */
-function buildProvince (countryNodeElement, provinceNodeElement, selectedValue, options) {
+function buildProvince (countryNodeElement, provinceNodeElement, selectedValue) {
   var selectedOption = getOption(countryNodeElement, selectedValue);
   var provinces = JSON.parse(selectedOption.getAttribute('data-provinces'));
 
