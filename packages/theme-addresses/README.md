@@ -58,7 +58,8 @@ Populates the given `<select>` elements with country and province options.
 - `countryNodeElement`: The `<select>` node element for countries
 - `provinceNodeElement`: The `<select>` node element for provinces according to the selected country
 - `options`:
-    * `hideClass`: The classname that will be toggled for province selector
+    * `onCountryChange`: The callback after a country `change` event
+    * `onProvinceChange`: The callback after a province `change` event
 
 The Select node element should look like the following:
 ```html
@@ -89,4 +90,16 @@ billingCountryProvinceSelector.build($('#newCountry')[0], $('#newProvince')[0]);
 billingCountryProvinceSelector.build($('#editCountry')[0], $('#editProvince')[0], {hideClass: 'hide'});
 ```
 
+### onCountryChange(provinces, provinceNodeElement, countryNodeElement)
 
+The callback when a `change` event happens on the country select.
+
+- `provinces`: The array of provinces of selected country
+- `provinceNodeElement`: The `<select>` node element for provinces
+- `countryNodeElement`: The `<select>` node element for countries
+
+### onProvinceChange(event)
+
+The callback when a `change` event happens on the province select.
+
+- `event`: The `change` event object of the province select
