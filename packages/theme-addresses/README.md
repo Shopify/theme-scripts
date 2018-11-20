@@ -63,8 +63,8 @@ Populates the given `<select>` elements with country and province options.
 
 The Select node element should look like the following:
 ```html
-    <select ... id="newCountry" data-default="{{ form.country }}"></select>
-    <select ... id="newProvince" data-default="{{ form.province }}"></select>
+    <select ... id="newCountry" name="address[country]" data-default="{{ form.country }}"></select>
+    <select ... id="newProvince" name="address[province]" data-default="{{ form.province }}"></select>
 ```
 
 Example
@@ -107,10 +107,10 @@ The callback when a `change` event happens on the province select.
 Example
 
 ```html
-    <select ... id="newCountry" data-default="{{ form.country }}"></select>
+    <select ... id="newCountry" name="address[country]" data-default="{{ form.country }}"></select>
     <div id="newProvinceContainer">
         <p>Provinces</p>
-        <select ... id="newProvince" data-default="{{ form.province }}"></select>
+        <select ... id="newProvince" name="address[province]" data-default="{{ form.province }}"></select>
     </div>
 ```
 
@@ -123,11 +123,13 @@ const billingCountryProvinceSelector = new CountryProvinceSelector(window.theme.
 billingCountryProvinceSelector.build(
     document.querySelector('#newCountry'),
     document.querySelector('#newProvince'),
-    onCountryChange: (provinces) => {
-        if (provinces.length) {
-            newProvinceContainer.classList.remove('hide');
-        } else {
-            newProvinceContainer.classList.add('hide');
+    {
+        onCountryChange: (provinces) => {
+            if (provinces.length) {
+                newProvinceContainer.classList.remove('hide');
+            } else {
+                newProvinceContainer.classList.add('hide');
+            }
         }
     });
 ```

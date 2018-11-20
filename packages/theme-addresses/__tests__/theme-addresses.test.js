@@ -1,9 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import {
-  CountryProvinceSelector
-} from '../theme-addresses';
+import {CountryProvinceSelector} from '../theme-addresses';
 
 import countryOptions from '../__fixtures__/all_country_options.txt';
 import shippingCountryOptions from '../__fixtures__/shipping_country_options.txt';
@@ -17,7 +15,7 @@ describe('CountryProvinceSelector', () => {
     let countryProvinceSelector;
     expect(() => {
       countryProvinceSelector = new CountryProvinceSelector(1);
-    }).toThrow();
+    }).toThrow(TypeError);
     expect(countryProvinceSelector).toBeUndefined();
   });
 
@@ -42,7 +40,7 @@ describe('CountryProvinceSelector.build()', () => {
   
     expect(() => {
       countryProvinceSelector.build(1, provinceSelector);
-    }).toThrow();
+    }).toThrow(TypeError);
   });
 
   test('should throw if provinceNodeElement is not an object', () => {
@@ -56,7 +54,7 @@ describe('CountryProvinceSelector.build()', () => {
   
     expect(() => {
       countryProvinceSelector.build(countrySelector, 1);
-    }).toThrow();
+    }).toThrow(TypeError);
   });
 
   test('populates the given country selectors when no default is set', () => {
@@ -127,7 +125,7 @@ describe('CountryProvinceSelector.build()', () => {
     expect(provinceSelector.value).toEqual('Quebec');
   });
 
-  test('triggers onCountryChange callback', (done) => {
+  test('triggers onCountryChange callback', () => {
     document.body.innerHTML = `<form>
       <select id="country" data-default="Canada"></select>
       <select id="province"></select>
@@ -136,22 +134,23 @@ describe('CountryProvinceSelector.build()', () => {
     const countryProvinceSelector = new CountryProvinceSelector(countryOptions);
     const countrySelector = document.querySelector('#country');
     const provinceSelector = document.querySelector('#province');
+    const mockFunction = jest.fn();
   
     countryProvinceSelector.build(countrySelector, provinceSelector, {
-      onCountryChange: (provinces, provinceNodeElement, countryNodeElement) => {
-        expect(provinces.length).not.toEqual(0);
-        expect(provinceNodeElement).toEqual(provinceSelector);
-        expect(countryNodeElement).toEqual(countrySelector);
-        done();
-      }
+      onCountryChange: mockFunction
     });
 
     countrySelector.value = 'New Zealand'
     countrySelector.dispatchEvent(new Event('change'));
 
+    expect(mockFunction).toHaveBeenCalled();
+    expect(mockFunction.mock.calls.length).toBe(1);
+    expect(mockFunction.mock.calls[0][0].length).not.toBe(0);
+    expect(mockFunction.mock.calls[0][1]).toBe(provinceSelector);
+    expect(mockFunction.mock.calls[0][2]).toBe(countrySelector);
   });
 
-  test('triggers onProvinceChange callback', (done) => {
+  test('triggers onProvinceChange callback', () => {
     document.body.innerHTML = `<form>
       <select id="country" data-default="Canada"></select>
       <select id="province"></select>
@@ -160,16 +159,18 @@ describe('CountryProvinceSelector.build()', () => {
     const countryProvinceSelector = new CountryProvinceSelector(countryOptions);
     const countrySelector = document.querySelector('#country');
     const provinceSelector = document.querySelector('#province');
+    const mockFunction = jest.fn();
   
     countryProvinceSelector.build(countrySelector, provinceSelector, {
-      onProvinceChange: (event) => {
-        expect(event).not.toBeNull();
-        done();
-      }
+      onProvinceChange: mockFunction
     });
 
     provinceSelector.value = 'Quebec';
     provinceSelector.dispatchEvent(new Event('change'));
+
+    expect(mockFunction).toHaveBeenCalled();
+    expect(mockFunction.mock.calls.length).toBe(1);
+    expect(mockFunction.mock.calls[0][0]).not.toBeNull();
 
   });
 

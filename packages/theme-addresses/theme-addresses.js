@@ -14,8 +14,8 @@ export function CountryProvinceSelector(countryOptions) {
  * @param {Node} countryNodeElement The <select> element for country
  * @param {Node} provinceNodeElement The <select> element for province
  * @param {Object} options Additional settings available
- * @param {CountryProvinceSelector~onCountryChange} option.onCountryChange callback after a country `change` event
- * @param {CountryProvinceSelector~onProvinceChange} option.onProvinceChange callback after a province `change` event
+ * @param {CountryProvinceSelector~onCountryChange} options.onCountryChange callback after a country `change` event
+ * @param {CountryProvinceSelector~onProvinceChange} options.onProvinceChange callback after a province `change` event
  */
 CountryProvinceSelector.prototype.build = function (countryNodeElement, provinceNodeElement, options) {
   if (typeof countryNodeElement !== 'object') {
