@@ -90,7 +90,9 @@ billingCountryProvinceSelector.build($('#newCountry')[0], $('#newProvince')[0]);
 billingCountryProvinceSelector.build($('#editCountry')[0], $('#editProvince')[0]);
 ```
 
-### onCountryChange(provinces, provinceNodeElement, countryNodeElement)
+#### options
+
+##### onCountryChange(provinces, provinceNodeElement, countryNodeElement)
 
 The callback when a `change` event happens on the country select.
 
@@ -98,7 +100,7 @@ The callback when a `change` event happens on the country select.
 - `provinceNodeElement`: The `<select>` node element for provinces
 - `countryNodeElement`: The `<select>` node element for countries
 
-### onProvinceChange(event)
+##### onProvinceChange(event)
 
 The callback when a `change` event happens on the province select.
 
