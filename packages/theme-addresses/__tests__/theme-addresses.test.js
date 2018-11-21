@@ -144,7 +144,7 @@ describe('CountryProvinceSelector.build()', () => {
     countrySelector.dispatchEvent(new Event('change'));
 
     expect(mockFunction).toHaveBeenCalled();
-    expect(mockFunction.mock.calls.length).toBe(1);
+    expect(mockFunction.mock.calls.length).toBe(2);
     expect(mockFunction.mock.calls[0][0].length).not.toBe(0);
     expect(mockFunction.mock.calls[0][1]).toBe(provinceSelector);
     expect(mockFunction.mock.calls[0][2]).toBe(countrySelector);

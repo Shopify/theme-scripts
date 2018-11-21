@@ -33,7 +33,8 @@ CountryProvinceSelector.prototype.build = function (countryNodeElement, province
   countryNodeElement.value = defaultValue;
 
   if (defaultValue && getOption(countryNodeElement, defaultValue)) {
-    buildProvince(countryNodeElement, provinceNodeElement, defaultValue);
+    var provinces = buildProvince(countryNodeElement, provinceNodeElement, defaultValue);
+    options.onCountryChange && options.onCountryChange(provinces, provinceNodeElement, countryNodeElement);
   }
 
   // Listen for value change on the country select
