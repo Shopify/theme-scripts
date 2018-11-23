@@ -16,7 +16,7 @@ and then import the functions you wish to use through ES6 imports:
 import {CountryProvinceSelector} from '@shopify/theme-addresses`;
 ```
 
-If you prefer not to use a package manager, you can download the latest version of Theme Product and include it in your project manually from the following links:
+If you prefer not to use a package manager, you can download the latest version of Theme Addresses and include it in your project manually from the following links:
 
 - [theme-addresses.js](http://unpkg.com/@shopify/theme-addresses@latest/dist/theme-addresses.js)
 - [theme-addresses.min.js](http://unpkg.com/@shopify/theme-addresses@latest/dist/theme-addresses.min.js)
