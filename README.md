@@ -11,6 +11,7 @@ Theme scripts are uncoupled from a particular UI. Typically, they are used along
  | package |     |     |
 | ------- | --- | --- |
 | theme-a11y | [README](packages/theme-a11y/README.md) | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-a11y.svg)
+| theme-addresses | [README](packages/theme-addresses/README.md) | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-addresses.svg)
 | theme-cart | [README](packages/theme-cart/README.md) | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-cart.svg)
 | theme-currency | [README](packages/theme-currency/README.md) | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-currency.svg)
 | theme-images | [README](packages/theme-images/README.md) | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-images.svg)
