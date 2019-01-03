@@ -1,0 +1,32 @@
+{
+  "name": "@shopify/theme-product-form",
+  "version": "1.0.0",
+  "description": "A library of useful functions that help make your theme more accessible.",
+  "main": "dist/theme-product-form.cjs.js",
+  "module": "theme-product-form.js",
+  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-product-form",
+  "keywords": [
+    "slate"
+  ],
+  "author": "Shopify Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Shopify/theme-scripts/issues"
+  },
+  "homepage": "https://github.com/Shopify/theme-scripts#readme",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "rollup --config",
+    "size": "size-limit"
+  },
+  "devDependencies": {
+    "rollup": "^0.62.0",
+    "rollup-plugin-uglify": "^4.0.0",
+    "size-limit": "^0.18.3"
+  },
+  "size-limit": [
+    {
+      "path": "theme-product-form.js"
+    }
+  ]
+}

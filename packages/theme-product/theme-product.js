@@ -1,4 +1,14 @@
 /**
+ * Returns a product JSON object when passed a product URL
+ * @param {*} url
+ */
+export function getProductJson(url) {
+  return fetch('' + url + '.js').then(function(response) {
+    return response.json();
+  });
+}
+
+/**
  * Find a match in the project JSON (using a ID number) and return the variant (as an Object)
  * @param {Object} product Product JSON object
  * @param {Number} value Accepts Number (e.g. 6908023078973)
@@ -42,6 +52,8 @@ export function getVariantFromOptionArray(product, options) {
   _validateProductStructure(product);
   _validateOptionsArray(options);
 
+  product = _normalizeProductStructure(product);
+
   var result = product.variants.filter(function(variant) {
     return options.every(function(option, index) {
       return variant.options[index] === option;
@@ -79,7 +91,7 @@ function _createOptionArrayFromOptionCollection(product, collection) {
 /**
  * Check if the product data is a valid JS object
  * Error will be thrown if type is invalid
- * @param {Array} product Product JSON object
+ * @param {object} product Product JSON object
  */
 function _validateProductStructure(product) {
   if (typeof product !== 'object') {
@@ -89,6 +101,26 @@ function _validateProductStructure(product) {
   if (Object.keys(product).length === 0 && product.constructor === Object) {
     throw new Error(product + ' is empty.');
   }
+}
+
+/**
+ * Check the product object and normalize for use with the rest of the library
+ * For example, the product object from {{ product | json }} contains varients
+ * with an options attribute, where as the product object from the .json store
+ * route does not.
+ *
+ * @param {object} product Product JSON object
+ */
+function _normalizeProductStructure(product) {
+  product = JSON.parse(JSON.stringify(product));
+
+  if (typeof product.variants.options === 'undefined') {
+    product.variants.forEach(function(variant) {
+      variant.options = [variant.option1, variant.option2, variant.option3];
+    });
+  }
+
+  return product;
 }
 
 /**
