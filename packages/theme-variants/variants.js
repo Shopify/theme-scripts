@@ -177,7 +177,7 @@ export default class Variants {
     if (/variant=/.test(currentHref)) {
       newUrl = currentHref.replace(/(variant=)[^\&]+/, '$1' + variant.id)
     } else {
-      newUrl = currentHref.concat('&variant=').concat(variant.id)
+      newUrl = currentHref.concat('?&variant=').concat(variant.id)
     }
 
     window.history.replaceState({ path: newUrl }, '', newUrl)
