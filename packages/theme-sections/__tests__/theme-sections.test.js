@@ -461,14 +461,14 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
 
     document.addEventListener('shopify:section:select', () => {
       expect(instances[0].onSelect).toHaveBeenCalledTimes(1);
-      expect(instances[0].onSelect).toHaveBeenLastCalledWith(event.detail.load);
+      expect(instances[0].onSelect).toHaveBeenLastCalledWith(event);
       done();
     });
 
     wrapper.dispatchEvent(event);
   });
 
-  test('calls the onDeselect method of a section when shopify:section:select event is fired', done => {
+  test('calls the onDeselect method of a section when shopify:section:deselect event is fired', done => {
     const wrapper = document.getElementById('shopify-section-1');
     const event = new CustomEvent('shopify:section:deselect', {
       bubbles: true,
@@ -479,6 +479,7 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
 
     document.addEventListener('shopify:section:deselect', () => {
       expect(instances[0].onDeselect).toHaveBeenCalledTimes(1);
+      expect(instances[0].onDeselect).toHaveBeenLastCalledWith(event);
       done();
     });
 
@@ -496,10 +497,7 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
 
     document.addEventListener('shopify:block:select', () => {
       expect(instances[0].onBlockSelect).toHaveBeenCalledTimes(1);
-      expect(instances[0].onBlockSelect).toHaveBeenLastCalledWith(
-        event.detail.blockId,
-        event.detail.load
-      );
+      expect(instances[0].onBlockSelect).toHaveBeenLastCalledWith(event);
       done();
     });
 
@@ -517,9 +515,7 @@ describe('adds event handlers to the document when Shopify.designMode === true, 
 
     document.addEventListener('shopify:block:deselect', () => {
       expect(instances[0].onBlockDeselect).toHaveBeenCalledTimes(1);
-      expect(instances[0].onBlockDeselect).toHaveBeenLastCalledWith(
-        event.detail.blockId
-      );
+      expect(instances[0].onBlockDeselect).toHaveBeenLastCalledWith(event);
       done();
     });
 
