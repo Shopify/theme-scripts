@@ -251,7 +251,7 @@ if (window.Shopify.designMode) {
     var instance = getInstanceById(event.detail.sectionId);
 
     if (typeof instance === 'object') {
-      instance.onSelect(event.detail.load);
+      instance.onSelect(event);
     }
   });
 
@@ -259,7 +259,7 @@ if (window.Shopify.designMode) {
     var instance = getInstanceById(event.detail.sectionId);
 
     if (typeof instance === 'object') {
-      instance.onDeselect();
+      instance.onDeselect(event);
     }
   });
 
@@ -267,7 +267,7 @@ if (window.Shopify.designMode) {
     var instance = getInstanceById(event.detail.sectionId);
 
     if (typeof instance === 'object') {
-      instance.onBlockSelect(event.detail.blockId, event.detail.load);
+      instance.onBlockSelect(event);
     }
   });
 
@@ -275,7 +275,7 @@ if (window.Shopify.designMode) {
     var instance = getInstanceById(event.detail.sectionId);
 
     if (typeof instance === 'object') {
-      instance.onBlockDeselect(event.detail.blockId);
+      instance.onBlockDeselect(event);
     }
   });
 }
