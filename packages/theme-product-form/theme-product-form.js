@@ -12,6 +12,22 @@ var selectors = {
 // -----------------------------------------------------------------------------
 
 /**
+ * Returns a URL with a variant ID query parameter. Useful for updating window.history
+ * with a new URL based on the currently select product variant.
+ * @param {string} url - The URL you wish to append the variant ID to
+ * @param {number} id  - The variant ID you wish to append to the URL
+ * @returns {string} - The new url which includes the variant ID query parameter
+ */
+
+export function getUrlWithVariant(url, id) {
+  if (/variant=/.test(url)) {
+    return url.replace(/(variant=)[^&]+/, '$1' + id);
+  } else {
+    return url.concat('?variant=').concat(id);
+  }
+}
+
+/**
  * Constructor class that creates a new instance of a product form controller.
  *
  * @param {Element} element - DOM element which is equal to the <form> node wrapping product form inputs
@@ -22,7 +38,7 @@ var selectors = {
  * @param {Function} options.onPropertyChange - Callback for whenever a property input changes
  * @param {Function} options.onFormSubmit - Callback for whenever the product form is submitted
  */
-export default function ProductForm(element, product, options) {
+export function ProductForm(element, product, options) {
   this.element = element;
   this.product = _validateProductObject(product);
   this.options = options || {};
