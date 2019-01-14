@@ -2,8 +2,8 @@
  * Returns a product JSON object when passed a product URL
  * @param {*} url
  */
-export function getProductJson(url) {
-  return fetch('' + url + '.js').then(function(response) {
+export function getProductJson(handle) {
+  return fetch('/product/' + handle + '.js').then(function(response) {
     return response.json();
   });
 }
@@ -52,8 +52,6 @@ export function getVariantFromOptionArray(product, options) {
   _validateProductStructure(product);
   _validateOptionsArray(options);
 
-  product = _normalizeProductStructure(product);
-
   var result = product.variants.filter(function(variant) {
     return options.every(function(option, index) {
       return variant.options[index] === option;
@@ -101,26 +99,6 @@ function _validateProductStructure(product) {
   if (Object.keys(product).length === 0 && product.constructor === Object) {
     throw new Error(product + ' is empty.');
   }
-}
-
-/**
- * Check the product object and normalize for use with the rest of the library
- * For example, the product object from {{ product | json }} contains varients
- * with an options attribute, where as the product object from the .json store
- * route does not.
- *
- * @param {object} product Product JSON object
- */
-function _normalizeProductStructure(product) {
-  product = JSON.parse(JSON.stringify(product));
-
-  if (typeof product.variants.options === 'undefined') {
-    product.variants.forEach(function(variant) {
-      variant.options = [variant.option1, variant.option2, variant.option3];
-    });
-  }
-
-  return product;
 }
 
 /**

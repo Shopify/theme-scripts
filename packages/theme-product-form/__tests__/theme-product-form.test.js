@@ -16,13 +16,13 @@ describe('ProductForm()', () => {
         <option value="White">White</option>
       </select>
       <select name="options[Voltage]" data-product-form-option="" data-index="option2">
-              <option value="220 Volts" selected="selected">220 Volts</option>
-
-              <option value="110 Volts">
-                  110 Volts
-              </option>
-
-          </select>
+        <option value="220 Volts" selected="selected">220 Volts</option>
+        <option value="110 Volts">110 Volts</option>
+      </select>
+      <select name="options[Size]" data-product-form-option="" data-index="option3">
+        <option value="Small" selected="selected">Small</option>
+        <option value="Large">Large</option>
+      </select>
     </form>`;
   });
 
