@@ -3,11 +3,48 @@
  */
 import $ from 'jquery';
 import {
+  getUrlWithVariant,
   getVariantFromId,
   getVariantFromSerializedArray,
   getVariantFromOptionArray
 } from '../theme-product';
 import productJson from '../__fixtures__/product.json';
+
+describe('getUrlWithVariant()', () => {
+  test('is a function exported by theme-product.js', () => {
+    expect(typeof getUrlWithVariant).toBe('function');
+  });
+
+  test('adds the "variant" query parameter if it does not exist in the URL', () => {
+    expect(getUrlWithVariant('https://shop1.myshopify.com', 12345678)).toBe(
+      'https://shop1.myshopify.com?variant=12345678'
+    );
+  });
+
+  test('replaces the value of the "variant" query parameter if it does already exist in the URL', () => {
+    expect(
+      getUrlWithVariant(
+        'https://shop1.myshopify.com?variant=12345678',
+        87654321
+      )
+    ).toBe('https://shop1.myshopify.com?variant=87654321');
+  });
+
+  test('does not modify query parameters that do not have the "variant" key', () => {
+    expect(
+      getUrlWithVariant(
+        'https://shop1.myshopify.com?variant=12345678&id=12345678',
+        87654321
+      )
+    ).toBe('https://shop1.myshopify.com?variant=87654321&id=12345678');
+    expect(
+      getUrlWithVariant(
+        'https://shop1.myshopify.com?id=12345678&variant=12345678',
+        87654321
+      )
+    ).toBe('https://shop1.myshopify.com?id=12345678&variant=87654321');
+  });
+});
 
 describe('getVariantFromId()', () => {
   test('is a function exported by theme-product.js', () => {

@@ -19,6 +19,21 @@ export function getVariantFromId(product, value) {
 }
 
 /**
+ * Returns a URL with a variant ID query parameter. Useful for updating window.history
+ * with a new URL based on the currently select product variant.
+ * @param {string} url - The URL you wish to append the variant ID to
+ * @param {number} id  - The variant ID you wish to append to the URL
+ * @returns {string} - The new url which includes the variant ID query parameter
+ */
+export function getUrlWithVariant(url, id) {
+  if (/variant=/.test(url)) {
+    return url.replace(/(variant=)[^&]+/, '$1' + id);
+  } else {
+    return url.concat('?variant=').concat(id);
+  }
+}
+
+/**
  * Convert the Object (with 'name' and 'value' keys) into an Array of values, then find a match & return the variant (as an Object)
  * @param {Object} product Product JSON object
  * @param {Object} collection Object with 'name' and 'value' keys (e.g. [{ name: "Size", value: "36" }, { name: "Color", value: "Black" }])

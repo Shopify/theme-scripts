@@ -144,3 +144,12 @@ Find a matching variant using an array of option values and return it.
 ```javascript
 ['36', 'Black'];
 ```
+
+### getUrlWithVariant(url, variantId)
+
+Adds or replaces the `variant` query parameter on a given URL. Useful for updating the browser history with the current variant URL when users are switching variants on the product page.
+
+```javascript
+const newUrl = getUrlWithVariant(window.location.href, variant.id);
+window.history.replaceState({ path: newUrl }, '', newUrl);
+```
