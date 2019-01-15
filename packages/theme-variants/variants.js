@@ -161,7 +161,8 @@ export default class Variants {
   }
 
   /**
-   * Update history state for product deeplinking
+   * Update history state for product deeplinking while still retaining the query
+   * params.
    *
    * @param {object} variant - Currently selected variant
    */
@@ -170,14 +171,16 @@ export default class Variants {
       return;
     }
 
-    var newurl =
-      window.location.protocol +
-      '//' +
-      window.location.host +
-      window.location.pathname +
-      '?variant=' +
-      variant.id;
-    window.history.replaceState({ path: newurl }, '', newurl);
+    var currentHref = window.location.href
+    var newUrl = ''
+
+    if (/variant=/.test(currentHref)) {
+      newUrl = currentHref.replace(/(variant=)[^\&]+/, '$1' + variant.id)
+    } else {
+      newUrl = currentHref.concat('?variant=').concat(variant.id)
+    }
+
+    window.history.replaceState({ path: newUrl }, '', newUrl)
   }
 
   /**
