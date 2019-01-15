@@ -45,7 +45,11 @@ export function ProductForm(element, product, options) {
   options = options || {};
 
   this._listeners = new Listeners();
-  this._listeners.add(this.element, 'submit', this._onSubmit.bind(this));
+  this._listeners.add(
+    this.element,
+    'submit',
+    this._onSubmit.bind(this, options)
+  );
 
   this.optionInputs = this._initInputs(
     selectors.optionInput,
@@ -77,9 +81,46 @@ ProductForm.prototype.destroy = function() {
  * @returns {Array} An array of option values
  */
 ProductForm.prototype.options = function() {
-  return this.inputs.map(function(input) {
-    return input.value();
+  return this.optionInputs.map(function(input) {
+    return input.value;
   });
+};
+
+/**
+ * Getter method which returns the current selected variant, or null if variant
+ * doesn't exist.
+ *
+ * @returns {Object|null} Variant object
+ */
+ProductForm.prototype.variant = function() {
+  return getVariantFromOptionArray(this.product, this.options());
+};
+
+/**
+ * Getter method which returns a collection of objects containing name and values
+ * of property inputs
+ *
+ * @returns {Array} Collection of objects with name and value keys
+ */
+ProductForm.prototype.properties = function() {
+  return this.propertyInputs.map(function(input) {
+    return {
+      name: input.name,
+      value: input.value
+    };
+  });
+};
+
+/**
+ * Getter method which returns the current quantity or 1 if no quantity input is
+ * included in the form
+ *
+ * @returns {Array} Collection of objects with name and value keys
+ */
+ProductForm.prototype.quantity = function() {
+  return this.quantityInputs[0]
+    ? Number.parseInt(this.quantityInputs[0].value, 10)
+    : 1;
 };
 
 // Private Methods
@@ -97,13 +138,13 @@ ProductForm.prototype._setIdInputValue = function(value) {
   idInputElement.value = value.toString();
 };
 
-ProductForm.prototype._onSubmit = function(event) {
+ProductForm.prototype._onSubmit = function(options, event) {
   event.dataset = this._getProductFormEventData();
 
   this._setIdInputValue(event.dataset.variant.id);
 
-  if (this.options.onFormSubmit) {
-    this.options.onFormSubmit(event);
+  if (options.onFormSubmit) {
+    options.onFormSubmit(event);
   }
 };
 
@@ -132,26 +173,12 @@ ProductForm.prototype._initInputs = function(selector, cb) {
 };
 
 ProductForm.prototype._getProductFormEventData = function() {
-  var dataset = {};
-
-  dataset.options = this.optionInputs.map(function(input) {
-    return input.value;
-  });
-
-  dataset.variant = getVariantFromOptionArray(this.product, dataset.options);
-
-  dataset.properties = this.propertyInputs.map(function(input) {
-    return {
-      name: input.name,
-      value: input.value
-    };
-  });
-
-  dataset.quantity = this.quantityInputs[0]
-    ? Number.parseInt(this.quantityInputs[0].value, 10)
-    : 1;
-
-  return dataset;
+  return {
+    options: this.options(),
+    variant: this.variant(),
+    properties: this.properties(),
+    quantity: this.quantity()
+  };
 };
 
 function _validateProductObject(product) {
