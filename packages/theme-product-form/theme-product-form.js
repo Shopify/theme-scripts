@@ -3,9 +3,9 @@ import { getVariantFromOptionArray } from '@shopify/theme-product';
 
 var selectors = {
   idInput: '[name="id"]',
-  optionInput: '[name*="options["]',
+  optionInput: '[name^="options"]',
   quantityInput: '[name="quantity"]',
-  propertyInput: '[name*="properties["]'
+  propertyInput: '[name^="properties"]'
 };
 
 // Public Methods
@@ -41,24 +41,25 @@ export function getUrlWithVariant(url, id) {
 export function ProductForm(element, product, options) {
   this.element = element;
   this.product = _validateProductObject(product);
-  this.options = options || {};
+
+  options = options || {};
 
   this._listeners = new Listeners();
   this._listeners.add(this.element, 'submit', this._onSubmit.bind(this));
 
-  this.optionsInputs = this._initInputs(
+  this.optionInputs = this._initInputs(
     selectors.optionInput,
-    this.options.onOptionChange
+    options.onOptionChange
   );
 
   this.quantityInputs = this._initInputs(
     selectors.quantityInput,
-    this.options.onQuantityChange
+    options.onQuantityChange
   );
 
   this.propertyInputs = this._initInputs(
     selectors.propertyInput,
-    this.options.onPropertyChange
+    options.onPropertyChange
   );
 }
 
@@ -133,7 +134,7 @@ ProductForm.prototype._initInputs = function(selector, cb) {
 ProductForm.prototype._getProductFormEventData = function() {
   var dataset = {};
 
-  dataset.options = this.optionsInputs.map(function(input) {
+  dataset.options = this.optionInputs.map(function(input) {
     return input.value;
   });
 
@@ -146,7 +147,9 @@ ProductForm.prototype._getProductFormEventData = function() {
     };
   });
 
-  dataset.quantity = this.quantityInputs[0] ? this.quantityInputs[0].value : 1;
+  dataset.quantity = this.quantityInputs[0]
+    ? Number.parseInt(this.quantityInputs[0].value, 10)
+    : 1;
 
   return dataset;
 };
