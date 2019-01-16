@@ -9,14 +9,14 @@ import productJSON from '../__fixtures__/product-object.json';
 const defaultVariant = productJSON.variants[0];
 const defaultQuantity = 3;
 const defaultOptions = [
-  {name: 'options[Color]', value: 'Silver'},
-  {name: 'options[Voltage]', value: '220 Volts'},
-  {name: 'options[Size]', value: 'Small'}
+  {name: 'Color', value: 'Silver'},
+  {name: 'Voltage', value: '220 Volts'},
+  {name: 'Size', value: 'Small'}
 ];
 const defaultProperties = [
-  {name: 'properties[Message]', value: 'derp'},
-  {name: 'properties[Hidden]', value: 'something'},
-  {name: 'properties[Subscribe]', value: 'true'}
+  {name: 'Message', value: 'derp'},
+  {name: 'Hidden', value: 'something'},
+  {name: 'Subscribe', value: 'true'}
 ];
 
 beforeEach(() => {
@@ -159,9 +159,9 @@ describe('ProductForm()', () => {
       onOptionChange: jest.fn()
     };
     const options = [
-      {name: 'options[Color]', value: 'Cobalt'},
-      {name: 'options[Voltage]', value: '220 Volts'},
-      {name: 'options[Size]', value: 'Large'}
+      {name: 'Color', value: 'Cobalt'},
+      {name: 'Voltage', value: '220 Volts'},
+      {name: 'Size', value: 'Large'}
     ];
 
     const productForm = new ProductForm(element, productJSON, config);
@@ -200,9 +200,9 @@ describe('ProductForm()', () => {
       onPropertyChange: jest.fn()
     };
     const properties = [
-      {name: 'properties[Message]', value: 'doh'},
-      {name: 'properties[Hidden]', value: 'something'},
-      {name: 'properties[Subscribe]', value: 'true'}
+      {name: 'Message', value: 'doh'},
+      {name: 'Hidden', value: 'something'},
+      {name: 'Subscribe', value: 'true'}
     ];
 
     const productForm = new ProductForm(element, productJSON, options);

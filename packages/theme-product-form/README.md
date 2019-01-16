@@ -212,7 +212,7 @@ Getter that returns a serialized array of names and values of option inputs in t
 
 ```js
 const productForm = new ProductForm(formElement, productJSON);
-const currentOptions = productForm.options(); // [{name: 'options[Name]', value: 'Tobi'}, ...]
+const currentOptions = productForm.options(); // [{name: 'First Name', value: 'Tobi'}, ...]
 ```
 
 ### ProductForm.variant()
@@ -230,7 +230,7 @@ Getter that returns a serialized array of names and values of property inputs in
 
 ```js
 const productForm = new ProductForm(formElement, productJSON);
-const currentProperties = productForm.properties(); // [{name: 'properties[Message]', value: 'Hello world'}, ...]
+const currentProperties = productForm.properties(); // [{name: 'Message', value: 'Hello world'}, ...]
 ```
 
 ### ProductForm.quantity()

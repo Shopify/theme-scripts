@@ -81,7 +81,11 @@ ProductForm.prototype.destroy = function() {
  * @returns {Array} An array of option values
  */
 ProductForm.prototype.options = function() {
-  return _serializeInputValues(this.optionInputs);
+  return _serializeInputValues(this.optionInputs, function(item) {
+    var regex = /(?:^(options\[))(.*?)(?:\])/;
+    item.name = regex.exec(item.name)[2]; // Use just the value between 'options[' and ']'
+    return item;
+  });
 };
 
 /**
@@ -101,7 +105,11 @@ ProductForm.prototype.variant = function() {
  * @returns {Array} Collection of objects with name and value keys
  */
 ProductForm.prototype.properties = function() {
-  return _serializeInputValues(this.propertyInputs);
+  return _serializeInputValues(this.propertyInputs, function(item) {
+    var regex = /(?:^(properties\[))(.*?)(?:\])/;
+    item.name = regex.exec(item.name)[2]; // Use just the value between 'properties[' and ']'
+    return item;
+  });
 };
 
 /**
@@ -174,13 +182,13 @@ ProductForm.prototype._getProductFormEventData = function() {
   };
 };
 
-function _serializeInputValues(inputs) {
+function _serializeInputValues(inputs, transform) {
   return inputs.reduce(function(options, input) {
     if (
       input.checked || // If input is a checked (means type radio or checkbox)
       (input.type !== 'radio' && input.type !== 'checkbox') // Or if its any other type of input
     ) {
-      options.push({ name: input.name, value: input.value });
+      options.push(transform({ name: input.name, value: input.value }));
     }
 
     return options;
