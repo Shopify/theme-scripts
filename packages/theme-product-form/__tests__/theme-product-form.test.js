@@ -164,6 +164,7 @@ describe('ProductForm()', () => {
       {name: 'Size', value: 'Large'}
     ];
 
+    // eslint-disable-next-line no-unused-vars
     const productForm = new ProductForm(element, productJSON, config);
 
     sizeSelect.value = 'Large';
@@ -183,6 +184,7 @@ describe('ProductForm()', () => {
     };
     const quantity = 10;
 
+    // eslint-disable-next-line no-unused-vars
     const productForm = new ProductForm(element, productJSON, options);
 
     quantityElement.value = quantity;
@@ -205,6 +207,7 @@ describe('ProductForm()', () => {
       {name: 'Subscribe', value: 'true'}
     ];
 
+    // eslint-disable-next-line no-unused-vars
     const productForm = new ProductForm(element, productJSON, options);
 
     propertyElement.value = properties[0].value;
