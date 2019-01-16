@@ -28,5 +28,8 @@
     {
       "path": "theme-product-form.js"
     }
-  ]
+  ],
+  "dependencies": {
+    "@shopify/theme-product": "^1.0.0"
+  }
 }

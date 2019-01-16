@@ -3,7 +3,6 @@
  */
 import $ from 'jquery';
 import {
-  getUrlWithVariant,
   getVariantFromId,
   getVariantFromSerializedArray,
   getVariantFromOptionArray
