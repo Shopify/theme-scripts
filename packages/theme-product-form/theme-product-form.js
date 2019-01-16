@@ -1,5 +1,5 @@
 import Listeners from './listeners';
-import { getVariantFromOptionArray } from '@shopify/theme-product';
+import { getVariantFromSerializedArray } from '@shopify/theme-product';
 
 var selectors = {
   idInput: '[name="id"]',
@@ -81,9 +81,7 @@ ProductForm.prototype.destroy = function() {
  * @returns {Array} An array of option values
  */
 ProductForm.prototype.options = function() {
-  return this.optionInputs.map(function(input) {
-    return input.value;
-  });
+  return _serializeInputValues(this.optionInputs);
 };
 
 /**
@@ -93,7 +91,7 @@ ProductForm.prototype.options = function() {
  * @returns {Object|null} Variant object
  */
 ProductForm.prototype.variant = function() {
-  return getVariantFromOptionArray(this.product, this.options());
+  return getVariantFromSerializedArray(this.product, this.options());
 };
 
 /**
@@ -103,12 +101,7 @@ ProductForm.prototype.variant = function() {
  * @returns {Array} Collection of objects with name and value keys
  */
 ProductForm.prototype.properties = function() {
-  return this.propertyInputs.map(function(input) {
-    return {
-      name: input.name,
-      value: input.value
-    };
-  });
+  return _serializeInputValues(this.propertyInputs);
 };
 
 /**
@@ -180,6 +173,19 @@ ProductForm.prototype._getProductFormEventData = function() {
     quantity: this.quantity()
   };
 };
+
+function _serializeInputValues(inputs) {
+  return inputs.reduce(function(options, input) {
+    if (
+      input.checked || // If input is a checked (means type radio or checkbox)
+      (input.type !== 'radio' && input.type !== 'checkbox') // Or if its any other type of input
+    ) {
+      options.push({ name: input.name, value: input.value });
+    }
+
+    return options;
+  }, []);
+}
 
 function _validateProductObject(product) {
   if (typeof product !== 'object') {

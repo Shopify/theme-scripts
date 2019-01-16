@@ -2,16 +2,21 @@
  * @jest-environment jsdom
  */
 
-import {getVariantFromOptionArray} from '@shopify/theme-product';
+import {getVariantFromSerializedArray} from '@shopify/theme-product';
 import {getUrlWithVariant, ProductForm} from '../theme-product-form';
 import productJSON from '../__fixtures__/product-object.json';
 
-const defaultOptions = ['Silver', '220 Volts', 'Small'];
 const defaultVariant = productJSON.variants[0];
 const defaultQuantity = 3;
+const defaultOptions = [
+  {name: 'options[Color]', value: 'Silver'},
+  {name: 'options[Voltage]', value: '220 Volts'},
+  {name: 'options[Size]', value: 'Small'}
+];
 const defaultProperties = [
   {name: 'properties[Message]', value: 'derp'},
-  {name: 'properties[Hidden]', value: 'something'}
+  {name: 'properties[Hidden]', value: 'something'},
+  {name: 'properties[Subscribe]', value: 'true'}
 ];
 
 beforeEach(() => {
@@ -23,17 +28,20 @@ beforeEach(() => {
       <option value="Cobalt">Cobalt</option>
       <option value="White">White</option>
     </select>
+
     <select name="options[Voltage]">
       <option value="220 Volts" selected="selected">220 Volts</option>
       <option value="110 Volts">110 Volts</option>
     </select>
-    <select name="options[Size]">
-      <option value="Small" selected="selected">Small</option>
-      <option value="Large">Large</option>
-    </select>
+
+    <input type="radio" name="options[Size]" value="Small" checked />
+    <input type="radio" name="options[Size]" value="Large" />
+
     <input type="number" name="quantity" value=3 />
-    <input type="text" name="properties[Message]" value="derp"/>
+
+    <input type="text" name="properties[Message]" value="derp" />
     <input type="hidden" value="something" name="properties[Hidden]" />
+    <input type="checkbox" value=true name="properties[Subscribe]" checked/>
   </form>`;
 });
 
@@ -47,7 +55,7 @@ function expectFormEventDataset(
 ) {
   expect(event.dataset.options).toMatchObject(options);
   expect(event.dataset.variant).toMatchObject(
-    getVariantFromOptionArray(productJSON, options)
+    getVariantFromSerializedArray(productJSON, options)
   );
   expect(event.dataset.properties.length).toBe(properties.length);
   expect(event.dataset.properties).toMatchObject(properties);
@@ -125,7 +133,7 @@ describe('ProductForm()', () => {
     const element = document.getElementById('form');
     const productForm = new ProductForm(element, productJSON);
 
-    expect(productForm.optionInputs.length).toBe(3);
+    expect(productForm.optionInputs.length).toBe(4);
   });
 
   test('assign all quantity inputs which have the name attribute equal to "quantity" to .quantityInputs', () => {
@@ -139,7 +147,7 @@ describe('ProductForm()', () => {
     const element = document.getElementById('form');
     const productForm = new ProductForm(element, productJSON);
 
-    expect(productForm.propertyInputs.length).toBe(2);
+    expect(productForm.propertyInputs.length).toBe(defaultProperties.length);
   });
 
   test('calls the method assigned to onOptionChange option when the value of an option input changes', () => {
@@ -150,7 +158,11 @@ describe('ProductForm()', () => {
     const config = {
       onOptionChange: jest.fn()
     };
-    const options = ['Cobalt', '220 Volts', 'Large'];
+    const options = [
+      {name: 'options[Color]', value: 'Cobalt'},
+      {name: 'options[Voltage]', value: '220 Volts'},
+      {name: 'options[Size]', value: 'Large'}
+    ];
 
     const productForm = new ProductForm(element, productJSON, config);
 
@@ -189,7 +201,8 @@ describe('ProductForm()', () => {
     };
     const properties = [
       {name: 'properties[Message]', value: 'doh'},
-      {name: 'properties[Hidden]', value: 'something'}
+      {name: 'properties[Hidden]', value: 'something'},
+      {name: 'properties[Subscribe]', value: 'true'}
     ];
 
     const productForm = new ProductForm(element, productJSON, options);
