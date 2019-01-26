@@ -125,7 +125,7 @@ export default class Variants {
    */
   _updateImages(variant) {
     var variantImage = variant.featured_image || {};
-    var currentVariantImage = this.currentVariant.featured_image || {};
+    var currentVariantImage = this.currentVariant ? this.currentVariant.featured_image : {};
 
     if (
       !variant.featured_image ||
@@ -147,9 +147,12 @@ export default class Variants {
    * @return {event} variantPriceChange
    */
   _updatePrice(variant) {
+    var currentVariantPrice = this.currentVariant ? this.currentVariant.price : '';
+    var currentVariantComparePrice = this.currentVariant ? this.currentVariant.compare_at_price : '';
+    
     if (
-      variant.price === this.currentVariant.price &&
-      variant.compare_at_price === this.currentVariant.compare_at_price
+      variant.price === currentVariantPrice &&
+      variant.compare_at_price === currentVariantComparePrice
     ) {
       return;
     }
