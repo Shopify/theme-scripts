@@ -1,6 +1,6 @@
 # @shopify/theme-product-form
 
-Theme Product Form helps Shopify theme developers create and manage the state of their product forms. The library is designed in way that decouples it from any rendering logic, allowing it to be used across any number of rendering engines, e.g. Liquid, vanilla JS, Handlebars, React, Vue, etc.
+Theme Product Form helps theme developers create and manage the state of their product forms. The library is decoupled from any rendering logic, allowing it to be used across any number of rendering engines, e.g. Liquid, VanillaJS, Handlebars, React, Vue.js, etc.
 
 ## Browser Support
 
@@ -41,10 +41,10 @@ If you prefer not to use a package manager, you can download the latest version 
 
 Creates a new instance of a product form controller. This controller binds itself to form inputs and fires optional callback functions whenever the product form state changes.
 
-A basic product form which is compatible with ProductForm looks something like following:
+A basic product form example in Liquid that is compatible with `ProductForm` would look something like the following:
 
 ```html
-  {% form "product", product, data-product-form='' data-product-handle=product.handle %}
+  {% form 'product', product, data-product-form: '', data-product-handle: product.handle %}
     {% unless product.has_only_default_variant %}
       {% for option in product.options_with_values %}
         <div class="js-enabled">
@@ -78,11 +78,11 @@ A basic product form which is compatible with ProductForm looks something like f
       In order for this form to submit, it needs to contain an input with name="id".
       ProductForm() will automatically create this input (or make sure it has the
       right value set if it already exists) on form submit based on the
-      currently selected variant, However, if JS is disabled we need a fallback.
+      currently selected variant. However, if JS is disabled we need a fallback.
 
       Include a single <select> element which allows users to select all variants
       as a fallback and present it only when JS is disabled. In addition,
-      make sure you hide the option inputs declared above, like we do with
+      make sure you hide the option inputs declared above, like we do with the
       `.js-enabled` class which only shows its contents when JS is enabled.
     {% endcomment %}
     <noscript>
@@ -108,7 +108,7 @@ A basic product form which is compatible with ProductForm looks something like f
 
     {% comment %}
       Line Item property inputs with `name="properties[NAME]"` will be picked up
-      by ProductForm and registered and a properties input.
+      by ProductForm and registered as a properties input.
     {% endcomment %}
     <label for="Details">{{ 'products.product.details' | t }}</label>
     <textarea id="Details" name="properties[Details]"></textarea>
@@ -136,7 +136,7 @@ const formElement = document.querySelector('[data-product-form]');
 const productHandle = formElement.dataset.productHandle;
 
 // Fetch the product data from the .js endpoint because it includes
-// more data then the .json endpoint. Alternatively, you could inline the output
+// more data than the .json endpoint. Alternatively, you could inline the output
 // of {{ product | json }} inside a <script> tag, with the downside that the
 // data can never be cached by the browser.
 //
@@ -147,12 +147,12 @@ fetch(`/products/${productHandle}.js`)
   })
   .then(productJSON => {
     const productForm = new ProductForm(formElement, productJSON, {
-      onOptionsChange
+      onOptionChange
     });
   });
 
 // This function is called whenever the user changes the value of an option input
-function onOptionsChange(event) {
+function onOptionChange(event) {
   const variant = event.dataset.variant;
 
   if (variant === null) {
@@ -173,15 +173,15 @@ The third argument that can be passed to `ProductForm()` is an options object.
 
 The callbacks that can be specified in the options object are as follows:
 
-- _options.onOptionChange:_ A callback method that is fired whenever the user changes the value of an option input. The The callback receives the event object described below as an arguement.
-- _options.onQuantityChange:_ A callback method that is fired whenever the user changes the value of an quantity input. The callback receives the event object described below as an arguement.
-- _options.onPropertyChange:_ A callback method that is fired whenever the user changes the value of an property input. The callback receives the event object described below as an arguement.
-- _options.onFormSubmit:_ A callback method that is fired whenever the user submits the form. The callback receives the event object described below as an arguement.
+- _options.onOptionChange:_ A callback method that is fired whenever the user changes the value of an option input. The callback receives the event object described below as an arguement.
+- _options.onQuantityChange:_ A callback method that is fired whenever the user changes the value of a quantity input. The callback receives the event object described below as an argument.
+- _options.onPropertyChange:_ A callback method that is fired whenever the user changes the value of a property input. The callback receives the event object described below as an argument.
+- _options.onFormSubmit:_ A callback method that is fired whenever the user submits the form. The callback receives the event object described below as an argument.
 
 These options include several callback functions which are triggered on specific product form events. These functions receive the event as an argument, and that event includes the following payload:
 
-- _event.dataset.options_: The serialized array of options returned by ProductForm.options()
-- _event.dataset.variant_: The variant object return by ProductForm.variant()
+- _event.dataset.options_: The serialized array of currently selected options returned by ProductForm.options()
+- _event.dataset.variant_: The variant object returned by ProductForm.variant()
 - _event.dataset.properties_: The serialized array of properties returned by ProductForm.properties()
 - _event.dataset.quantity_: The number returned by ProductForm.quantity()
 
@@ -196,12 +196,16 @@ import {register} from '@shopify/theme-sections';
 register('my-section', {
   onLoad: () => {
     ...
-    this.productForm = new ProductForm(formElement, productJSON, {onQuantityChange});
+    this.productForm = new ProductForm(formElement, productJSON, {onQuantityChange: this.onQuantityChange});
     ...
   },
 
   onUnload: () => {
     this.productForm.destroy();
+  },
+
+  onQuantityChange: (event) => {
+    // code to run whenever the product quantity is updated
   }
 })
 ```
@@ -217,7 +221,7 @@ const currentOptions = productForm.options(); // [{name: 'First Name', value: 'T
 
 ### ProductForm.variant()
 
-Getter that returns the variant that matches the currently selected options, or null if no match is found.
+Getter that returns the variant that matches the currently selected options, or `null` if no match is found.
 
 ```js
 const productForm = new ProductForm(formElement, productJSON);

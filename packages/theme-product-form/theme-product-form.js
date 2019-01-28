@@ -22,9 +22,9 @@ var selectors = {
 export function getUrlWithVariant(url, id) {
   if (/variant=/.test(url)) {
     return url.replace(/(variant=)[^&]+/, '$1' + id);
-  } else {
-    return url.concat('?variant=').concat(id);
   }
+
+  return url.concat('?variant=').concat(id);
 }
 
 /**
@@ -89,7 +89,7 @@ ProductForm.prototype.options = function() {
 };
 
 /**
- * Getter method which returns the current selected variant, or null if variant
+ * Getter method which returns the currently selected variant, or `null` if variant
  * doesn't exist.
  *
  * @returns {Object|null} Variant object
@@ -127,7 +127,7 @@ ProductForm.prototype.quantity = function() {
 // Private Methods
 // -----------------------------------------------------------------------------
 ProductForm.prototype._setIdInputValue = function(value) {
-  var idInputElement = this.element.querySelector('[name="id"]');
+  var idInputElement = this.element.querySelector(selectors.idInput);
 
   if (!idInputElement) {
     idInputElement = document.createElement('input');

@@ -1,7 +1,7 @@
 {
   "name": "@shopify/theme-product-form",
   "version": "1.0.0",
-  "description": "A library of useful functions that help make your theme more accessible.",
+  "description": "Theme Product Form helps theme developers create and manage the state of their product forms.",
   "main": "dist/theme-product-form.cjs.js",
   "module": "theme-product-form.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-product-form",
@@ -19,6 +19,9 @@
     "build": "rollup --config",
     "size": "size-limit"
   },
+  "dependencies": {
+    "@shopify/theme-product": "^1.0.0"
+  },
   "devDependencies": {
     "rollup": "^0.62.0",
     "rollup-plugin-uglify": "^4.0.0",
@@ -28,8 +31,5 @@
     {
       "path": "theme-product-form.js"
     }
-  ],
-  "dependencies": {
-    "@shopify/theme-product": "^1.0.0"
-  }
+  ]
 }

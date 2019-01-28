@@ -40,8 +40,8 @@ beforeEach(() => {
     <input type="number" name="quantity" value=3 />
 
     <input type="text" name="properties[Message]" value="derp" />
-    <input type="hidden" value="something" name="properties[Hidden]" />
-    <input type="checkbox" value=true name="properties[Subscribe]" checked/>
+    <input type="hidden" name="properties[Hidden]" value="something" />
+    <input type="checkbox" name="properties[Subscribe]" value="true" checked/>
   </form>`;
 });
 
@@ -82,7 +82,7 @@ describe('getUrlWithVariant()', () => {
     ).toBe('https://shop1.myshopify.com?variant=87654321');
   });
 
-  test('does not modify query parameters that do not have the "variant" key', () => {
+  test('only modifies the query parameter with the "variant" key', () => {
     expect(
       getUrlWithVariant(
         'https://shop1.myshopify.com?variant=12345678&id=12345678',
@@ -94,6 +94,9 @@ describe('getUrlWithVariant()', () => {
         'https://shop1.myshopify.com?id=12345678&variant=12345678',
         87654321
       )
+    ).toBe('https://shop1.myshopify.com?id=12345678&variant=87654321');
+    expect(
+      getUrlWithVariant('https://shop1.myshopify.com?id=12345678', 87654321)
     ).toBe('https://shop1.myshopify.com?id=12345678&variant=87654321');
   });
 });
@@ -122,14 +125,14 @@ describe('ProductForm()', () => {
     expect(productForm.element).toBe(element);
   });
 
-  test('assigns the product object that is passed as the seconds argument to .product', () => {
+  test('assigns the product object that is passed as the second argument to .element', () => {
     const element = document.getElementById('form');
     const productForm = new ProductForm(element, productJSON);
 
     expect(productForm.element).toBe(element);
   });
 
-  test('assigns all option inputs which have a name attribute that start with "options" to .optionInputs', () => {
+  test('assigns all option inputs which have a name attribute that starts with "options" to .optionInputs', () => {
     const element = document.getElementById('form');
     const productForm = new ProductForm(element, productJSON);
 
@@ -143,17 +146,17 @@ describe('ProductForm()', () => {
     expect(productForm.quantityInputs.length).toBe(1);
   });
 
-  test('assign all property inputs which have the name attribute that start with "properties" to .propertyInputs', () => {
+  test('assign all property inputs which have the name attribute that starts with "properties" to .propertyInputs', () => {
     const element = document.getElementById('form');
     const productForm = new ProductForm(element, productJSON);
 
     expect(productForm.propertyInputs.length).toBe(defaultProperties.length);
   });
 
-  test('calls the method assigned to onOptionChange option when the value of an option input changes', () => {
+  test('calls the method assigned to the onOptionChange option when the value of an option input changes', () => {
     const element = document.getElementById('form');
-    const colorSelect = document.querySelector('[name="options[Color]"]');
-    const sizeSelect = document.querySelector('[name="options[Size]"]');
+    const colorSelect = element.querySelector('[name="options[Color]"]');
+    const sizeSelects = element.querySelectorAll('[name="options[Size]"]');
     const changeEvent = new Event('change');
     const config = {
       onOptionChange: jest.fn()
@@ -167,38 +170,42 @@ describe('ProductForm()', () => {
     // eslint-disable-next-line no-unused-vars
     const productForm = new ProductForm(element, productJSON, config);
 
-    sizeSelect.value = 'Large';
-    colorSelect.value = 'Cobalt';
+    sizeSelects[0].removeAttribute('checked');
+    sizeSelects[1].setAttribute('checked', true);
+    colorSelect.value = options[0].value;
     colorSelect.dispatchEvent(changeEvent);
+    sizeSelects[1].dispatchEvent(changeEvent);
 
     expect(config.onOptionChange).toHaveBeenCalledWith(changeEvent);
     expectFormEventDataset(changeEvent, {options});
   });
 
-  test('calls the method assigned to onQuantityChange option when the value of a quantity input changes', () => {
+  test('calls the method assigned to the onQuantityChange option when the value of a quantity input changes', () => {
     const element = document.getElementById('form');
-    const quantityElement = document.querySelector('[name="quantity"]');
+    const quantityElement = element.querySelector('[name="quantity"]');
     const changeEvent = new Event('change');
-    const options = {
+    const config = {
       onQuantityChange: jest.fn()
     };
     const quantity = 10;
 
     // eslint-disable-next-line no-unused-vars
-    const productForm = new ProductForm(element, productJSON, options);
+    const productForm = new ProductForm(element, productJSON, config);
 
     quantityElement.value = quantity;
     quantityElement.dispatchEvent(changeEvent);
 
-    expect(options.onQuantityChange).toHaveBeenCalledWith(changeEvent);
+    expect(config.onQuantityChange).toHaveBeenCalledWith(changeEvent);
     expectFormEventDataset(changeEvent, {quantity});
   });
 
-  test('calls the method assigned to onPropertyChange option when the value of a property input changes', () => {
+  test('calls the method assigned to the onPropertyChange option when the value of a property input changes', () => {
     const element = document.getElementById('form');
-    const propertyElement = document.querySelector('[name^="properties"]');
+    const propertyElement = element.querySelector(
+      '[name="properties[Message]"]'
+    );
     const changeEvent = new Event('change');
-    const options = {
+    const config = {
       onPropertyChange: jest.fn()
     };
     const properties = [
@@ -208,27 +215,27 @@ describe('ProductForm()', () => {
     ];
 
     // eslint-disable-next-line no-unused-vars
-    const productForm = new ProductForm(element, productJSON, options);
+    const productForm = new ProductForm(element, productJSON, config);
 
     propertyElement.value = properties[0].value;
     propertyElement.dispatchEvent(changeEvent);
 
-    expect(options.onPropertyChange).toHaveBeenCalledWith(changeEvent);
+    expect(config.onPropertyChange).toHaveBeenCalledWith(changeEvent);
     expectFormEventDataset(changeEvent, {properties});
   });
 
-  test('calls the method assigned to onFormSubmit option when the form is submitted', () => {
+  test('calls the method assigned to the onFormSubmit option when the form is submitted', () => {
     const element = document.getElementById('form');
     const submitEvent = new Event('submit');
-    const options = {
+    const config = {
       onFormSubmit: jest.fn()
     };
 
-    const productForm = new ProductForm(element, productJSON, options);
+    const productForm = new ProductForm(element, productJSON, config);
 
     productForm.element.dispatchEvent(submitEvent);
 
-    expect(options.onFormSubmit).toHaveBeenCalledWith(submitEvent);
+    expect(config.onFormSubmit).toHaveBeenCalledWith(submitEvent);
     expectFormEventDataset(submitEvent, {});
   });
 });
@@ -236,9 +243,9 @@ describe('ProductForm()', () => {
 describe('ProductForm.destroy()', () => {
   test('removes all event listeners that were assigned by ProductForm()', () => {
     const element = document.getElementById('form');
-    const colorSelect = document.querySelector('[name="options[Color]"]');
-    const quantityElement = document.querySelector('[name="quantity"]');
-    const propertyElement = document.querySelector('[name^="properties"]');
+    const colorSelect = element.querySelector('[name="options[Color]"]');
+    const quantityElement = element.querySelector('[name="quantity"]');
+    const propertyElement = element.querySelector('[name^="properties"]');
 
     const changeEvent = new Event('change');
     const submitEvent = new Event('submit');
@@ -267,7 +274,7 @@ describe('ProductForm.destroy()', () => {
 });
 
 describe('ProductForm.options()', () => {
-  test('returns an ordered array of option values', () => {
+  test('returns an ordered array of currently selected option values', () => {
     const element = document.getElementById('form');
     const productForm = new ProductForm(element, productJSON);
 
@@ -281,6 +288,16 @@ describe('ProductForm.variant()', () => {
     const productForm = new ProductForm(element, productJSON);
 
     expect(productForm.variant()).toMatchObject(defaultVariant);
+  });
+
+  test('returns null if the currently selected form options do not have a matching variant', () => {
+    const element = document.getElementById('form');
+    const colorSelect = element.querySelector('[name="options[Color]"]');
+    const productForm = new ProductForm(element, productJSON);
+
+    colorSelect.value = 'Cobalt';
+
+    expect(productForm.variant()).toBe(null);
   });
 });
 
