@@ -149,7 +149,7 @@ Sets the value of the [cart attributes](https://help.shopify.com/en/themes/custo
 > ⚠️ This method will only add or overwrite attribute values. Passing an empty object will result in no change.
 
 ```js
-cart.getAttributes({ giftWrapped: false }).then(state => {
+cart.updateAttributes({ giftWrapped: false }).then(state => {
   if (state.attributes.giftWrapped) {
     console.log('The customer wants their order gift wrapped.');
   }
