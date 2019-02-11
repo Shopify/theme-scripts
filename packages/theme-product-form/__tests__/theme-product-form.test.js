@@ -2,14 +2,16 @@
  * @jest-environment jsdom
  */
 
-import {getVariantFromSerializedArray} from '../../theme-product/theme-product';
-import {getUrlWithVariant, ProductForm} from '../theme-product-form';
-import productJSON from '../__fixtures__/product-object.json';
-
 jest.setMock(
   '@shopify/theme-product',
   require('../../theme-product/theme-product')
 );
+
+const {
+  getVariantFromSerializedArray
+} = require('../../theme-product/theme-product');
+const {getUrlWithVariant, ProductForm} = require('../theme-product-form');
+const productJSON = require('../__fixtures__/product-object.json');
 
 const defaultVariant = productJSON.variants[0];
 const defaultQuantity = 3;
