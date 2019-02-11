@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {getVariantFromSerializedArray} from '@shopify/theme-product';
+import {getVariantFromSerializedArray} from '../../theme-product/theme-product';
 import {getUrlWithVariant, ProductForm} from '../theme-product-form';
 import productJSON from '../__fixtures__/product-object.json';
 
