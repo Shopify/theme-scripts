@@ -2,10 +2,7 @@
  * @jest-environment jsdom
  */
 
-jest.setMock(
-  '@shopify/theme-product',
-  require('../../theme-product/theme-product')
-);
+jest.mock('@shopify/theme-product');
 
 const {
   getVariantFromSerializedArray
