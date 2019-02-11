@@ -6,7 +6,10 @@ import {getVariantFromSerializedArray} from '../../theme-product/theme-product';
 import {getUrlWithVariant, ProductForm} from '../theme-product-form';
 import productJSON from '../__fixtures__/product-object.json';
 
-jest.mock('@shopify/theme-product');
+jest.setMock(
+  '@shopify/theme-product',
+  require('../../theme-product/theme-product')
+);
 
 const defaultVariant = productJSON.variants[0];
 const defaultQuantity = 3;
