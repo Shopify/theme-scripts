@@ -22,6 +22,8 @@ var selectors = {
 export function getUrlWithVariant(url, id) {
   if (/variant=/.test(url)) {
     return url.replace(/(variant=)[^&]+/, '$1' + id);
+  } else if (/\?/.test(url)) {
+    return url.concat('&variant=').concat(id);
   }
 
   return url.concat('?variant=').concat(id);

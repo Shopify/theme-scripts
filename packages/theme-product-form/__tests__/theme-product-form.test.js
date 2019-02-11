@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {getVariantFromSerializedArray} from '../../theme-product/theme-product';
+import * as product from '../../theme-product/theme-product';
 import {getUrlWithVariant, ProductForm} from '../theme-product-form';
 import productJSON from '../__fixtures__/product-object.json';
 
@@ -55,7 +55,7 @@ function expectFormEventDataset(
 ) {
   expect(event.dataset.options).toMatchObject(options);
   expect(event.dataset.variant).toMatchObject(
-    getVariantFromSerializedArray(productJSON, options)
+    product.getVariantFromSerializedArray(productJSON, options)
   );
   expect(event.dataset.properties.length).toBe(properties.length);
   expect(event.dataset.properties).toMatchObject(properties);
