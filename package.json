@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "bootstrap": "yarn && lerna run yarn",
+    "bootstrap": "yarn && lerna run install",
     "build": "lerna run build",
     "publish": "lerna publish",
     "lint": "yarn eslint ./"
