@@ -2,9 +2,13 @@
  * @jest-environment jsdom
  */
 
-import * as product from '../../theme-product/theme-product';
+import {getVariantFromSerializedArray} from '../../theme-product/theme-product';
 import {getUrlWithVariant, ProductForm} from '../theme-product-form';
 import productJSON from '../__fixtures__/product-object.json';
+
+jest.mock('@shopify/theme-product', () => {
+  return require('../../theme-product/theme-product');
+});
 
 const defaultVariant = productJSON.variants[0];
 const defaultQuantity = 3;
@@ -55,7 +59,7 @@ function expectFormEventDataset(
 ) {
   expect(event.dataset.options).toMatchObject(options);
   expect(event.dataset.variant).toMatchObject(
-    product.getVariantFromSerializedArray(productJSON, options)
+    getVariantFromSerializedArray(productJSON, options)
   );
   expect(event.dataset.properties.length).toBe(properties.length);
   expect(event.dataset.properties).toMatchObject(properties);
