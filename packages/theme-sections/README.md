@@ -76,7 +76,7 @@ register('featured-product', {
 
   // Shortcut function called when a section is deselected by the Theme Editor 'shopify:section:deselect' event.
   onDeselect: function() {
-    // Do something when a section instance is selected
+    // Do something when a section instance is deselected
   },
 
   // Shortcut function called when a section block is selected by the Theme Editor 'shopify:block:select' event.
