@@ -6,7 +6,7 @@ export default [
     output: {
       file: "dist/theme-addresses.cjs.js",
       format: "cjs"
-    }
+    },
   },
   {
     input: "theme-addresses.js",
@@ -14,7 +14,7 @@ export default [
       file: "dist/theme-addresses.js",
       format: "iife",
       name: "Shopify.theme.addresses"
-    }
+    },
   },
   {
     input: "theme-addresses.js",

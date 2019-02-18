@@ -4,6 +4,7 @@ module.exports = {
   testPathIgnorePatterns: ['.eslintrc.js'],
   transform: {
     "^.+\\.js$": "babel-jest",
-    '^.+\\.txt$': 'jest-raw-loader'
+    '^.+\\.txt$': 'jest-raw-loader',
+    '^.+\\.html$': 'jest-raw-loader'
   }
 };
