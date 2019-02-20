@@ -36,12 +36,7 @@
     "prettier": "^1.14.2",
     "puppeteer": "^1.4.0"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ],
-    "nohoist": [
-      "**/@shopify/*"
-    ]
-  }
+  "workspaces": [
+    "packages/*"
+  ]
 }
