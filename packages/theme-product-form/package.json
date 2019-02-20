@@ -19,7 +19,7 @@
     "build": "rollup --config",
     "size": "size-limit"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@shopify/theme-product": "^1.0.0"
   },
   "devDependencies": {

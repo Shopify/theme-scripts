@@ -13,7 +13,8 @@ export default [
     output: {
       file: 'dist/theme-product-form.js',
       format: 'iife',
-      name: 'Shopify.theme.productForm'
+      name: 'Shopify.theme.productForm',
+      globals: { '@shopify/theme-product': 'Shopify.theme.product' }
     }
   },
   {
@@ -21,7 +22,8 @@ export default [
     output: {
       file: 'dist/theme-product-form.min.js',
       format: 'iife',
-      name: 'Shopify.theme.productForm'
+      name: 'Shopify.theme.productForm',
+      globals: { '@shopify/theme-product': 'Shopify.theme.product' }
     },
     plugins: [uglify()]
   }
