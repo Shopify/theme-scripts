@@ -2,11 +2,7 @@
  * @jest-environment jsdom
  */
 
-jest.mock('@shopify/theme-product');
-
-const {
-  getVariantFromSerializedArray
-} = require('../../theme-product/theme-product');
+const {getVariantFromSerializedArray} = require('@shopify/theme-product');
 const {getUrlWithVariant, ProductForm} = require('../theme-product-form');
 const productJSON = require('../__fixtures__/product-object.json');
 
