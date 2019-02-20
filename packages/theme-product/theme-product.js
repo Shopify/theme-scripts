@@ -1,4 +1,14 @@
 /**
+ * Returns a product JSON object when passed a product URL
+ * @param {*} url
+ */
+export function getProductJson(handle) {
+  return fetch('/product/' + handle + '.js').then(function(response) {
+    return response.json();
+  });
+}
+
+/**
  * Find a match in the project JSON (using a ID number) and return the variant (as an Object)
  * @param {Object} product Product JSON object
  * @param {Number} value Accepts Number (e.g. 6908023078973)
@@ -79,7 +89,7 @@ function _createOptionArrayFromOptionCollection(product, collection) {
 /**
  * Check if the product data is a valid JS object
  * Error will be thrown if type is invalid
- * @param {Array} product Product JSON object
+ * @param {object} product Product JSON object
  */
 function _validateProductStructure(product) {
   if (typeof product !== 'object') {
