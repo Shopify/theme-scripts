@@ -9,17 +9,18 @@ Theme scripts are uncoupled from a particular UI. Typically, they are used along
 
 ## Packages
 
-| package            |                                                 |                                                                              |
-| ------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------- |
-| theme-a11y         | [README](packages/theme-a11y/README.md)         | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-a11y.svg)         |
-| theme-addresses    | [README](packages/theme-addresses/README.md)    | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-addresses.svg)    |
-| theme-cart         | [README](packages/theme-cart/README.md)         | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-cart.svg)         |
-| theme-currency     | [README](packages/theme-currency/README.md)     | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-currency.svg)     |
-| theme-images       | [README](packages/theme-images/README.md)       | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-images.svg)       |
-| theme-product      | [README](packages/theme-product/README.md)      | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-product.svg)      |
-| theme-product-form | [README](packages/theme-product-form/README.md) | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-product-form.svg) |
-| theme-rte          | [README](packages/theme-rte/README.md)          | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-rte.svg)          |
-| theme-sections     | [README](packages/theme-sections/README.md)     | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-sections.svg)     |
+| package                 |                                                      |                                                                                   |
+| ----------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------- |
+| theme-a11y              | [README](packages/theme-a11y/README.md)              | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-a11y.svg)              |
+| theme-addresses         | [README](packages/theme-addresses/README.md)         | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-addresses.svg)         |
+| theme-cart              | [README](packages/theme-cart/README.md)              | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-cart.svg)              |
+| theme-currency          | [README](packages/theme-currency/README.md)          | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-currency.svg)          |
+| theme-images            | [README](packages/theme-images/README.md)            | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-images.svg)            |
+| theme-predictive-search | [README](packages/theme-predictive-search/README.md) | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-predictive-search.svg) |
+| theme-product           | [README](packages/theme-product/README.md)           | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-product.svg)           |
+| theme-product-form      | [README](packages/theme-product-form/README.md)      | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-product-form.svg)      |
+| theme-rte               | [README](packages/theme-rte/README.md)               | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-rte.svg)               |
+| theme-sections          | [README](packages/theme-sections/README.md)          | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-sections.svg)          |
 
 ## Contributing
 
