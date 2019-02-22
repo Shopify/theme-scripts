@@ -20,7 +20,6 @@ Theme scripts are uncoupled from a particular UI. Typically, they are used along
 | theme-product-form | [README](packages/theme-product-form/README.md) | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-product-form.svg) |
 | theme-rte          | [README](packages/theme-rte/README.md)          | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-rte.svg)          |
 | theme-sections     | [README](packages/theme-sections/README.md)     | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-sections.svg)     |
-| theme-variants     | [README](packages/theme-variants/README.md)     | ![npm version](https://badge.fury.io/js/%40shopify%2Ftheme-variants.svg)     |
 
 ## Contributing
 
