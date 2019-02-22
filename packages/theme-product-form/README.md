@@ -57,7 +57,7 @@ A basic product form example in Liquid that is compatible with `ProductForm` wou
               All inputs that have `name=options[Name]` will be picked up by
               ProductForm, registered as an option input, and made available
               at ProductForm.optionsInputs
-            {% comment %}
+            {% endcomment %}
 
             <select
               id="Option{{ option.position }}"
