@@ -11,5 +11,5 @@ yarn add @shopify/theme-currency
 and then import the functions you wish to use through ES6 imports:
 
 ```
-import * as currency from '@shopify/theme-currency`;
+import * as currency from '@shopify/theme-currency';
 ```
