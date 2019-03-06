@@ -11,7 +11,7 @@ yarn add @shopify/theme-a11y
 and then import the functions you wish to use through ES6 imports:
 
 ```
-import * as a11y from '@shopify/theme-a11y`;
+import * as a11y from '@shopify/theme-a11y';
 ```
 
 If you prefer not to use a package manager, you can download the latest version of Theme A11y and include it in your project manually from the following links:
