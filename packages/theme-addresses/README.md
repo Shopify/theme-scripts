@@ -13,7 +13,7 @@ yarn add @shopify/theme-addresses
 and then import the functions you wish to use through ES6 imports:
 
 ```
-import {CountryProvinceSelector} from '@shopify/theme-addresses`;
+import {CountryProvinceSelector} from '@shopify/theme-addresses';
 ```
 
 If you prefer not to use a package manager, you can download the latest version of Theme Addresses and include it in your project manually from the following links:
