@@ -11,5 +11,5 @@ yarn add @shopify/theme-rte
 and then import the functions you wish to use through ES6 imports:
 
 ```
-import * as rte from '@shopify/theme-rte`;
+import * as rte from '@shopify/theme-rte';
 ```
