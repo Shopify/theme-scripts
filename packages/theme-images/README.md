@@ -11,5 +11,5 @@ yarn add @shopify/theme-images
 and then import the functions you wish to use through ES6 imports:
 
 ```
-import * as images from '@shopify/theme-images`;
+import * as images from '@shopify/theme-images';
 ```
