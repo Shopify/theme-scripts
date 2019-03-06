@@ -11,7 +11,7 @@ yarn add @shopify/theme-product
 and then import the functions you wish to use through ES6 imports:
 
 ```
-import * as product from '@shopify/theme-product`;
+import * as product from '@shopify/theme-product';
 ```
 
 If you prefer not to use a package manager, you can download the latest version of Theme Product and include it in your project manually from the following links:
