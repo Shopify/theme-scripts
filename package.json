@@ -1,15 +1,18 @@
 {
   "name": "theme-scripts",
   "private": true,
-  "version": "1.0.0-alpha.0",
+  "version": "2.0.0",
   "description": "A collection of helpful script libraries that help you make better Shopify themes.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "bootstrap": "yarn && lerna bootstrap && lerna run build",
-    "build": "lerna run build",
     "publish": "lerna publish",
-    "lint": "yarn eslint ./"
+    "prebuild": "yarn run clean",
+    "build": "lerna run build",
+    "lint": "yarn eslint ./",
+    "check": "lerna run check",
+    "release": "lerna publish && git push --follow-tags"
   },
   "repository": "https://github.com/Shopify/theme-scripts",
   "keywords": [
@@ -32,7 +35,7 @@
     "jest-puppeteer": "^3.0.1",
     "jest-raw-loader": "^1.0.1",
     "jquery": "3.x",
-    "lerna": "^2.5.1",
+    "lerna": "^2.9.0",
     "prettier": "^1.14.2",
     "puppeteer": "^1.4.0"
   },
