@@ -53,8 +53,6 @@ export function focusHash(options) {
   var hash = window.location.hash;
   var element = document.getElementById(hash.slice(1));
 
-  polyfillMatches();
-
   // if we are to ignore this element, early return
   if (element && options.ignore && element.matches(options.ignore)) {
     return false;
@@ -80,8 +78,6 @@ export function bindInPageLinks(options) {
   var links = Array.prototype.slice.call(
     document.querySelectorAll('a[href^="#"]')
   );
-
-  polyfillMatches();
 
   return links.filter(function(link) {
     if (link.hash === '#' || link.hash === '') {
@@ -281,12 +277,4 @@ export function accessibleLinks(elements, options) {
   });
 
   generateHTML(messages);
-}
-
-function polyfillMatches() {
-  if (!Element.prototype.matches) {
-    Element.prototype.matches =
-      Element.prototype.msMatchesSelector ||
-      Element.prototype.webkitMatchesSelector;
-  }
 }
