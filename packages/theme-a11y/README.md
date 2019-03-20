@@ -25,7 +25,7 @@ These files make Theme A11y accessible via the `Shopify.theme.a11y` global varia
 
 ## Browser Support
 
-Theme A11y uses method not available to legacy browsers: `Element.matches()`. If you wish to support legacy browsers, make sure you add the following dependencies to your project:
+Theme A11y uses a method not available in legacy browsers: `Element.matches()`. If you wish to support legacy browsers, make sure you add the following dependencies to your project:
 
 ```
 yarn add element-matches
