@@ -7,10 +7,12 @@
   "scripts": {
     "test": "jest",
     "bootstrap": "yarn && lerna bootstrap && lerna run build",
-    "build": "lerna run build",
     "publish": "lerna publish",
+    "prebuild": "yarn run clean",
+    "build": "lerna run build",
     "lint": "yarn eslint ./",
-    "check": "lerna run check"
+    "check": "lerna run check",
+    "release": "lerna publish && git push --follow-tags"
   },
   "repository": "https://github.com/Shopify/theme-scripts",
   "keywords": [
