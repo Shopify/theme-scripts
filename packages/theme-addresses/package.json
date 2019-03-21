@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-addresses",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A library that helps developers work with addresses within Shopify Themes",
   "main": "dist/theme-addresses.cjs.js",
   "module": "theme-addresses.js",

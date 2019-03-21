@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-sections",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
   "main": "dist/theme-sections.cjs.js",
   "module": "theme-sections.js",
