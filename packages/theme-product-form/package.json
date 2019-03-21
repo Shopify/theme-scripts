@@ -4,7 +4,10 @@
   "description": "Theme Product Form helps theme developers create and manage the state of their product forms.",
   "main": "dist/theme-product-form.cjs.js",
   "module": "theme-product-form.js",
-  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-product-form",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shopify/theme-scripts.git"
+  },
   "publishConfig": {
     "access": "public",
     "@shopify:registry": "https://registry.npmjs.org"
@@ -19,7 +22,7 @@
   },
   "homepage": "https://github.com/Shopify/theme-scripts#readme",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "rollup --config",
     "size": "size-limit"
   },

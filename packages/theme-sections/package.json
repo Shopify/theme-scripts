@@ -4,7 +4,10 @@
   "description": "A framework that helps developers build Shopify Theme sections that play well with the Shopify Theme Editor",
   "main": "dist/theme-sections.cjs.js",
   "module": "theme-sections.js",
-  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-sections",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shopify/theme-scripts.git"
+  },
   "publishConfig": {
     "access": "public",
     "@shopify:registry": "https://registry.npmjs.org"
@@ -19,7 +22,7 @@
   },
   "homepage": "https://github.com/Shopify/theme-scripts#readme",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "rollup --config",
     "size": "size-limit"
   },

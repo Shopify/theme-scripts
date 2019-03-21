@@ -4,7 +4,10 @@
   "description": "A library that helps with basic image operations within Shopify Themes",
   "main": "dist/images.cjs.js",
   "modules": "dist/images.es5.js",
-  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-images",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shopify/theme-scripts.git"
+  },
   "publishConfig": {
     "access": "public",
     "@shopify:registry": "https://registry.npmjs.org"
@@ -19,7 +22,7 @@
   },
   "homepage": "https://github.com/Shopify/theme-scripts#readme",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "npm run build:es5 & npm run build:cjs",
     "build:es5": "mkdir -p dist && ../../node_modules/.bin/babel images.js --out-file dist/images.es5.js",
     "build:cjs": "mkdir -p dist && ../../node_modules/.bin/babel --no-babelrc images.js --out-file dist/images.cjs.js --presets=shopify"

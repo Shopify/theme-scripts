@@ -4,7 +4,10 @@
   "description": "A library that helps developers work with addresses within Shopify Themes",
   "main": "dist/theme-addresses.cjs.js",
   "module": "theme-addresses.js",
-  "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-addresses",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shopify/theme-scripts.git"
+  },
   "publishConfig": {
     "access": "public",
     "@shopify:registry": "https://registry.npmjs.org"
@@ -19,7 +22,7 @@
   },
   "homepage": "https://github.com/Shopify/theme-scripts#readme",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "rollup --config",
     "size": "size-limit"
   },
