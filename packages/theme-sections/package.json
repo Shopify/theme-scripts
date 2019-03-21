@@ -5,6 +5,10 @@
   "main": "dist/theme-sections.cjs.js",
   "module": "theme-sections.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-sections",
+  "publishConfig": {
+    "access": "public",
+    "@shopify:registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "slate"
   ],

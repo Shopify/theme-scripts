@@ -5,6 +5,10 @@
   "main": "dist/theme-addresses.cjs.js",
   "module": "theme-addresses.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-addresses",
+  "publishConfig": {
+    "access": "public",
+    "@shopify:registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "slate"
   ],

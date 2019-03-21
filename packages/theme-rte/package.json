@@ -5,6 +5,10 @@
   "main": "dist/rte.cjs.js",
   "modules": "dist/rte.es5.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-rte",
+  "publishConfig": {
+    "access": "public",
+    "@shopify:registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "slate"
   ],

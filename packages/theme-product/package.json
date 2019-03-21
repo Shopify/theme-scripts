@@ -5,6 +5,10 @@
   "main": "dist/theme-product.cjs.js",
   "module": "theme-product.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-product",
+  "publishConfig": {
+    "access": "public",
+    "@shopify:registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "slate"
   ],

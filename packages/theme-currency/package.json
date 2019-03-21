@@ -5,6 +5,10 @@
   "main": "dist/currency.cjs.js",
   "modules": "dist/currency.es5.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-currency",
+  "publishConfig": {
+    "access": "public",
+    "@shopify:registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "slate"
   ],

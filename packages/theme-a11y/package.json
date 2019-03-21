@@ -5,6 +5,10 @@
   "main": "dist/theme-a11y.cjs.js",
   "module": "theme-a11y.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-a11y",
+  "publishConfig": {
+    "access": "public",
+    "@shopify:registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "slate",
     "a11y"

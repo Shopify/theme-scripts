@@ -5,6 +5,10 @@
   "main": "dist/images.cjs.js",
   "modules": "dist/images.es5.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-images",
+  "publishConfig": {
+    "access": "public",
+    "@shopify:registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "slate"
   ],

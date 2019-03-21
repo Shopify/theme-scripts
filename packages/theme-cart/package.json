@@ -5,6 +5,10 @@
   "main": "dist/theme-cart.cjs.js",
   "module": "theme-cart.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-cart",
+  "publishConfig": {
+    "access": "public",
+    "@shopify:registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "Shopify",
     "themes",

@@ -5,6 +5,10 @@
   "main": "dist/theme-product-form.cjs.js",
   "module": "theme-product-form.js",
   "repository": "https://github.com/Shopify/theme-scripts/tree/master/packages/theme-product-form",
+  "publishConfig": {
+    "access": "public",
+    "@shopify:registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "slate"
   ],
