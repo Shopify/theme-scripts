@@ -35,10 +35,10 @@ and then import them before you import Theme A11y:
 
 ```js
 // Only need to import these once
-import "element-matches";
+import 'element-matches';
 
 // Import @shopify/theme-a11y anywhere you need it
-import * as a11y from "@shopify/theme-a11y";
+import * as a11y from '@shopify/theme-a11y';
 ```
 
 ## Methods
