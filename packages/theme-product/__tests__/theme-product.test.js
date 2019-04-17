@@ -1,13 +1,27 @@
 /**
  * @jest-environment jsdom
  */
+import 'isomorphic-fetch';
+import fetchMock from 'fetch-mock';
 import $ from 'jquery';
 import {
+  getProductJson,
   getVariantFromId,
   getVariantFromSerializedArray,
   getVariantFromOptionArray
 } from '../theme-product';
 import productJson from '../__fixtures__/product.json';
+
+describe("getProductJson()", () => {
+  test("get product by handle", () => {
+    fetchMock.mock("/products/foo.js", productJson);
+
+    getProductJson("foo");
+
+    expect(fetchMock.calls().length).toBe(1);
+    fetchMock.restore();
+  });
+});
 
 describe('getVariantFromId()', () => {
   test('is a function exported by theme-product.js', () => {
