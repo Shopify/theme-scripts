@@ -11,6 +11,7 @@
     "build": "lerna run build",
     "lint": "yarn eslint ./",
     "check": "lerna run check",
+    "updated": "lerna updated",
     "release": "lerna publish && git push --follow-tags"
   },
   "repository": "https://github.com/Shopify/theme-scripts",
