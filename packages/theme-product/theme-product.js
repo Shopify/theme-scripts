@@ -3,7 +3,7 @@
  * @param {*} url
  */
 export function getProductJson(handle) {
-  return fetch('/product/' + handle + '.js').then(function(response) {
+  return fetch('/products/' + handle + '.js').then(function(response) {
     return response.json();
   });
 }
