@@ -30,10 +30,14 @@ and then import the functions you wish to use through ES6 imports:
 import {ProductForm} from '@shopify/theme-product-form'
 ```
 
+_NOTE: This package has a [`peerDependency`](https://yarnpkg.com/en/docs/dependency-types#toc-peerdependencies) on [`@shopify/theme-product`](https://github.com/Shopify/theme-scripts/blob/master/packages/theme-product/README.md)._
+
 If you prefer not to use a package manager, you can download the latest version of Theme Product Form and include it in your project manually from the following links:
 
 - [theme-product-form.js](http://unpkg.com/@shopify/theme-product-form@latest/dist/theme-product-form.js)
 - [theme-product-form.min.js](http://unpkg.com/@shopify/theme-product-form@latest/dist/theme-product-form.min.js)
+
+_NOTE: Because `theme-product-form.js` dependents on [`theme-product.js`](https://github.com/Shopify/theme-scripts/blob/master/packages/theme-product/README.md), include [`theme-product.js`](https://github.com/Shopify/theme-scripts/blob/master/packages/theme-product/README.md) before `theme-product-form.js`._
 
 ## Methods
 
