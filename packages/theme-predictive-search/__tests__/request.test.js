@@ -63,9 +63,7 @@ describe("request()", () => {
 
       jest.runAllTimers();
 
-      expect(spyOnError).toHaveBeenCalledWith(
-        new Error("An error ocurred whilst sending the request.")
-      );
+      expect(spyOnError).toHaveBeenCalledWith(new Error("Request Error"));
     });
 
     it("fails with an invalid Content-Type header", () => {
@@ -81,9 +79,7 @@ describe("request()", () => {
 
       jest.runAllTimers();
 
-      expect(spyOnError).toHaveBeenCalledWith(
-        new Error("An error ocurred whilst sending the request.")
-      );
+      expect(spyOnError).toHaveBeenCalledWith(new Error("Request Error"));
     });
 
     it("fails in the absence of Content-Type header", () => {
@@ -96,9 +92,7 @@ describe("request()", () => {
 
       jest.runAllTimers();
 
-      expect(spyOnError).toHaveBeenCalledWith(
-        new Error("An error ocurred whilst sending the request.")
-      );
+      expect(spyOnError).toHaveBeenCalledWith(new Error("Request Error"));
     });
   });
 
@@ -116,9 +110,7 @@ describe("request()", () => {
 
       jest.runAllTimers();
 
-      expect(spyOnError).toHaveBeenCalledWith(
-        new Error("An error ocurred whilst sending the request.")
-      );
+      expect(spyOnError).toHaveBeenCalledWith(new Error("Request Error"));
     });
 
     describe("422", () => {
@@ -211,6 +203,46 @@ describe("request()", () => {
 
         expect(spyOnError).toHaveBeenCalledTimes(1);
       });
+    });
+
+    describe("417", () => {
+      it("head request", () => {
+        const spyOnError = jest.fn();
+        xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
+          res
+            .status(417)
+            .header("Content-Type", "application/json; charset=utf-8")
+            .body(
+              JSON.stringify({
+                status: 417,
+                message: "Expectation Failed",
+                description: "Unsupported shop primary locale"
+              })
+            )
+        );
+
+        request("config=foo", "foo-417", null, spyOnError);
+
+        jest.runAllTimers();
+
+        const error = new Error();
+        error.name = "Expectation Failed";
+        error.message = "Unsupported shop primary locale";
+        expect(spyOnError).toHaveBeenCalledWith(error);
+      });
+    });
+  });
+
+  describe("500", () => {
+    it("head request", () => {
+      const spyOnError = jest.fn();
+      xhrMock.get(/^\/search\/suggest\.json/g, (req, res) => res.status(500));
+
+      request("config=foo", "foo-500", null, spyOnError);
+
+      jest.runAllTimers();
+
+      expect(spyOnError).toHaveBeenCalledWith(new Error("Server Error"));
     });
   });
 });

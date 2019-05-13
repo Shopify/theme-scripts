@@ -5,16 +5,22 @@ export default function request(configParams, query, onSuccess, onError) {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       var contentType = xhr.getResponseHeader("Content-Type");
 
-      if (
-        typeof contentType !== "string" ||
-        contentType.toLowerCase().match("application/json") === null
-      ) {
-        onError(new Error("An error ocurred whilst sending the request."));
+      if (xhr.status >= 500) {
+        onError(new Error("Server Error"));
 
         return;
       }
 
-      if (xhr.status >= 200 && xhr.status < 300) {
+      if (
+        typeof contentType !== "string" ||
+        contentType.toLowerCase().match("application/json") === null
+      ) {
+        onError(new Error("Request Error"));
+
+        return;
+      }
+
+      if (xhr.status === 200) {
         try {
           var res = JSON.parse(xhr.responseText);
           res.query = query;
@@ -59,7 +65,7 @@ export default function request(configParams, query, onSuccess, onError) {
         return;
       }
 
-      onError(new Error("An error ocurred whilst sending the request."));
+      onError(new Error("Request Error"));
 
       return;
     }
