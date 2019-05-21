@@ -60,11 +60,11 @@ var predictiveSearch = new PredictiveSearch({
 });
 
 predictiveSearch.on("success", function(json) {
-  // See "Response Shape" section of this document
+  // See "Success Response" section of this document
 });
 
 predictiveSearch.on("error", function(error) {
-  // See "Error Response Shape" section of this document
+  // See "HTTP status `3xx-4xx` Response" section of this document
 });
 
 predictiveSearch.query("The Calling");
@@ -72,7 +72,7 @@ predictiveSearch.query("The Calling");
 
 ---
 
-### Response Shape
+### Success Response
 
 ```json
 // JSON Output
@@ -81,19 +81,24 @@ predictiveSearch.query("The Calling");
     "results": {
       "products": [
         {
+          "id": 1,
           "title": "The Calling",
           "body": "<p>The Calling</p>",
           "handle": "calling",
           "image": "https://cdn.shopify.com/...",
+          "type": "Bikes",
+          "tags": ["bike", "dolphin"],
           "url": "/products/calling?variant_id=1",
           "price": "3099",
+          "available": true,
           "variants": [
             {
               "title": "Large / Angry Dolphin",
               "url": "https://www.evil-bikes.com/products/calling",
               "image": "https://cdn.shopify.com/...",
               "price": "3099",
-              "compare_at_price": "4099"
+              "compare_at_price": "4099",
+              "available": true,
             }
           ]
         }
@@ -103,13 +108,15 @@ predictiveSearch.query("The Calling");
 }
 ```
 
-### Error Response Shape
+### HTTP status `3xx-4xx` Response
 
-```json
-// JSON Output
-{
-  "type": "throttled",
-  "message": "You have been throttled. You can send the next query in 900 milliseconds",
-  "retryAfter": 900
-}
+```js
+predictiveSearch.on("error", function(error) {
+  console.error(error.status); // Ex. output: 429
+  console.error(error.name); // Ex. output: Throttled
+  console.error(error.message); // Ex. output: Too Many Requests
+
+  // When the request response HTTP status is 429
+  console.error(error.retryAfter); // Ex. output: 100
+});
 ```

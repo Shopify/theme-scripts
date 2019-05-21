@@ -1,3 +1,14 @@
+import {
+  ServerError,
+  NotFoundError,
+  ContentTypeError,
+  InvalidParameterError,
+  JsonParseError,
+  ExpectationFailedError,
+  ThrottledError,
+  GenericError
+} from "./utilities/CustomError";
+
 export default function request(configParams, query, onSuccess, onError) {
   var xhr = new XMLHttpRequest();
 
@@ -6,7 +17,13 @@ export default function request(configParams, query, onSuccess, onError) {
       var contentType = xhr.getResponseHeader("Content-Type");
 
       if (xhr.status >= 500) {
-        onError(new Error("Server Error"));
+        onError(new ServerError());
+
+        return;
+      }
+
+      if (xhr.status === 404) {
+        onError(new NotFoundError(xhr.status));
 
         return;
       }
@@ -15,7 +32,62 @@ export default function request(configParams, query, onSuccess, onError) {
         typeof contentType !== "string" ||
         contentType.toLowerCase().match("application/json") === null
       ) {
-        onError(new Error("Request Error"));
+        onError(new ContentTypeError(xhr.status));
+
+        return;
+      }
+
+      if (xhr.status === 417) {
+        try {
+          var invalidParameterJson = JSON.parse(xhr.responseText);
+
+          onError(
+            new InvalidParameterError(
+              xhr.status,
+              invalidParameterJson.message,
+              invalidParameterJson.description
+            )
+          );
+        } catch (error) {
+          onError(new JsonParseError(xhr.status));
+        }
+
+        return;
+      }
+
+      if (xhr.status === 422) {
+        try {
+          var expectationFailedJson = JSON.parse(xhr.responseText);
+
+          onError(
+            new ExpectationFailedError(
+              xhr.status,
+              expectationFailedJson.message,
+              expectationFailedJson.description
+            )
+          );
+        } catch (error) {
+          onError(new JsonParseError(xhr.status));
+        }
+
+        return;
+      }
+
+      if (xhr.status === 429) {
+        try {
+          var throttledJson = JSON.parse(xhr.responseText);
+
+          onError(
+            new ThrottledError(
+              xhr.status,
+              throttledJson.message,
+              throttledJson.description,
+              xhr.getResponseHeader("Retry-After")
+            )
+          );
+        } catch (error) {
+          onError(new JsonParseError(xhr.status));
+        }
 
         return;
       }
@@ -26,46 +98,24 @@ export default function request(configParams, query, onSuccess, onError) {
           res.query = query;
           onSuccess(res);
         } catch (error) {
-          onError(error);
+          onError(new JsonParseError(xhr.status));
         }
 
         return;
       }
 
-      if (xhr.status === 429) {
-        try {
-          var throttledJson = JSON.parse(xhr.responseText);
-          var throttledError = new Error();
-
-          throttledError.name = throttledJson.message;
-          throttledError.message = throttledJson.description;
-          throttledError.retryAfter = xhr.getResponseHeader("Retry-After");
-
-          onError(throttledError);
-        } catch (error) {
-          onError(error);
-        }
-
-        return;
+      try {
+        var genericErrorJson = JSON.parse(xhr.responseText);
+        onError(
+          new GenericError(
+            xhr.status,
+            genericErrorJson.message,
+            genericErrorJson.description
+          )
+        );
+      } catch (error) {
+        onError(new JsonParseError(xhr.status));
       }
-
-      if (xhr.status) {
-        try {
-          var genericErrorJson = JSON.parse(xhr.responseText);
-          var genericError = new Error();
-
-          genericError.name = genericErrorJson.message;
-          genericError.message = genericErrorJson.description;
-
-          onError(genericError);
-        } catch (error) {
-          onError(error);
-        }
-
-        return;
-      }
-
-      onError(new Error("Request Error"));
 
       return;
     }

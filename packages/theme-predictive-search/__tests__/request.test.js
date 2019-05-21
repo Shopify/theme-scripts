@@ -50,8 +50,7 @@ describe("request()", () => {
       });
     });
 
-    it("fails on invalid JSON", () => {
-      const spyOnError = jest.fn();
+    it("fails on invalid JSON", done => {
       xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
         res
           .status(200)
@@ -59,15 +58,19 @@ describe("request()", () => {
           .body("boom")
       );
 
-      request("config=foo", "foo-200-invalid", null, spyOnError);
+      request("config=foo", "foo-200-invalid", null, error => {
+        expect(error).toBeInstanceOf(Error);
+        expect(error.status).toBe(200);
+        expect(error.message).toBe(
+          "Content-Type was not provided or is of wrong type"
+        );
+        done();
+      });
 
       jest.runAllTimers();
-
-      expect(spyOnError).toHaveBeenCalledWith(new Error("Request Error"));
     });
 
-    it("fails with an invalid Content-Type header", () => {
-      const spyOnError = jest.fn();
+    it("fails with an invalid Content-Type header", done => {
       xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
         res
           .status(200)
@@ -75,30 +78,39 @@ describe("request()", () => {
           .body("boom")
       );
 
-      request("config=foo", "foo-200-invalid", null, spyOnError);
+      request("config=foo", "foo-200-invalid", null, error => {
+        expect(error).toBeInstanceOf(Error);
+        expect(error.status).toBe(200);
+        expect(error.message).toBe(
+          "Content-Type was not provided or is of wrong type"
+        );
+        done();
+      });
 
       jest.runAllTimers();
-
-      expect(spyOnError).toHaveBeenCalledWith(new Error("Request Error"));
     });
 
-    it("fails in the absence of Content-Type header", () => {
-      const spyOnError = jest.fn();
+    it("fails in the absence of Content-Type header", done => {
       xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
         res.status(200).body("boom")
       );
 
-      request("config=foo", "foo-200-invalid", null, spyOnError);
+      request("config=foo", "foo-200-invalid", null, error => {
+        expect(error).toBeInstanceOf(Error);
+        expect(error.status).toBe(200);
+        expect(error.name).toBe("Content-Type error");
+        expect(error.message).toBe(
+          "Content-Type was not provided or is of wrong type"
+        );
+        done();
+      });
 
       jest.runAllTimers();
-
-      expect(spyOnError).toHaveBeenCalledWith(new Error("Request Error"));
     });
   });
 
   describe("4xx", () => {
-    it("404", () => {
-      const spyOnError = jest.fn();
+    it("404", done => {
       xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
         res
           .status(404)
@@ -106,65 +118,69 @@ describe("request()", () => {
           .body("boom")
       );
 
-      request("config=foo", "foo-404", null, spyOnError);
+      request("config=foo", "foo-404", null, error => {
+        expect(error).toBeInstanceOf(Error);
+        expect(error.status).toBe(404);
+        expect(error.name).toBe("Not found");
+        expect(error.message).toBe("Not found");
+        done();
+      });
 
       jest.runAllTimers();
-
-      expect(spyOnError).toHaveBeenCalledWith(new Error("Request Error"));
     });
 
     describe("422", () => {
-      it("valid", () => {
-        const spyOnError = jest.fn();
+      it("valid", done => {
         xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
           res
             .status(422)
             .header("Content-Type", "application/json; charset=utf-8")
             .body(
               JSON.stringify({
-                status: 429,
+                status: 422,
                 message: "Invalid parameter error",
                 description: "Invalid parameter error description"
               })
             )
         );
 
-        request("config=foo", "foo-422", null, spyOnError);
+        request("config=foo", "foo-422", null, error => {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.status).toBe(422);
+          expect(error.name).toBe("Invalid parameter error");
+          expect(error.message).toBe("Invalid parameter error description");
+          done();
+        });
 
         jest.runAllTimers();
-
-        const expectedError = new Error();
-        expectedError.name = "Invalid parameter error";
-        expectedError.message = "Invalid parameter error description";
-
-        expect(spyOnError).toHaveBeenNthCalledWith(1, expectedError);
       });
 
-      it("invalid JSON", () => {
-        const spyOnError = jest.fn();
+      it("invalid JSON", done => {
         xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
           res
-            .status(429)
+            .status(422)
             .header("Retry-After", 1000)
             .header("Content-Type", "application/json; charset=utf-8")
             .body("Invalid parameter error")
         );
 
-        request("config=foo", "foo-422-invalid", null, spyOnError);
+        request("config=foo", "foo-422-invalid", null, error => {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.status).toBe(422);
+          expect(error.name).toBe("JSON parse error");
+          done();
+        });
 
         jest.runAllTimers();
-
-        expect(spyOnError).toHaveBeenCalledTimes(1);
       });
     });
 
     describe("429", () => {
-      it("valid", () => {
-        const spyOnError = jest.fn();
+      it("valid", done => {
         xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
           res
             .status(429)
-            .header("Retry-After", 1000)
+            .header("Retry-After", 1)
             .header("Content-Type", "application/json; charset=utf-8")
             .body(
               JSON.stringify({
@@ -175,20 +191,19 @@ describe("request()", () => {
             )
         );
 
-        request("config=foo", "foo-429", null, spyOnError);
+        request("config=foo", "foo-429", null, error => {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.status).toBe(429);
+          expect(error.name).toBe("Throttled");
+          expect(error.message).toBe("Too Many Requests");
+          expect(error.retryAfter).toBe(1);
+          done();
+        });
 
         jest.runAllTimers();
-
-        const expectedError = new Error();
-        expectedError.name = "Throttled";
-        expectedError.message = "Too Many Requests";
-        expectedError.retryAfter = 1000;
-
-        expect(spyOnError).toHaveBeenNthCalledWith(1, expectedError);
       });
 
-      it("invalid JSON", () => {
-        const spyOnError = jest.fn();
+      it("invalid JSON", done => {
         xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
           res
             .status(429)
@@ -197,17 +212,19 @@ describe("request()", () => {
             .body("Throttled")
         );
 
-        request("config=foo", "foo-429-invalid", null, spyOnError);
+        request("config=foo", "foo-429-invalid", null, error => {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.status).toBe(429);
+          expect(error.name).toBe("JSON parse error");
+          done();
+        });
 
         jest.runAllTimers();
-
-        expect(spyOnError).toHaveBeenCalledTimes(1);
       });
     });
 
     describe("417", () => {
-      it("head request", () => {
-        const spyOnError = jest.fn();
+      it("head request", done => {
         xhrMock.get(/^\/search\/suggest\.json/g, (req, res) =>
           res
             .status(417)
@@ -221,28 +238,32 @@ describe("request()", () => {
             )
         );
 
-        request("config=foo", "foo-417", null, spyOnError);
+        request("config=foo", "foo-417", null, error => {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.status).toBe(417);
+          expect(error.name).toBe("Expectation Failed");
+          expect(error.message).toBe("Unsupported shop primary locale");
+          done();
+        });
 
         jest.runAllTimers();
-
-        const error = new Error();
-        error.name = "Expectation Failed";
-        error.message = "Unsupported shop primary locale";
-        expect(spyOnError).toHaveBeenCalledWith(error);
       });
     });
   });
 
   describe("500", () => {
-    it("head request", () => {
-      const spyOnError = jest.fn();
+    it("head request", done => {
       xhrMock.get(/^\/search\/suggest\.json/g, (req, res) => res.status(500));
 
-      request("config=foo", "foo-500", null, spyOnError);
+      request("config=foo", "foo-500", null, error => {
+        expect(error).toBeInstanceOf(Error);
+        expect(error.status).toBe(500);
+        expect(error.name).toBe("Server error");
+        expect(error.message).toBe("Something went wrong on the server");
+        done();
+      });
 
       jest.runAllTimers();
-
-      expect(spyOnError).toHaveBeenCalledWith(new Error("Server Error"));
     });
   });
 });
