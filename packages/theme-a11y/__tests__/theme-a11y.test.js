@@ -116,6 +116,8 @@ describe('bindInPageLinks()', () => {
       '<a id="link" href="#title"></a>' +
       '<a id="invalidLink1" href="#"></a>' +
       '<a id="invalidLink2" href="/otherlink"></a>' +
+      '<a id="invalidLink3" href="#!"></a>' +
+      '<a id="invalidLink4" href="# "></a>' +
       '<a id="ignoredLink" class="js-ignore-link" href="#title2"></a>' +
       '<h1 id="title">Title</h1>' +
       '<h2 id="title2">Title 2</h2>';
