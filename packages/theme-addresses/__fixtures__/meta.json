@@ -1,0 +1,16 @@
+{
+  "id": 14910198,
+  "name": "Some One",
+  "city": "Montreal",
+  "province": "Hokkaidō",
+  "country": "JP",
+  "currency": "USD",
+  "domain": "some-url.myshopify.com",
+  "url": "https://some-url.myshopify.com",
+  "myshopify_domain": "nimasellsshit.myshopify.com",
+  "description": "",
+  "ships_to_countries": ["CA", "FR"],
+  "money_format": "${{amount}}",
+  "published_collections_count": 1,
+  "published_products_count": 7
+}
