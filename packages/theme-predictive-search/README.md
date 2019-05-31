@@ -27,9 +27,9 @@
           <td>Enables typo tolerance when searching. A typo will be tolerated after the fourth character. Default: <code>true</code>.</td>
         </tr>
         <tr>
-          <td><code>out_of_stock</code> (optional)</td>
+          <td><code>unavailable_products</code> (optional)</td>
           <td>String</td>
-          <td>Specifies whether to display <code>out_of_stock</code> results. The three possible options are <code>show</code>, <code>hide</code>, and <code>bury</code>. Burying out of stock products pushes them below other matching results.  Default: <code>show</code>.</td>
+          <td>Specifies whether to display <code>unavailable_products</code> results. The three possible options are <code>show</code>, <code>hide</code>, and <code>bury</code>. Burying out of stock products pushes them below other matching results.  Default: <code>show</code>.</td>
         </tr>
         <tr>
           <td><code>limit</code> (optional)</td>
@@ -55,7 +55,7 @@ var predictiveSearch = new PredictiveSearch({
     fuzzy: true,
     types: [PredictiveSearch.TYPES.PRODUCT],
     limit: 4,
-    out_of_stock: "bury"
+    unavailable_products: "bury"
   }
 });
 
