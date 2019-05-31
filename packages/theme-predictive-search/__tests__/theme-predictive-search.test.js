@@ -4,7 +4,7 @@ import searchAsYouTypeTheCallingFixture from "../__fixtures__/search_as_you_type
 
 /* eslint-disable camelcase */
 const defaultConfig = {
-  search_as_you_type: {
+  resources: {
     fuzzy: true,
     types: [PredictiveSearch.TYPES.PRODUCT]
   }
@@ -158,7 +158,7 @@ describe("Search()", () => {
 
         search.on("success", result => {
           expect(result).toMatchObject({
-            search_as_you_type: {
+            resources: {
               results: {
                 products: [
                   {

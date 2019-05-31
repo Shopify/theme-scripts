@@ -5,7 +5,7 @@ describe("objectToQueryParams", () => {
     /* eslint-disable camelcase */
     const obj = {
       foo: "foo",
-      search_as_you_type: {
+      resources: {
         fuzzy: true,
         types: ["product", "collection"]
       }
@@ -13,9 +13,9 @@ describe("objectToQueryParams", () => {
 
     expect(objectToQueryParams(obj)).toBe(
       "foo=foo&" +
-        "search_as_you_type[fuzzy]=true&" +
-        "search_as_you_type[types][]=product&" +
-        "search_as_you_type[types][]=collection&"
+        "resources[fuzzy]=true&" +
+        "resources[types][]=product&" +
+        "resources[types][]=collection&"
     );
   });
 

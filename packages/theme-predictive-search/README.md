@@ -8,7 +8,7 @@
     <th>Options</th>
   </tr>
   <tr>
-    <td><code>search_as_you_type</code></td>
+    <td><code>resources</code></td>
     <td>
       <table>
         <tr>
@@ -51,7 +51,7 @@ See the [help docs for Predictive Search](https://help.shopify.com/en/themes/dev
 import PredictiveSearch from "@shopify/theme-predictive-search";
 
 var predictiveSearch = new PredictiveSearch({
-  search_as_you_type: {
+  resources: {
     fuzzy: true,
     types: [PredictiveSearch.TYPES.PRODUCT],
     limit: 4,
@@ -77,7 +77,7 @@ predictiveSearch.query("The Calling");
 ```json
 // JSON Output
 {
-  "search_as_you_type": {
+  "resources": {
     "results": {
       "products": [
         {
