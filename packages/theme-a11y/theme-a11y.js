@@ -264,7 +264,8 @@ export function accessibleLinks(elements, options) {
     var isRelNoopenerEmpty = rel === null || rel.indexOf('noopener') === -1;
 
     if (isTargetBlank && isRelNoopenerEmpty) {
-      link.setAttribute('rel', 'noopener');
+      var relValue = rel === null ? 'noopener' : rel + ' noopener';
+      link.setAttribute('rel', relValue);
     }
 
     if (isExternal && isTargetBlank) {
