@@ -261,9 +261,9 @@ export function accessibleLinks(elements, options) {
     var rel = link.getAttribute('rel');
     var isExternal = externalSite(link);
     var isTargetBlank = target === '_blank';
-    var isRelNoopenerEmpty = rel === null || rel.indexOf('noopener') === -1;
+    var missingRelNoopener = rel === null || rel.indexOf('noopener') === -1;
 
-    if (isTargetBlank && isRelNoopenerEmpty) {
+    if (isTargetBlank && missingRelNoopener) {
       var relValue = rel === null ? 'noopener' : rel + ' noopener';
       link.setAttribute('rel', relValue);
     }
