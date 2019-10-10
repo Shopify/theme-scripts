@@ -32,6 +32,7 @@
   "homepage": "https://github.com/Shopify/theme-scripts/blob/master/packages/theme-predictive-search/README.md",
   "sideEffects": false,
   "devDependencies": {
+    "rollup": "0.66.0",
     "rollup-plugin-eslint": "^5.0.0",
     "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-uglify": "^6.0.2",
