@@ -2,10 +2,8 @@ import { validateQuery } from "./validate";
 import request from "./request";
 import { debounce, objectToQueryParams, Dispatcher, Cache } from "./utilities";
 
-var requestDebounced = debounce(
-  request,
-  PredictiveSearch.prototype.DEBOUNCE_RATE
-);
+var DEBOUNCE_RATE = 10;
+var requestDebounced = debounce(request, DEBOUNCE_RATE);
 
 export default function PredictiveSearch(config) {
   if (!config) {
@@ -21,10 +19,28 @@ export default function PredictiveSearch(config) {
 }
 
 PredictiveSearch.TYPES = {
-  PRODUCT: "product"
+  PRODUCT: "product",
+  PAGE: "page",
+  ARTICLE: "article"
 };
 
-PredictiveSearch.prototype.DEBOUNCE_RATE = 10;
+PredictiveSearch.FIELDS = {
+  AUTHOR: "author",
+  BODY: "body",
+  PRODUCT_TYPE: "product_type",
+  TAG: "tag",
+  TITLE: "title",
+  VARIANTS_BARCODE: "variants.barcode",
+  VARIANTS_SKU: "variants.sku",
+  VARIANTS_TITLE: "variants.title",
+  VENDOR: "vendor"
+};
+
+PredictiveSearch.UNAVAILABLE_PRODUCTS = {
+  SHOW: "show",
+  HIDE: "hide",
+  LAST: "last"
+};
 
 PredictiveSearch.prototype.query = function query(query) {
   try {

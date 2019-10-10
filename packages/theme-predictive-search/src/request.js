@@ -123,7 +123,7 @@ export default function request(configParams, query, onSuccess, onError) {
 
   xhr.open(
     "get",
-    "/search/suggest.json?s=" + encodeURIComponent(query) + "&" + configParams
+    "/search/suggest.json?q=" + encodeURIComponent(query) + "&" + configParams
   );
 
   xhr.setRequestHeader("Content-Type", "application/json");

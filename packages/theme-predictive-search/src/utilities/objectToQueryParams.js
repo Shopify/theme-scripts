@@ -2,7 +2,7 @@ export default function objectToQueryParams(obj, parentKey) {
   var output = "";
   parentKey = parentKey || null;
 
-  Object.keys(obj).forEach(function(key) {
+  Object.keys(obj).forEach(function (key) {
     var outputKey = key + "=";
     if (parentKey) {
       outputKey = parentKey + "[" + key + "]";
@@ -13,12 +13,7 @@ export default function objectToQueryParams(obj, parentKey) {
         output += objectToQueryParams(obj[key], parentKey ? outputKey : key);
         break;
       case "array":
-        output +=
-          obj[key]
-            .map(function(item) {
-              return outputKey + "[]=" + encodeURIComponent(item);
-            })
-            .join("&") + "&";
+        output += outputKey + "=" + obj[key].join(",") + "&";
         break;
       default:
         if (parentKey) {
