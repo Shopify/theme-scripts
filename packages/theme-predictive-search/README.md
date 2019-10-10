@@ -20,7 +20,7 @@
   </tr>
   <tr>
     <td><code>type</code> (required)</td>
-    <td>Comma-separated values</td>
+    <td>Array</td>
     <td>Specifies the type of results requested. Valid values: <code>product</code>, <code>page</code>, <code>article</code>.</td>
   </tr>
   <tr>
@@ -40,7 +40,7 @@
   </tr>
   <tr>
     <td><code>fields</code> (optional)</td>
-    <td>Comma-separated values</td>
+    <td>Array</td>
     <td>Specifies the list of fields to search on.  Valid fields are: <code>author</code>, <code>body</code>, <code>product_type</code>, <code>tag</code>, <code>title</code>, <code>variants.barcode</code>, <code>variants.sku</code>, <code>variants.title</code>, and <code>vendor</code>.  The default fields searched on are: <code>title</code>, <code>product_type</code>, <code>variants.title</code>, and <code>vendor</code>.  For the best search experience, we recommend searching on the default field set or as few fields as possible.</td>
   </tr>
 </table>
@@ -61,7 +61,11 @@ var predictiveSearch = new PredictiveSearch({
     limit: 4,
     options: {
       unavailable_products: "last",
-      fields: ["title", "product_type", "variants.title"]
+      fields: [
+        PredictiveSearch.FIELDS.TITLE,
+        PredictiveSearch.FIELDS.PRODUCT_TYPE,
+        PredictiveSearch.FIELDS.VARIANTS_TITLE
+      ]
     }
   }
 });
