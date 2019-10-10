@@ -12,7 +12,7 @@ import {
 export default function request(configParams, query, onSuccess, onError) {
   var xhr = new XMLHttpRequest();
 
-  xhr.onreadystatechange = function() {
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       var contentType = xhr.getResponseHeader("Content-Type");
 
@@ -123,7 +123,7 @@ export default function request(configParams, query, onSuccess, onError) {
 
   xhr.open(
     "get",
-    "/search/suggest.json?s=" + encodeURIComponent(query) + "&" + configParams
+    "/search/suggest.json?q=" + encodeURIComponent(query) + "&" + configParams
   );
 
   xhr.setRequestHeader("Content-Type", "application/json");

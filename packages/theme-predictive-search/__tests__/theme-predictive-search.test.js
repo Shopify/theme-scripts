@@ -5,8 +5,16 @@ import searchAsYouTypeTheCallingFixture from "../__fixtures__/search_as_you_type
 /* eslint-disable camelcase */
 const defaultConfig = {
   resources: {
-    fuzzy: true,
-    types: [PredictiveSearch.TYPES.PRODUCT]
+    type: [PredictiveSearch.TYPES.PRODUCT],
+    options: {
+      unavailable_products: PredictiveSearch.UNAVAILABLE_PRODUCTS.LAST,
+      fields: [
+        PredictiveSearch.FIELDS.TITLE,
+        PredictiveSearch.FIELDS.VENDOR,
+        PredictiveSearch.FIELDS.PRODUCT_TYPE,
+        PredictiveSearch.FIELDS.VARIANTS_TITLE
+      ]
+    }
   }
 };
 
@@ -232,7 +240,7 @@ describe("Search()", () => {
         const search = new PredictiveSearch(defaultConfig);
 
         xhrMock.get(
-          /^\/search\/suggest\.json\?s=The%20Calling/g,
+          /^\/search\/suggest\.json\?q=The%20Calling/g,
           (req, res) => {
             xhrCalls++;
             return res
@@ -242,7 +250,7 @@ describe("Search()", () => {
           }
         );
 
-        xhrMock.get(/^\/search\/suggest\.json\?s=The%20Following/g, () => {
+        xhrMock.get(/^\/search\/suggest\.json\?q=The%20Following/g, () => {
           return new Promise(() => null);
         });
 
