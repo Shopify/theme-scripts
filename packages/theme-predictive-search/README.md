@@ -56,8 +56,7 @@ import PredictiveSearch from "@shopify/theme-predictive-search";
 
 var predictiveSearch = new PredictiveSearch({
   resources: {
-    fuzzy: true,
-    types: [PredictiveSearch.TYPES.PRODUCT],
+    type: [PredictiveSearch.TYPES.PRODUCT],
     limit: 4,
     options: {
       unavailable_products: "last",
