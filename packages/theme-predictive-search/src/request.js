@@ -12,7 +12,7 @@ import {
 export default function request(configParams, query, onSuccess, onError) {
   var xhr = new XMLHttpRequest();
 
-  xhr.onreadystatechange = function() {
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       var contentType = xhr.getResponseHeader("Content-Type");
 
