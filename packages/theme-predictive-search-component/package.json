@@ -1,10 +1,10 @@
 {
-  "name": "@shopify/theme-predictive-search",
-  "version": "3.0.1",
+  "name": "@shopify/theme-predictive-search-component",
+  "version": "0.0.1",
   "license": "MIT",
-  "description": "Shopify AJAX Predictive Search API",
-  "main": "dist/theme-predictive-search.cjs.js",
-  "module": "src/theme-predictive-search.js",
+  "description": "Shopify Predictive Search UI Component",
+  "main": "dist/theme-predictive-search-component.cjs.js",
+  "module": "src/theme-predictive-search-component.js",
   "publishConfig": {
     "access": "public",
     "@shopify:registry": "https://registry.npmjs.org"
@@ -29,17 +29,21 @@
   "bugs": {
     "url": "https://github.com/shopify/theme-scripts/issues"
   },
-  "homepage": "https://github.com/Shopify/theme-scripts/blob/master/packages/theme-predictive-search/README.md",
+  "homepage": "https://github.com/Shopify/theme-scripts/blob/master/packages/theme-predictive-search-component/README.md",
   "sideEffects": false,
+  "peerDependencies": {
+    "@shopify/theme-predictive-search": "*"
+  },
   "devDependencies": {
-    "rollup": "0.66.0",
     "rollup-plugin-eslint": "^5.0.0",
     "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-uglify": "^6.0.2",
     "size-limit": "^0.21.1",
     "xhr-mock": "^2.4.1"
   },
-  "size-limit": [{
-    "path": "src/theme-predictive-search.js"
-  }]
+  "size-limit": [
+    {
+      "path": "src/theme-predictive-search-component.js"
+    }
+  ]
 }
