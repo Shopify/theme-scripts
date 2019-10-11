@@ -9,11 +9,6 @@
     <th>Description</th>
   </tr>
   <tr>
-    <td><code>q</code> (required)</td>
-    <td>String</td>
-    <td>The search query.</td>
-  </tr>
-  <tr>
     <td><code>resources</code> (required)</td>
     <td>Object</td>
     <td>Requests <code>resources</code> results for the given query, based on the <code>type</code> and <code>limit</code> fields.</td>
