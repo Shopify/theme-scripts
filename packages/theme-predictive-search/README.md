@@ -77,7 +77,7 @@ predictiveSearch.on("error", function(error) {
   // See "HTTP status `3xx-4xx` Response" section of this document
 });
 
-predictiveSearch.query("The Calling");
+predictiveSearch.query("Yeti SB165");
 ```
 
 ---
@@ -91,33 +91,32 @@ predictiveSearch.query("The Calling");
     "results": {
       "products": [
         {
-
-          "available": BOOLEAN,
-          "body": STRING w/HTML,
-          "compare_at_price_max": DECIMAL ("0.00" when the product has no variants with a "compare_at_price"),
-          "compare_at_price_min": DECIMAL ("0.00" when the product has no variants with a "compare_at_price"),
-          "handle": STRING,
-          "id": INTEGER,
-          "image": STRING e.g, "https://cdn.shopify.com/s/...",
-          "price": DECIMAL,
-          "price_max": DECIMAL,
-          "price_min": DECIMAL,
-          "tags" : ARRAY OF STRING,
-          "title": STRING,
-          "type" : STRING,
-          "url": STRING e.g, "/products/fast-snowboard?_pos=1&_psq=snowb&_ss=e&_v=1.0",
+          "available": true,
+          "body": "<p>The best bike ever made</p>",
+          "compare_at_price_max": "5199.99",
+          "compare_at_price_min": "4899.99",
+          "handle": "yeti-sb165",
+          "id": 111,
+          "image": "https://cdn.shopify.com/s/...",
+          "price": "4999.99",
+          "price_max": "5199.99",
+          "price_min": "4899.99",
+          "tags": ["best", "bike", "ever", "made"],
+          "title": "Yeti SB165",
+          "type": "best-bike",
+          "url": "/products/sb165",
           "variants": [
             {
-              "available": BOOLEAN,
-              "compare_at_price": DECIMAL (nullable),
-              "id": INTEGER,
-              "image": STRING e.g, "https://cdn.shopify.com/s/...",
-              "price": DECIMAL,
-              "title": STRING,
-              "url": STRING e.g, "/products/fast-snowboard?_pos=1&_psq=snowb&_ss=e&_v=1.0"
+              "available": true,
+              "compare_at_price": "9999.99",
+              "id": 222,
+              "image": "https://cdn.shopify.com/s/...",
+              "price": "9999.99",
+              "title": "Yeti SB165 X01 build",
+              "url": "/products/sb165/x01"
             }
           ],
-          "vendor": STRING
+          "vendor": "Yeti Cyclesr"
         }
       ]
     }
