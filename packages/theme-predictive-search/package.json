@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-predictive-search",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "license": "MIT",
   "description": "Shopify AJAX Predictive Search API",
   "main": "dist/theme-predictive-search.cjs.js",
@@ -39,7 +39,9 @@
     "size-limit": "^0.21.1",
     "xhr-mock": "^2.4.1"
   },
-  "size-limit": [{
-    "path": "src/theme-predictive-search.js"
-  }]
+  "size-limit": [
+    {
+      "path": "src/theme-predictive-search.js"
+    }
+  ]
 }
