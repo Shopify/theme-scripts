@@ -199,3 +199,12 @@ cart.getShippingRates().then(rates => {
   console.log('Got shipping rates:', rates);
 });
 ```
+
+### abort()
+
+Aborts any pending requests
+
+```js
+cart.getState();
+cart.abort();
+```
