@@ -13,8 +13,9 @@ import * as validate from './validate';
  * Aborts any pending requests
  */
 export function abort() {
-  request.controllers.forEach(function(controller) {
+  request.controllers.forEach(function(controller, index) {
     controller.abort();
+    request.controllers.splice(index, 1);
   });
 }
 
