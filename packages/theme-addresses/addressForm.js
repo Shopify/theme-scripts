@@ -117,22 +117,22 @@ function setLabels(formElements, country) {
 function populateCountries(formElements, countries) {
   var countrySelect = formElements.country.input;
   var duplicatedCountrySelect = countrySelect.cloneNode(true);
+  var countryCodeKey = [];
 
   countries.forEach(function(country) {
     var optionElement = document.createElement('option');
     optionElement.value = country.code;
     optionElement.textContent = country.name;
     duplicatedCountrySelect.appendChild(optionElement);
+    countryCodeKey[country.name] = country.code;
   });
 
   countrySelect.innerHTML = duplicatedCountrySelect.innerHTML;
 
   if (countrySelect.dataset.default) {
-    var defaultValue = countrySelect.dataset.default.length > 2 ? countries.find(function(country) {
-      return country.name === countrySelect.dataset.default;
-    }) : countrySelect.dataset.default;
+    var defaultValue = countrySelect.dataset.default.length > 2 ? countryCodeKey[countrySelect.dataset.default] : countrySelect.dataset.default;
 
-    countrySelect.value = defaultValue.code;
+    countrySelect.value = defaultValue;
   }
 }
 
@@ -156,24 +156,20 @@ function populateZones(formElements, country) {
   var zoneSelect = zoneEl.input;
   var duplicatedZoneSelect = zoneSelect.cloneNode(true);
   duplicatedZoneSelect.innerHTML = '';
+  var zoneCodeKey = [];
 
   country.zones.forEach(function(zone) {
     var optionElement = document.createElement('option');
     optionElement.value = zone.code;
     optionElement.textContent = zone.name;
     duplicatedZoneSelect.appendChild(optionElement);
+    zoneCodeKey[zone.name] = zone.code;
   });
 
   zoneSelect.innerHTML = duplicatedZoneSelect.innerHTML;
 
   if (zoneSelect.dataset.default) {
-    var defaultValue = zoneSelect.dataset.default.length > 2 ? country.zones.find(function(zone) {
-      return zone.name === zoneSelect.dataset.default;
-    }) : zoneSelect.dataset.default;
-
-    if (typeof defaultValue === 'object') {
-      defaultValue = defaultValue.code;
-    }
+    var defaultValue = zoneSelect.dataset.default.length > 2 ? zoneCodeKey[zoneSelect.dataset.default] : zoneSelect.dataset.default;
 
     zoneSelect.value = defaultValue;
   }
