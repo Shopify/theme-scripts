@@ -128,7 +128,11 @@ function populateCountries(formElements, countries) {
   countrySelect.innerHTML = duplicatedCountrySelect.innerHTML;
 
   if (countrySelect.dataset.default) {
-    countrySelect.value = countrySelect.dataset.default;
+    var defaultValue = countrySelect.dataset.default.length > 2 ? countries.find((country) => {
+      return country.name === countrySelect.dataset.default;
+    }) : countrySelect.dataset.default;
+
+    countrySelect.value = defaultValue.code;
   }
 }
 
@@ -163,7 +167,15 @@ function populateZones(formElements, country) {
   zoneSelect.innerHTML = duplicatedZoneSelect.innerHTML;
 
   if (zoneSelect.dataset.default) {
-    zoneSelect.value = zoneSelect.dataset.default;
+    var defaultValue = zoneSelect.dataset.default.length > 2 ? country.zones.find((zone) => {
+      return zone.name === zoneSelect.dataset.default;
+    }) : zoneSelect.dataset.default;
+
+    if (typeof defaultValue === 'object') {
+      defaultValue = defaultValue.code;
+    }
+
+    zoneSelect.value = defaultValue;
   }
 }
 
