@@ -1,1 +1,0 @@
-global.Promise = require("promise");
