@@ -169,7 +169,11 @@ function populateZones(formElements, country) {
   zoneSelect.innerHTML = duplicatedZoneSelect.innerHTML;
 
   if (zoneSelect.dataset.default) {
-    var defaultValue = zoneSelect.dataset.default.length > 2 ? zoneCodeKey[zoneSelect.dataset.default] : zoneSelect.dataset.default;
+    var defaultValue = zoneSelect.dataset.default;
+
+    if (defaultValue > 2 && zoneCodeKey.hasOwnProperty(defaultValue)) {
+      defaultValue = zoneCodeKey[zoneSelect.dataset.default];
+    }
 
     zoneSelect.value = defaultValue;
   }
