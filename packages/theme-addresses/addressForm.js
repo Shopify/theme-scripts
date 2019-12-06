@@ -128,7 +128,7 @@ function populateCountries(formElements, countries) {
   countrySelect.innerHTML = duplicatedCountrySelect.innerHTML;
 
   if (countrySelect.dataset.default) {
-    var defaultValue = countrySelect.dataset.default.length > 2 ? countries.find((country) => {
+    var defaultValue = countrySelect.dataset.default.length > 2 ? countries.find(function(country) {
       return country.name === countrySelect.dataset.default;
     }) : countrySelect.dataset.default;
 
@@ -167,7 +167,7 @@ function populateZones(formElements, country) {
   zoneSelect.innerHTML = duplicatedZoneSelect.innerHTML;
 
   if (zoneSelect.dataset.default) {
-    var defaultValue = zoneSelect.dataset.default.length > 2 ? country.zones.find((zone) => {
+    var defaultValue = zoneSelect.dataset.default.length > 2 ? country.zones.find(function(zone) {
       return zone.name === zoneSelect.dataset.default;
     }) : zoneSelect.dataset.default;
 
