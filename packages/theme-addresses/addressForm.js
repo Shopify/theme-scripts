@@ -132,7 +132,7 @@ function populateCountries(formElements, countries) {
   if (countrySelect.dataset.default) {
     var defaultValue = countrySelect.dataset.default;
 
-    if (defaultValue > 2 && countryCodeKey.hasOwnProperty(defaultValue)) {
+    if (defaultValue.length > 2 && countryCodeKey.hasOwnProperty(defaultValue)) {
       defaultValue = countryCodeKey[defaultValue];
     }
 
@@ -175,7 +175,7 @@ function populateZones(formElements, country) {
   if (zoneSelect.dataset.default) {
     var defaultValue = zoneSelect.dataset.default;
 
-    if (defaultValue > 2 && zoneCodeKey.hasOwnProperty(defaultValue)) {
+    if (defaultValue.length > 2 && zoneCodeKey.hasOwnProperty(defaultValue)) {
       defaultValue = zoneCodeKey[defaultValue];
     }
 
