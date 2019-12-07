@@ -130,7 +130,11 @@ function populateCountries(formElements, countries) {
   countrySelect.innerHTML = duplicatedCountrySelect.innerHTML;
 
   if (countrySelect.dataset.default) {
-    var defaultValue = countrySelect.dataset.default.length > 2 ? countryCodeKey[countrySelect.dataset.default] : countrySelect.dataset.default;
+    var defaultValue = countrySelect.dataset.default;
+
+    if (defaultValue > 2 && countryCodeKey.hasOwnProperty(defaultValue)) {
+      defaultValue = countryCodeKey[defaultValue];
+    }
 
     countrySelect.value = defaultValue;
   }
@@ -172,7 +176,7 @@ function populateZones(formElements, country) {
     var defaultValue = zoneSelect.dataset.default;
 
     if (defaultValue > 2 && zoneCodeKey.hasOwnProperty(defaultValue)) {
-      defaultValue = zoneCodeKey[zoneSelect.dataset.default];
+      defaultValue = zoneCodeKey[defaultValue];
     }
 
     zoneSelect.value = defaultValue;
