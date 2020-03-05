@@ -21,7 +21,8 @@ export default function PredictiveSearch(config) {
 PredictiveSearch.TYPES = {
   PRODUCT: "product",
   PAGE: "page",
-  ARTICLE: "article"
+  ARTICLE: "article",
+  COLLECTION: "collection"
 };
 
 PredictiveSearch.FIELDS = {
