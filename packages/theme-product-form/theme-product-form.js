@@ -1,11 +1,11 @@
 import Listeners from './listeners';
-import { getVariantFromSerializedArray } from '@shopify/theme-product';
+import { getVariantFromSerializedArray } from '../theme-product/theme-product';
 
 var selectors = {
   idInput: '[name="id"]',
   optionInput: '[name^="options"]',
   quantityInput: '[name="quantity"]',
-  propertyInput: '[name^="properties"]',
+  propertyInput: '[name^="properties"]'
 };
 
 // Public Methods
@@ -184,7 +184,7 @@ ProductForm.prototype._getProductFormEventData = function() {
     options: this.options(),
     variant: this.variant(),
     properties: this.properties(),
-    quantity: this.quantity(),
+    quantity: this.quantity()
   };
 };
 
