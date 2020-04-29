@@ -19,6 +19,14 @@ const defaultProperties = [
   {name: 'Subscribe', value: 'true'}
 ];
 
+const serializedProperties = defaultProperties.reduce(
+  (properties, property) => {
+    properties[property.name] = property.value;
+    return properties;
+  },
+  {}
+);
+
 beforeEach(() => {
   document.body.innerHTML = `
   <form id="form">
@@ -50,14 +58,14 @@ function expectFormEventDataset(
   {
     options = defaultOptions,
     quantity = defaultQuantity,
-    properties = defaultProperties
+    properties = serializedProperties
   }
 ) {
   expect(event.dataset.options).toMatchObject(options);
   expect(event.dataset.variant).toMatchObject(
     getVariantFromSerializedArray(productJSON, options)
   );
-  expect(event.dataset.properties.length).toBe(properties.length);
+  expect(Object.entries(event.dataset.properties).length).toBe(Object.entries(properties).length);
   expect(event.dataset.properties).toMatchObject(properties);
   expect(event.dataset.quantity).toBe(quantity);
 }
@@ -150,7 +158,7 @@ describe('ProductForm()', () => {
     const element = document.getElementById('form');
     const productForm = new ProductForm(element, productJSON);
 
-    expect(productForm.propertyInputs.length).toBe(defaultProperties.length);
+    expect(productForm.propertyInputs.length).toBe(Object.entries(defaultProperties).length);
   });
 
   test('calls the method assigned to the onOptionChange option when the value of an option input changes', () => {
@@ -208,20 +216,15 @@ describe('ProductForm()', () => {
     const config = {
       onPropertyChange: jest.fn()
     };
-    const properties = [
-      {name: 'Message', value: 'doh'},
-      {name: 'Hidden', value: 'something'},
-      {name: 'Subscribe', value: 'true'}
-    ];
 
     // eslint-disable-next-line no-unused-vars
     const productForm = new ProductForm(element, productJSON, config);
 
-    propertyElement.value = properties[0].value;
+    propertyElement.value = defaultProperties[0].value;
     propertyElement.dispatchEvent(changeEvent);
 
     expect(config.onPropertyChange).toHaveBeenCalledWith(changeEvent);
-    expectFormEventDataset(changeEvent, {properties});
+    expectFormEventDataset(changeEvent, {serializedProperties});
   });
 
   test('calls the method assigned to the onFormSubmit option when the form is submitted', () => {
@@ -302,11 +305,11 @@ describe('ProductForm.variant()', () => {
 });
 
 describe('ProductForm.properties()', () => {
-  test('returns a collection of objects containing the name and value of properties', () => {
+  test('returns a collection object containing the name and value of properties', () => {
     const element = document.getElementById('form');
     const productForm = new ProductForm(element, productJSON);
 
-    expect(productForm.properties()).toMatchObject(defaultProperties);
+    expect(productForm.properties()).toMatchObject(serializedProperties);
   });
 });
 
