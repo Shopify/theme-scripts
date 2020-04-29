@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-const {getVariantFromSerializedArray} = require('../../theme-product/theme-product');
+const {getVariantFromSerializedArray} = require('@shopify/theme-product');
 const {getUrlWithVariant, ProductForm} = require('../theme-product-form');
 const productJSON = require('../__fixtures__/product-object.json');
 
@@ -19,11 +19,13 @@ const defaultProperties = [
   {name: 'Subscribe', value: 'true'}
 ];
 
-const serializedProperties = {
-  [defaultProperties[0].name]: defaultProperties[0].value,
-  [defaultProperties[1].name]: defaultProperties[1].value,
-  [defaultProperties[2].name]: defaultProperties[2].value,
-};
+const serializedProperties = defaultProperties.reduce(
+  (properties, property) => {
+    properties[property.name] = property.value;
+    return properties;
+  },
+  {}
+);
 
 beforeEach(() => {
   document.body.innerHTML = `
