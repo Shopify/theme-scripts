@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-product-form",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Theme Product Form helps theme developers create and manage the state of their product forms.",
   "main": "dist/theme-product-form.cjs.js",
   "module": "theme-product-form.js",
