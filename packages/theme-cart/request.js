@@ -37,7 +37,9 @@ export function cartAdd(id, quantity, properties) {
 }
 
 export function cartAddFromForm(formData) {
-  var config = {};
+  var config = getDefaultRequestConfig();
+  delete config.headers['Content-Type'];
+
   config.method = 'POST';
   config.body = formData;
 

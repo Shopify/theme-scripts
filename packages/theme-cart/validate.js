@@ -32,21 +32,6 @@ export function form(form) {
   }
 }
 
-export function formData(formData) {
-  if (!(formData instanceof FormData)) {
-    throw new TypeError('Theme Cart: Form must be a FormData object');
-  }
-
-  if (typeof formData.get('id') === 'undefined' || typeof formData.get('quantity') === 'undefined') {
-    throw new Error(
-      'Theme Cart: Form must contain id and quantity data'
-    );
-  }
-
-  id(parseInt(formData.get('id'), 10));
-  quantity(parseInt(formData.get('quantity'), 10));
-}
-
 export function options(options) {
   if (typeof options !== 'object') {
     throw new TypeError('Theme Cart: Options must be an object');

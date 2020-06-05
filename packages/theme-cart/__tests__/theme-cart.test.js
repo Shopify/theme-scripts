@@ -214,6 +214,9 @@ describe('addItemFromForm()', () => {
         <input type="number" name="quantity" value="3" />
         <input type="text" name="properties[Message]" value="derp" />
       </form>
+      <form id="invalid-form">
+        <input type="text" name="id" value="not a number" />
+      </form>
       <form id="empty-form"></form>`;
 
     fetchMock.mock('/cart/add.js', mockCartAddFromForm);
@@ -230,19 +233,11 @@ describe('addItemFromForm()', () => {
     expect(() => cart.addItemFromForm('123456')).toThrowError(TypeError);
   });
 
-  test('throws an error if form is missing id or quantity', () => {
+  test('throws an error if id is empty or NaN', () => {
     const emptyForm = document.getElementById('empty-form');
     expect(() => cart.addItemFromForm(emptyForm)).toThrowError(Error);
-  });
 
-  test('throws an error if either id or quantity is invalid', () => {
-    const validForm = document.getElementById('valid-form');
-
-    const invalidForm = document.createElement('form');
-    invalidForm.innerHTML = validForm.innerHTML.replace('32497200136297', 'abcde');
-    expect(() => cart.addItemFromForm(invalidForm)).toThrowError(TypeError);
-
-    invalidForm.innerHTML = validForm.innerHTML.replace('name="quantity" value="3"', 'name="quantity" value="de"');
+    const invalidForm = document.getElementById('invalid-form');
     expect(() => cart.addItemFromForm(invalidForm)).toThrowError(TypeError);
   });
 
