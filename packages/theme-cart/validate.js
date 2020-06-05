@@ -7,7 +7,7 @@ export function key(key) {
 }
 
 export function quantity(quantity) {
-  if (typeof quantity !== 'number') {
+  if (typeof quantity !== 'number' || isNaN(quantity)) {
     throw new TypeError(
       'Theme Cart: An object which specifies a quantity or properties value is required'
     );
@@ -15,7 +15,7 @@ export function quantity(quantity) {
 }
 
 export function id(id) {
-  if (typeof id !== 'number') {
+  if (typeof id !== 'number' || isNaN(id)) {
     throw new TypeError('Theme Cart: Variant ID must be a number');
   }
 }
@@ -24,6 +24,27 @@ export function properties(properties) {
   if (typeof properties !== 'object') {
     throw new TypeError('Theme Cart: Properties must be an object');
   }
+}
+
+export function form(form) {
+  if (!(form instanceof HTMLFormElement)) {
+    throw new TypeError('Theme Cart: Form must be an instance of HTMLFormElement');
+  }
+}
+
+export function formData(formData) {
+  if (!(formData instanceof FormData)) {
+    throw new TypeError('Theme Cart: Form must be a FormData object');
+  }
+
+  if (typeof formData.get('id') === 'undefined' || typeof formData.get('quantity') === 'undefined') {
+    throw new Error(
+      'Theme Cart: Form must contain id and quantity data'
+    );
+  }
+
+  id(parseInt(formData.get('id'), 10));
+  quantity(parseInt(formData.get('quantity'), 10));
 }
 
 export function options(options) {
