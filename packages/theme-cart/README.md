@@ -10,7 +10,7 @@ This library is compatible with the following browsers:
 | ------ | ---- | ------- | --- | ----- | ------ |
 | ✓      | ✓    | ✓       | ✕*  | ✓     | ✓      |
 
-* The script is no longer compatible with IE11 starting v3.0.0. The latest version that supports IE11 is v2.0.2.
+* The script is no longer compatible with IE11 starting v4.0.0. The latest version that supports IE11 is v2.0.2.
 
 ## Getting Started
 

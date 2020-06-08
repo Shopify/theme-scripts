@@ -217,7 +217,9 @@ describe('addItemFromForm()', () => {
       <form id="invalid-form">
         <input type="text" name="id" value="not a number" />
       </form>
-      <form id="empty-form"></form>`;
+      <form id="no-id-form">
+        <input type="text" name="description" value="this form has no id" />
+      </form>`;
 
     fetchMock.mock('/cart/add.js', mockCartAddFromForm);
   });
@@ -234,8 +236,8 @@ describe('addItemFromForm()', () => {
   });
 
   test('throws an error if id is empty or NaN', () => {
-    const emptyForm = document.getElementById('empty-form');
-    expect(() => cart.addItemFromForm(emptyForm)).toThrowError(Error);
+    const noIdForm = document.getElementById('no-id-form');
+    expect(() => cart.addItemFromForm(noIdForm)).toThrowError(Error);
 
     const invalidForm = document.getElementById('invalid-form');
     expect(() => cart.addItemFromForm(invalidForm)).toThrowError(TypeError);
