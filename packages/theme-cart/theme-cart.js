@@ -84,6 +84,20 @@ export function addItem(id, options) {
 }
 
 /**
+ * Add a new line item to the cart from a product form
+ * @param {object} form DOM element which is equal to the <form> node
+ * @returns {Promise} Resolves with the line item object (See response of cart/add.js https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#add-to-cart)
+ */
+export function addItemFromForm(form) {
+  validate.form(form);
+
+  var formData = new FormData(form);
+  validate.id(parseInt(formData.get('id'), 10));
+
+  return request.cartAddFromForm(formData);
+}
+
+/**
  * Changes the quantity and/or properties of an existing line item.
  * @param {string} key The unique key of the line item (https://help.shopify.com/en/themes/liquid/objects/line_item#line_item-key)
  * @param {object} options Optional values to pass to /cart/add.js

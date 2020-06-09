@@ -36,6 +36,16 @@ export function cartAdd(id, quantity, properties) {
   return fetchJSON('/cart/add.js', config);
 }
 
+export function cartAddFromForm(formData) {
+  var config = getDefaultRequestConfig();
+  delete config.headers['Content-Type'];
+
+  config.method = 'POST';
+  config.body = formData;
+
+  return fetchJSON('/cart/add.js', config);
+}
+
 export function cartChange(line, options) {
   var config = getDefaultRequestConfig();
 

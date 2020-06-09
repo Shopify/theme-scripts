@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 require('isomorphic-fetch');
 
 const fetchMock = require('fetch-mock');
@@ -36,6 +40,18 @@ function mockCartAdd(url, options) {
 
   // Simulate /cart/add.js 422 error object when request quantity is unavailable
   if (typeof body.quantity !== 'undefined' && body.quantity > 9) {
+    // eslint-disable-next-line no-throw-literal
+    throw {status: 422};
+  }
+
+  return populatedState.items[0];
+}
+
+function mockCartAddFromForm(url, options) {
+  const body = options.body;
+
+  // Simulate /cart/add.js 422 error object when request quantity is unavailable
+  if (typeof body.get('quantity') !== 'undefined' && body.get('quantity') > 9) {
     // eslint-disable-next-line no-throw-literal
     throw {status: 422};
   }
@@ -184,6 +200,59 @@ describe('addItem()', () => {
     const id = item.id;
 
     await expect(cart.addItem(id)).resolves.toMatchObject(item);
+  });
+});
+
+describe('addItemFromForm()', () => {
+  beforeEach(() => {
+    document.body.innerHTML = `
+      <form id="valid-form">
+        <select name="id">
+          <option selected="selected" value="32497200136297">small</option>
+          <option disabled="disabled" value="32497200169065">large</option>
+        </select>
+        <input type="number" name="quantity" value="3" />
+        <input type="text" name="properties[Message]" value="derp" />
+      </form>
+      <form id="invalid-form">
+        <input type="text" name="id" value="not a number" />
+      </form>
+      <form id="no-id-form">
+        <input type="text" name="description" value="this form has no id" />
+      </form>`;
+
+    fetchMock.mock('/cart/add.js', mockCartAddFromForm);
+  });
+
+  afterEach(fetchMock.restore);
+
+  test('throws an error if argument is not a valid form', () => {
+    const validForm = document.getElementById('valid-form');
+
+    expect(() => cart.addItemFromForm(validForm)).not.toThrowError();
+    expect(() => cart.addItemFromForm().toThrowError(TypeError));
+    expect(() => cart.addItemFromForm({}).toThrowError(TypeError));
+    expect(() => cart.addItemFromForm('123456')).toThrowError(TypeError);
+  });
+
+  test('throws an error if id is empty or NaN', () => {
+    const noIdForm = document.getElementById('no-id-form');
+    expect(() => cart.addItemFromForm(noIdForm)).toThrowError(Error);
+
+    const invalidForm = document.getElementById('invalid-form');
+    expect(() => cart.addItemFromForm(invalidForm)).toThrowError(TypeError);
+  });
+
+  test('returns a promise', () => {
+    const validForm = document.getElementById('valid-form');
+    expect(cart.addItemFromForm(validForm).then).toBeDefined();
+  });
+
+  test('fulfills with the line item which was added to the cart', async () => {
+    const validForm = document.getElementById('valid-form');
+    const item = require('../__fixtures__/cart-populated.json').items[0];
+
+    await expect(cart.addItemFromForm(validForm)).resolves.toMatchObject(item);
   });
 });
 
