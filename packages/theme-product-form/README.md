@@ -146,12 +146,12 @@ const productHandle = formElement.dataset.productHandle;
 //
 // You will need to polyfill `fetch()` if you want to support IE11
 fetch(`/products/${productHandle}.js`)
-  .then((response) => {
+  .then(response => {
     return response.json();
   })
-  .then((productJSON) => {
+  .then(productJSON => {
     const productForm = new ProductForm(formElement, productJSON, {
-      onOptionChange,
+      onOptionChange
     });
   });
 
@@ -259,7 +259,7 @@ Utility function which returns a new URL with a `variant=` query parameter while
 import { getUrlWithVariant, ProductForm } from '@shopify/theme-product-form';
 
 const productForm = new ProductForm(formElement, productJSON, {
-  onOptionChange,
+  onOptionChange
 });
 
 function onOptionChange(event) {
