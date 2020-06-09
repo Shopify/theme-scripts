@@ -10,7 +10,7 @@ This library is compatible with the following browsers:
 | ------ | ---- | ------- | --- | ----- | ------ |
 | ✓      | ✓    | ✓       | ✕*  | ✓     | ✓      |
 
-* The script is no longer compatible with IE11 starting v4.0.0. The latest version that supports IE11 is v2.0.2.
+* The script is no longer compatible with IE11 starting v4.0.0. The last version that supports IE11 is v2.0.2.
 
 ## Getting Started
 
@@ -94,7 +94,7 @@ cart.getItem(key).then(item => {
 
 Adds an item to your cart. If no quantity is specified, 1 item is added. Returns a promise which fulfills with the matching [line item](https://help.shopify.com/en/themes/liquid/objects/line_item).
 
-> ⚠️ If the quantity specified is more then what is available, the promise will reject and the cart state will remain unchanged
+> ⚠️ If the quantity specified is more than what is available, the promise will be rejected and the cart state will remain unchanged
 
 ```js
 cart.addItem(id, { quantity, properties }).then(item => {
@@ -109,7 +109,7 @@ cart.addItem(id, { quantity, properties }).then(item => {
 
 Adds an item to your cart from a product form. The form must contain an input with `name="id"`. If there is no input named `quantity`, 1 item is added. Returns a promise which fulfills with the matching [line item](https://help.shopify.com/en/themes/liquid/objects/line_item).
 
-> ⚠️ If the quantity specified is more then what is available, the promise will reject and the cart state will remain unchanged
+> ⚠️ If the quantity specified is more than what is available, the promise will be rejected and the cart state will remain unchanged
 
 ```js
 cart.addItemFromForm(form).then(item => {

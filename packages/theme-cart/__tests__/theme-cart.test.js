@@ -226,7 +226,7 @@ describe('addItemFromForm()', () => {
 
   afterEach(fetchMock.restore);
 
-  test('throws an error if parameter is not a valid form', () => {
+  test('throws an error if argument is not a valid form', () => {
     const validForm = document.getElementById('valid-form');
 
     expect(() => cart.addItemFromForm(validForm)).not.toThrowError();
