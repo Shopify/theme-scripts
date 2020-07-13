@@ -2,6 +2,16 @@
 
 Theme Cart is a tiny library (<1kb min+gzip) that facilitates requests to [Shopify's Cart API](https://help.shopify.com/en/themes/development/getting-started/using-ajax-api) and makes it easier to manage cart state.
 
+## Browser Support
+
+This library is compatible with the following browsers:
+
+| Chrome | Edge | Firefox | IE  | Opera | Safari |
+| ------ | ---- | ------- | --- | ----- | ------ |
+| ✓      | ✓    | ✓       | ✕*  | ✓     | ✓      |
+
+* The script is no longer compatible with IE11 starting v4.0.0. The last version that supports IE11 is v2.0.2.
+
 ## Getting Started
 
 Theme Scripts can be used in any theme project. To take advantage of semantic versioning and easy updates, we recommend using NPM or Yarn to include them in your project:
@@ -84,12 +94,27 @@ cart.getItem(key).then(item => {
 
 Adds an item to your cart. If no quantity is specified, 1 item is added. Returns a promise which fulfills with the matching [line item](https://help.shopify.com/en/themes/liquid/objects/line_item).
 
-> ⚠️ If the quantity specified is more then what is available, the promise will reject and the cart state will remain unchanged
+> ⚠️ If the quantity specified is more than what is available, the promise will be rejected and the cart state will remain unchanged
 
 ```js
 cart.addItem(id, { quantity, properties }).then(item => {
   console.log(
     `An item with a quantity of ${quantity} was added to your cart:`,
+    item
+  );
+});
+```
+
+### addItemFromForm([form](https://developer.mozilla.org/en/docs/Web/API/HTMLFormElement)) })
+
+Adds an item to your cart from a product form. The form must contain an input with `name="id"`. If there is no input named `quantity`, 1 item is added. Returns a promise which fulfills with the matching [line item](https://help.shopify.com/en/themes/liquid/objects/line_item).
+
+> ⚠️ If the quantity specified is more than what is available, the promise will be rejected and the cart state will remain unchanged
+
+```js
+cart.addItemFromForm(form).then(item => {
+  console.log(
+    `An item was added to your cart:`,
     item
   );
 });

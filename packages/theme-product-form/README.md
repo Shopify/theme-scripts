@@ -21,7 +21,7 @@ yarn add @shopify/theme-product-form
 or
 
 ```
-npm install --save @shopify/theme-product-from
+npm install --save @shopify/theme-product-form
 ```
 
 and then import the functions you wish to use through ES6 imports:

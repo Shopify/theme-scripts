@@ -88,7 +88,7 @@ describe('getVariantFromSerializedArray()', () => {
     ];
 
     expect(() => {
-      getVariantFromSerializedArray(productJson, []);
+      getVariantFromSerializedArray(productJson, {});
     }).toThrow();
 
     expect(() => {

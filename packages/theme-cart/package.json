@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-cart",
-  "version": "2.0.2",
+  "version": "4.0.0",
   "description": "A library that helps theme developers integrate their projects with the Shopify Cart API",
   "main": "dist/theme-cart.cjs.js",
   "module": "theme-cart.js",

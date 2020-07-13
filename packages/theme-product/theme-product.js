@@ -112,7 +112,7 @@ function _validateSerializedArray(collection) {
   }
 
   if (collection.length === 0) {
-    throw new Error(collection + ' is empty.');
+    return [];
   }
 
   if (collection[0].hasOwnProperty('name')) {

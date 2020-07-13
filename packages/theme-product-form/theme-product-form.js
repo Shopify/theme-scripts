@@ -83,7 +83,7 @@ ProductForm.prototype.destroy = function() {
  * @returns {Array} An array of option values
  */
 ProductForm.prototype.options = function() {
-  return _serializeInputValues(this.optionInputs, function(item) {
+  return _serializeOptionValues(this.optionInputs, function(item) {
     var regex = /(?:^(options\[))(.*?)(?:\])/;
     item.name = regex.exec(item.name)[2]; // Use just the value between 'options[' and ']'
     return item;
@@ -107,11 +107,15 @@ ProductForm.prototype.variant = function() {
  * @returns {Array} Collection of objects with name and value keys
  */
 ProductForm.prototype.properties = function() {
-  return _serializeInputValues(this.propertyInputs, function(item) {
+  var properties = _serializePropertyValues(this.propertyInputs, function(
+    propertyName
+  ) {
     var regex = /(?:^(properties\[))(.*?)(?:\])/;
-    item.name = regex.exec(item.name)[2]; // Use just the value between 'properties[' and ']'
-    return item;
+    var name = regex.exec(propertyName)[2]; // Use just the value between 'properties[' and ']'
+    return name;
   });
+
+  return Object.entries(properties).length === 0 ? null : properties;
 };
 
 /**
@@ -184,7 +188,7 @@ ProductForm.prototype._getProductFormEventData = function() {
   };
 };
 
-function _serializeInputValues(inputs, transform) {
+function _serializeOptionValues(inputs, transform) {
   return inputs.reduce(function(options, input) {
     if (
       input.checked || // If input is a checked (means type radio or checkbox)
@@ -195,6 +199,19 @@ function _serializeInputValues(inputs, transform) {
 
     return options;
   }, []);
+}
+
+function _serializePropertyValues(inputs, transform) {
+  return inputs.reduce(function(properties, input) {
+    if (
+      input.checked || // If input is a checked (means type radio or checkbox)
+      (input.type !== 'radio' && input.type !== 'checkbox') // Or if its any other type of input
+    ) {
+      properties[transform(input.name)] = input.value;
+    }
+
+    return properties;
+  }, {});
 }
 
 function _validateProductObject(product) {
