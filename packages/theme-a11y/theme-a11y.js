@@ -124,7 +124,7 @@ export function focusable(container) {
       element.offsetWidth ||
       element.offsetHeight ||
       element.getClientRects().length
-    );
+    ) && element.tabIndex !== -1;
   });
 }
 
