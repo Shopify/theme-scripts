@@ -148,7 +148,9 @@ ProductForm.prototype._setIdInputValue = function(value) {
 ProductForm.prototype._onSubmit = function(options, event) {
   event.dataset = this._getProductFormEventData();
 
-  this._setIdInputValue(event.dataset.variant.id);
+  if (event.dataset.variant) {
+    this._setIdInputValue(event.dataset.variant.id);
+  }
 
   if (options.onFormSubmit) {
     options.onFormSubmit(event);
