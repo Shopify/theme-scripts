@@ -3,7 +3,7 @@
   "version": "2.0.2",
   "description": "A library that helps with managing currencies in Shopify Themes",
   "main": "dist/currency.cjs.js",
-  "modules": "dist/currency.es5.js",
+  "module": "currency.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shopify/theme-scripts.git"
