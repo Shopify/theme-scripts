@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-images",
-  "version": "2.0.2",
+  "version": "4.0.2",
   "description": "A library that helps with basic image operations within Shopify Themes",
   "main": "dist/images.cjs.js",
   "module": "images.js",
