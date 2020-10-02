@@ -59,6 +59,7 @@ export var SUPPORTED_LOCALES = [
   'NL',
   'PT',
   'PT_BR',
+  'RU'
 ];
 
 export function toSupportedLocale(locale) {
