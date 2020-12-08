@@ -10,18 +10,31 @@ export default function PredictiveSearch(config) {
     throw new TypeError("No config object was specified");
   }
 
+  var configParameters = config;
+
   this._retryAfter = null;
   this._currentQuery = null;
 
   this.dispatcher = new Dispatcher();
   this.cache = new Cache({ bucketSize: 40 });
-  this.configParams = objectToQueryParams(config);
+
+  this.searchUrl = "/search/suggest.json";
+
+  if(configParameters.search_url) {
+    this.searchUrl = configParameters.search_url;
+    delete configParameters['search_url'];
+  }
+
+  this.configParams = objectToQueryParams(configParameters);
 }
+
+PredictiveSearch.SEARCH_URL = "/search/suggest.json";
 
 PredictiveSearch.TYPES = {
   PRODUCT: "product",
   PAGE: "page",
-  ARTICLE: "article"
+  ARTICLE: "article",
+  COLLECTION: "collection"
 };
 
 PredictiveSearch.FIELDS = {
@@ -62,6 +75,7 @@ PredictiveSearch.prototype.query = function query(query) {
   }
 
   requestDebounced(
+    this.searchUrl,
     this.configParams,
     query,
     function(result) {

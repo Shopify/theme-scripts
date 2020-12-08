@@ -1,6 +1,7 @@
 import PredictiveSearch from "@shopify/theme-predictive-search";
 
 var DEFAULT_PREDICTIVE_SEARCH_API_CONFIG = {
+  search_url: PredictiveSearch.SEARCH_URL,
   resources: {
     type: [PredictiveSearch.TYPES.PRODUCT],
     options: {

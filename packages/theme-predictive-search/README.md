@@ -9,6 +9,11 @@
     <th>Description</th>
   </tr>
   <tr>
+    <td><code>search_url</code> (optional)</td>
+    <td>String</td>
+    <td>Route for the predictive search route. Default to <code>/search/suggest.json</code></td>
+  </tr>
+  <tr>
     <td><code>resources</code> (required)</td>
     <td>Object</td>
     <td>Requests <code>resources</code> results for the given query, based on the <code>type</code> and <code>limit</code> fields.</td>
@@ -16,7 +21,7 @@
   <tr>
     <td><code>type</code> (required)</td>
     <td>Array</td>
-    <td>Specifies the type of results requested. Valid values: <code>product</code>, <code>page</code>, <code>article</code>.</td>
+    <td>Specifies the type of results requested. Valid values: <code>product</code>, <code>page</code>, <code>article</code>, <code>collection</code>.</td>
   </tr>
   <tr>
     <td><code>limit</code> (optional)</td>
@@ -47,32 +52,33 @@ See the [help docs for Predictive Search](https://help.shopify.com/en/themes/dev
 ### Getting started
 
 ```javascript
-import PredictiveSearch from "@shopify/theme-predictive-search";
+import PredictiveSearch from '@shopify/theme-predictive-search';
 
 var predictiveSearch = new PredictiveSearch({
+  search_url: PredictiveSearch.SEARCH_URL,
   resources: {
     type: [PredictiveSearch.TYPES.PRODUCT],
     limit: 4,
     options: {
-      unavailable_products: "last",
+      unavailable_products: 'last',
       fields: [
         PredictiveSearch.FIELDS.TITLE,
         PredictiveSearch.FIELDS.PRODUCT_TYPE,
-        PredictiveSearch.FIELDS.VARIANTS_TITLE
-      ]
-    }
-  }
+        PredictiveSearch.FIELDS.VARIANTS_TITLE,
+      ],
+    },
+  },
 });
 
-predictiveSearch.on("success", function(json) {
+predictiveSearch.on('success', function(json) {
   // See "Success Response" section of this document
 });
 
-predictiveSearch.on("error", function(error) {
+predictiveSearch.on('error', function(error) {
   // See "HTTP status `3xx-4xx` Response" section of this document
 });
 
-predictiveSearch.query("Yeti SB165");
+predictiveSearch.query('Yeti SB165');
 ```
 
 ---
@@ -122,7 +128,7 @@ predictiveSearch.query("Yeti SB165");
 ### HTTP status `3xx-4xx` Response
 
 ```js
-predictiveSearch.on("error", function(error) {
+predictiveSearch.on('error', function(error) {
   console.error(error.status); // Ex. output: 429
   console.error(error.name); // Ex. output: Throttled
   console.error(error.message); // Ex. output: Too Many Requests
