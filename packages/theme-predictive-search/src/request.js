@@ -9,9 +9,9 @@ import {
   GenericError
 } from "./utilities/CustomError";
 
-export default function request(searchUrl, configParams, query, onSuccess, onError) {
+export default function request(searchPath, configParams, query, onSuccess, onError) {
   var xhr = new XMLHttpRequest();
-  var route = searchUrl ? searchUrl : '/search/suggest.json';
+  var route = searchPath + '/suggest.json';
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {

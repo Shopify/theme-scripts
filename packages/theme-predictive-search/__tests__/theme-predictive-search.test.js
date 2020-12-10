@@ -4,7 +4,7 @@ import searchAsYouTypeTheCallingFixture from "../__fixtures__/search_as_you_type
 
 /* eslint-disable camelcase */
 const defaultConfig = {
-  search_url: PredictiveSearch.SEARCH_URL,
+  search_path: PredictiveSearch.SEARCH_PATH,
   resources: {
     type: [PredictiveSearch.TYPES.PRODUCT],
     options: {

@@ -18,17 +18,16 @@ export default function PredictiveSearch(config) {
   this.dispatcher = new Dispatcher();
   this.cache = new Cache({ bucketSize: 40 });
 
-  this.searchUrl = "/search/suggest.json";
+  this.searchPath = configParameters.search_path || "/search";
 
-  if(configParameters.search_url) {
-    this.searchUrl = configParameters.search_url;
-    delete configParameters['search_url'];
+  if(configParameters.search_path) {
+    delete configParameters['search_path'];
   }
 
   this.configParams = objectToQueryParams(configParameters);
 }
 
-PredictiveSearch.SEARCH_URL = "/search/suggest.json";
+PredictiveSearch.SEARCH_PATH = "/search";
 
 PredictiveSearch.TYPES = {
   PRODUCT: "product",
@@ -75,7 +74,7 @@ PredictiveSearch.prototype.query = function query(query) {
   }
 
   requestDebounced(
-    this.searchUrl,
+    this.searchPath,
     this.configParams,
     query,
     function(result) {
