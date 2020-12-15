@@ -21,7 +21,26 @@ describe("request()", () => {
           .body(JSON.stringify({ foo: "bar" }))
       );
 
-      request("config=foo", "foo-200", spyOnSucess);
+      request("/search", "config=foo", "foo-200", spyOnSucess);
+
+      jest.runAllTimers();
+
+      expect(spyOnSucess).toHaveBeenNthCalledWith(1, {
+        query: "foo-200",
+        foo: "bar"
+      });
+    });
+
+    it("valid with locale search route", () => {
+      const spyOnSucess = jest.fn();
+      xhrMock.get(/^(\/[a-z-]*)?\/search\/suggest\.json/g, (req, res) =>
+        res
+          .status(200)
+          .header("Content-Type", "application/json; charset=utf-8")
+          .body(JSON.stringify({ foo: "bar" }))
+      );
+
+      request('/pt-pt/search', "config=foo", "foo-200", spyOnSucess);
 
       jest.runAllTimers();
 
@@ -40,7 +59,7 @@ describe("request()", () => {
           .body(JSON.stringify({ foo: "bar" }))
       );
 
-      request("config=foo", "foo-200", spyOnSucess);
+      request("/search", "config=foo", "foo-200", spyOnSucess);
 
       jest.runAllTimers();
 
@@ -58,7 +77,7 @@ describe("request()", () => {
           .body("boom")
       );
 
-      request("config=foo", "foo-200-invalid", null, error => {
+      request("/search", "config=foo", "foo-200-invalid", null, error => {
         expect(error).toBeInstanceOf(Error);
         expect(error.status).toBe(200);
         expect(error.message).toBe(
@@ -78,7 +97,7 @@ describe("request()", () => {
           .body("boom")
       );
 
-      request("config=foo", "foo-200-invalid", null, error => {
+      request("/search", "config=foo", "foo-200-invalid", null, error => {
         expect(error).toBeInstanceOf(Error);
         expect(error.status).toBe(200);
         expect(error.message).toBe(
@@ -95,7 +114,7 @@ describe("request()", () => {
         res.status(200).body("boom")
       );
 
-      request("config=foo", "foo-200-invalid", null, error => {
+      request("/search", "config=foo", "foo-200-invalid", null, error => {
         expect(error).toBeInstanceOf(Error);
         expect(error.status).toBe(200);
         expect(error.name).toBe("Content-Type error");
@@ -118,7 +137,7 @@ describe("request()", () => {
           .body("boom")
       );
 
-      request("config=foo", "foo-404", null, error => {
+      request("/search", "config=foo", "foo-404", null, error => {
         expect(error).toBeInstanceOf(Error);
         expect(error.status).toBe(404);
         expect(error.name).toBe("Not found");
@@ -144,7 +163,7 @@ describe("request()", () => {
             )
         );
 
-        request("config=foo", "foo-422", null, error => {
+        request("/search", "config=foo", "foo-422", null, error => {
           expect(error).toBeInstanceOf(Error);
           expect(error.status).toBe(422);
           expect(error.name).toBe("Invalid parameter error");
@@ -164,7 +183,7 @@ describe("request()", () => {
             .body("Invalid parameter error")
         );
 
-        request("config=foo", "foo-422-invalid", null, error => {
+        request("/search", "config=foo", "foo-422-invalid", null, error => {
           expect(error).toBeInstanceOf(Error);
           expect(error.status).toBe(422);
           expect(error.name).toBe("JSON parse error");
@@ -191,7 +210,7 @@ describe("request()", () => {
             )
         );
 
-        request("config=foo", "foo-429", null, error => {
+        request("/search", "config=foo", "foo-429", null, error => {
           expect(error).toBeInstanceOf(Error);
           expect(error.status).toBe(429);
           expect(error.name).toBe("Throttled");
@@ -212,7 +231,7 @@ describe("request()", () => {
             .body("Throttled")
         );
 
-        request("config=foo", "foo-429-invalid", null, error => {
+        request("/search", "config=foo", "foo-429-invalid", null, error => {
           expect(error).toBeInstanceOf(Error);
           expect(error.status).toBe(429);
           expect(error.name).toBe("JSON parse error");
@@ -238,7 +257,7 @@ describe("request()", () => {
             )
         );
 
-        request("config=foo", "foo-417", null, error => {
+        request("/search", "config=foo", "foo-417", null, error => {
           expect(error).toBeInstanceOf(Error);
           expect(error.status).toBe(417);
           expect(error.name).toBe("Expectation Failed");
@@ -255,7 +274,7 @@ describe("request()", () => {
     it("head request", done => {
       xhrMock.get(/^\/search\/suggest\.json/g, (req, res) => res.status(500));
 
-      request("config=foo", "foo-500", null, error => {
+      request("/search", "config=foo", "foo-500", null, error => {
         expect(error).toBeInstanceOf(Error);
         expect(error.status).toBe(500);
         expect(error.name).toBe("Server error");

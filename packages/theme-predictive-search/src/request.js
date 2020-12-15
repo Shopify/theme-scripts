@@ -9,8 +9,9 @@ import {
   GenericError
 } from "./utilities/CustomError";
 
-export default function request(configParams, query, onSuccess, onError) {
+export default function request(searchPath, configParams, query, onSuccess, onError) {
   var xhr = new XMLHttpRequest();
+  var route = searchPath + '/suggest.json';
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -123,7 +124,7 @@ export default function request(configParams, query, onSuccess, onError) {
 
   xhr.open(
     "get",
-    "/search/suggest.json?q=" + encodeURIComponent(query) + "&" + configParams
+    route + "?q=" + encodeURIComponent(query) + "&" + configParams
   );
 
   xhr.setRequestHeader("Content-Type", "application/json");

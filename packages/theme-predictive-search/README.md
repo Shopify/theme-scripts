@@ -9,6 +9,11 @@
     <th>Description</th>
   </tr>
   <tr>
+    <td><code>search_path</code> (optional)</td>
+    <td>String</td>
+    <td>Search path to prepend the predictive search route in different locales (e.g. <code>/fr/search</code>). Default to <code>/search</code></td>
+  </tr>
+  <tr>
     <td><code>resources</code> (required)</td>
     <td>Object</td>
     <td>Requests <code>resources</code> results for the given query, based on the <code>type</code> and <code>limit</code> fields.</td>
@@ -16,7 +21,7 @@
   <tr>
     <td><code>type</code> (required)</td>
     <td>Array</td>
-    <td>Specifies the type of results requested. Valid values: <code>product</code>, <code>page</code>, <code>article</code>.</td>
+    <td>Specifies the type of results requested. Valid values: <code>product</code>, <code>page</code>, <code>article</code>, <code>collection</code>.</td>
   </tr>
   <tr>
     <td><code>limit</code> (optional)</td>
@@ -50,6 +55,7 @@ See the [help docs for Predictive Search](https://help.shopify.com/en/themes/dev
 import PredictiveSearch from "@shopify/theme-predictive-search";
 
 var predictiveSearch = new PredictiveSearch({
+  search_path: PredictiveSearch.SEARCH_PATH,
   resources: {
     type: [PredictiveSearch.TYPES.PRODUCT],
     limit: 4,
