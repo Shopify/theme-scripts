@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-predictive-search-component",
-  "version": "3.0.2",
+  "version": "4.1.0",
   "license": "MIT",
   "description": "Shopify Predictive Search UI Component",
   "main": "dist/theme-predictive-search-component.cjs.js",

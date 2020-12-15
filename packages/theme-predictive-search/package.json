@@ -1,6 +1,6 @@
 {
   "name": "@shopify/theme-predictive-search",
-  "version": "3.0.3",
+  "version": "4.1.0",
   "license": "MIT",
   "description": "Shopify AJAX Predictive Search API",
   "main": "dist/theme-predictive-search.cjs.js",
