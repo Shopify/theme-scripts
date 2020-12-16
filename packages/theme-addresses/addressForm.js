@@ -117,18 +117,26 @@ function setLabels(formElements, country) {
 function populateCountries(formElements, countries) {
   var countrySelect = formElements.country.input;
   var duplicatedCountrySelect = countrySelect.cloneNode(true);
+  var countryCodeKey = [];
 
   countries.forEach(function(country) {
     var optionElement = document.createElement('option');
     optionElement.value = country.code;
     optionElement.textContent = country.name;
     duplicatedCountrySelect.appendChild(optionElement);
+    countryCodeKey[country.name] = country.code;
   });
 
   countrySelect.innerHTML = duplicatedCountrySelect.innerHTML;
 
   if (countrySelect.dataset.default) {
-    countrySelect.value = countrySelect.dataset.default;
+    var defaultValue = countrySelect.dataset.default;
+
+    if (defaultValue.length > 2 && countryCodeKey.hasOwnProperty(defaultValue)) {
+      defaultValue = countryCodeKey[defaultValue];
+    }
+
+    countrySelect.value = defaultValue;
   }
 }
 
@@ -152,18 +160,26 @@ function populateZones(formElements, country) {
   var zoneSelect = zoneEl.input;
   var duplicatedZoneSelect = zoneSelect.cloneNode(true);
   duplicatedZoneSelect.innerHTML = '';
+  var zoneCodeKey = [];
 
   country.zones.forEach(function(zone) {
     var optionElement = document.createElement('option');
     optionElement.value = zone.code;
     optionElement.textContent = zone.name;
     duplicatedZoneSelect.appendChild(optionElement);
+    zoneCodeKey[zone.name] = zone.code;
   });
 
   zoneSelect.innerHTML = duplicatedZoneSelect.innerHTML;
 
   if (zoneSelect.dataset.default) {
-    zoneSelect.value = zoneSelect.dataset.default;
+    var defaultValue = zoneSelect.dataset.default;
+
+    if (defaultValue.length > 2 && zoneCodeKey.hasOwnProperty(defaultValue)) {
+      defaultValue = zoneCodeKey[defaultValue];
+    }
+
+    zoneSelect.value = defaultValue;
   }
 }
 
