@@ -76,7 +76,7 @@ function _createOptionArrayFromOptionCollection(product, collection) {
 
   collection.forEach(function(option) {
     for (var i = 0; i < product.options.length; i++) {
-      const optionName = product.options[i].name !== undefined ? product.options[i].name : product.options[i];
+      var optionName = product.options[i].name !== undefined ? product.options[i].name : product.options[i];
       if (optionName.toLowerCase() === option.name.toLowerCase()) {
         optionArray[i] = option.value;
         break;
