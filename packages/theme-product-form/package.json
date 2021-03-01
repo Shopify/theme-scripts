@@ -27,7 +27,7 @@
     "size": "size-limit"
   },
   "peerDependencies": {
-    "@shopify/theme-product": "^1.0.0"
+    "@shopify/theme-product": "^4.1.0"
   },
   "devDependencies": {
     "rollup": "^0.62.0",
