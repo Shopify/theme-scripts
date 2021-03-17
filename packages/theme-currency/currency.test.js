@@ -33,4 +33,12 @@ describe("currency.formatMoney", () => {
     );
     expect(value).toBe("$10.000");
   });
+
+  test(`Formats a number 1000001 to a string of "$10'000.01"`, () => {
+    const value = formatMoney(
+      1000001,
+      "${{amount_with_apostrophe_separator}}"
+    );
+    expect(value).toBe("$10'000.01");
+  });
 });
