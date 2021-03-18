@@ -10,7 +10,13 @@ function getDefaultRequestConfig() {
   );
 }
 
+export var controllers = [];
+
 function fetchJSON(url, config) {
+  var controller = new AbortController();
+  controllers.push(controller);
+  config.signal = controller.signal;
+
   return fetch(url, config).then(function(response) {
     if (!response.ok) {
       throw response;
