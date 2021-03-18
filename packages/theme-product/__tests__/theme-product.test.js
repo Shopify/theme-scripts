@@ -11,6 +11,7 @@ import {
   getVariantFromOptionArray
 } from '../theme-product';
 import productJson from '../__fixtures__/product.json';
+import productFromLiquidJson from '../__fixtures__/productFromLiquid.json';
 
 describe("getProductJson()", () => {
   test("get product by handle", () => {
@@ -131,6 +132,13 @@ describe('getVariantFromSerializedArray()', () => {
       $('form').serializeArray()
     );
     expect(variant).toEqual(productJson.variants[0]);
+
+    const variantFromLiquid = getVariantFromSerializedArray(
+      productFromLiquidJson,
+      $('form').serializeArray()
+    );
+    expect(variantFromLiquid).toEqual(productJson.variants[0]);
+
   });
 
   test('returns null when a match is not found', () => {
@@ -153,6 +161,12 @@ describe('getVariantFromSerializedArray()', () => {
       $('form').serializeArray()
     );
     expect(variant).toEqual(null);
+
+    const variantFromLiquid = getVariantFromSerializedArray(
+      productJson,
+      $('form').serializeArray()
+    );
+    expect(variantFromLiquid).toEqual(null);
   });
 });
 
