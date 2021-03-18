@@ -80,7 +80,7 @@ export function bindInPageLinks(options) {
   );
 
   return links.filter(function(link) {
-    if (link.hash === '#' || link.hash === '') {
+    if (link.hash === '#' || link.hash === '' || /[!@$%^&*()_\s]/g.test(link.hash)) {
       return false;
     }
 
