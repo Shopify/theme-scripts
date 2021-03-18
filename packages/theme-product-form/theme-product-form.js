@@ -46,27 +46,47 @@ export function ProductForm(element, product, options) {
 
   options = options || {};
 
-  this._listeners = new Listeners();
-  this._listeners.add(
-    this.element,
-    'submit',
-    this._onSubmit.bind(this, options)
-  );
+  if(options.selectors) {
+    selectors = {
+      idInput: options.selectors.idInput || selectors.idInput,
+      optionInput: options.selectors.optionInput || selectors.optionInput,
+      quantityInput: options.selectors.quantityInput || selectors.quantityInput,
+      propertyInput: options.selectors.propertyInput || selectors.propertyInput
+    };
+  }
 
+  this._idInput = this.element.querySelector(selectors.idInput);
+  if(!this._idInput) {
+    throw new Error("element must contain id input");
+  }
+
+  this._listeners = new Listeners();
   this.optionInputs = this._initInputs(
     selectors.optionInput,
-    options.onOptionChange
+    this._onOptionChange.bind(this, options)
   );
 
-  this.quantityInputs = this._initInputs(
-    selectors.quantityInput,
-    options.onQuantityChange
-  );
+  if(options.onFormSubmit) {
+    this._listeners.add(
+      this.element,
+      'submit',
+      this._onSubmit.bind(this, options)
+    );
+  }
 
-  this.propertyInputs = this._initInputs(
-    selectors.propertyInput,
-    options.onPropertyChange
-  );
+  if (options.onQuantityChange) {
+    this.quantityInputs = this._initInputs(
+      selectors.quantityInput,
+      options.onQuantityChange
+    );
+  }
+
+  if (options.onPropertyChange) {
+    this.propertyInputs = this._initInputs(
+      selectors.propertyInput,
+      options.onPropertyChange
+    );
+  }
 }
 
 /**
@@ -132,17 +152,20 @@ ProductForm.prototype.quantity = function() {
 
 // Private Methods
 // -----------------------------------------------------------------------------
-ProductForm.prototype._setIdInputValue = function(value) {
-  var idInputElement = this.element.querySelector(selectors.idInput);
+ProductForm.prototype._setIdInputValue = function (value) {
+  this._idInput.value = value.toString();
+};
 
-  if (!idInputElement) {
-    idInputElement = document.createElement('input');
-    idInputElement.type = 'hidden';
-    idInputElement.name = 'id';
-    this.element.appendChild(idInputElement);
+ProductForm.prototype._onOptionChange = function (options, event) {
+  event.dataset = this._getProductFormEventData();
+
+  if (event.dataset.variant) {
+    this._setIdInputValue(event.dataset.variant.id);
   }
 
-  idInputElement.value = value.toString();
+  if (options.onOptionChange) {
+    options.onOptionChange(event);
+  }
 };
 
 ProductForm.prototype._onSubmit = function(options, event) {
