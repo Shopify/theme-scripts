@@ -23,13 +23,14 @@ export function cart() {
   return fetchJSON('/cart.js', getDefaultRequestConfig());
 }
 
-export function cartAdd(id, quantity, properties) {
+export function cartAdd(id, quantity, properties, selling_plan) {
   var config = getDefaultRequestConfig();
 
   config.method = 'POST';
   config.body = JSON.stringify({
     id: id,
     quantity: quantity,
+    selling_plan: selling_plan,
     properties: properties
   });
 

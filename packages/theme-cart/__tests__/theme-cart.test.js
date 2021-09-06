@@ -191,6 +191,21 @@ describe('addItem()', () => {
     );
   });
 
+  test('optional second argument is an object with a `selling_plan` key', async () => {
+    const spy = jest.spyOn(global, 'fetch');
+    const item = require('../__fixtures__/cart-populated.json').items[0];
+    const id = item.id;
+    const selling_plan = 1234;
+    const options = {selling_plan};
+
+    await cart.addItem(id, options);
+
+    expect(spy).toHaveBeenLastCalledWith(
+      '/cart/add.js',
+      expect.objectContaining({body: JSON.stringify({id, ...options})})
+    );
+  });
+
   test('returns a promise', () => {
     expect(cart.addItem(123456).then).toBeDefined();
   });
