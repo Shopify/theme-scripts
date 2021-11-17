@@ -83,6 +83,12 @@ export function addItem(id, options) {
   return request.cartAdd(id, options.quantity, options.properties, options.selling_plan);
 }
 
+export function addItems(items) {
+  items.forEach(({id}) => validate.id(id))
+
+  return request.cartAddBulk(items);
+}
+
 /**
  * Add a new line item to the cart from a product form
  * @param {object} form DOM element which is equal to the <form> node
