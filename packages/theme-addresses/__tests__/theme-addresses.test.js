@@ -15,7 +15,7 @@ import meta from '../__fixtures__/meta.json';
 describe('AddressForm', () => {
   beforeAll(() => {
     fetchMock.mock(
-      'https://country-service.shopifycloud.com/graphql',
+      'https://atlas.shopifysvc.com/graphql',
       countries
     );
 

@@ -24,7 +24,7 @@ var query = "query countries($locale: SupportedLocale!) {"
   + "  }"
   + "}";
 
-var GRAPHQL_ENDPOINT = 'https://country-service.shopifycloud.com/graphql';
+var GRAPHQL_ENDPOINT = 'https://atlas.shopifysvc.com/graphql';
 
 export function loadCountries(locale) {
   var response = fetch(GRAPHQL_ENDPOINT, {
