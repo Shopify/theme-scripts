@@ -80,7 +80,13 @@ export function addItem(id, options) {
 
   validate.id(id);
 
-  return request.cartAdd(id, options.quantity, options.properties);
+  return request.cartAdd(id, options.quantity, options.properties, options.selling_plan);
+}
+
+export function addItems(items) {
+  items.forEach(({id}) => validate.id(id))
+
+  return request.cartAddBulk(items);
 }
 
 /**

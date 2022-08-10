@@ -23,15 +23,25 @@ export function cart() {
   return fetchJSON('/cart.js', getDefaultRequestConfig());
 }
 
-export function cartAdd(id, quantity, properties) {
+export function cartAdd(id, quantity, properties, selling_plan) {
   var config = getDefaultRequestConfig();
 
   config.method = 'POST';
   config.body = JSON.stringify({
     id: id,
     quantity: quantity,
+    selling_plan: selling_plan,
     properties: properties
   });
+
+  return fetchJSON('/cart/add.js', config);
+}
+
+export function cartAddBulk(items) {
+  var config = getDefaultRequestConfig();
+
+  config.method = 'POST';
+  config.body = JSON.stringify({items});
 
   return fetchJSON('/cart/add.js', config);
 }
