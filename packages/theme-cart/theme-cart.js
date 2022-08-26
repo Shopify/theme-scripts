@@ -10,6 +10,16 @@ import * as request from './request';
 import * as validate from './validate';
 
 /**
+ * Aborts any pending requests
+ */
+export function abort() {
+  request.controllers.forEach(function(controller, index) {
+    controller.abort();
+    request.controllers.splice(index, 1);
+  });
+}
+
+/**
  * Returns the state object of the cart
  * @returns {Promise} Resolves with the state object of the cart (https://help.shopify.com/en/themes/development/getting-started/using-ajax-api#get-cart)
  */
