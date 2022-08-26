@@ -42,6 +42,7 @@ beforeEach(() => {
       <option value="110 Volts">110 Volts</option>
     </select>
 
+    <input type="text" name="id" value="20230103745" />
     <input type="radio" name="options[Size]" value="Small" checked />
     <input type="radio" name="options[Size]" value="Large" />
 
