@@ -19,8 +19,15 @@ function fetchJSON(url, config) {
   });
 }
 
+function getRoute() {
+  if(window.Shopify.routes.root) {
+    return window.Shopify.routes.root;
+  }
+  return '/';
+}
+
 export function cart() {
-  return fetchJSON('/cart.js', getDefaultRequestConfig());
+  return fetchJSON(getRoute() + 'cart.js', getDefaultRequestConfig());
 }
 
 export function cartAdd(id, quantity, properties) {
@@ -33,7 +40,7 @@ export function cartAdd(id, quantity, properties) {
     properties: properties
   });
 
-  return fetchJSON('/cart/add.js', config);
+  return fetchJSON(getRoute() + 'cart/add.js', config);
 }
 
 export function cartAddFromForm(formData) {
@@ -43,7 +50,7 @@ export function cartAddFromForm(formData) {
   config.method = 'POST';
   config.body = formData;
 
-  return fetchJSON('/cart/add.js', config);
+  return fetchJSON(getRoute() + 'cart/add.js', config);
 }
 
 export function cartChange(line, options) {
@@ -58,14 +65,14 @@ export function cartChange(line, options) {
     properties: options.properties
   });
 
-  return fetchJSON('/cart/change.js', config);
+  return fetchJSON(getRoute() + 'cart/change.js', config);
 }
 
 export function cartClear() {
   var config = getDefaultRequestConfig();
   config.method = 'POST';
 
-  return fetchJSON('/cart/clear.js', config);
+  return fetchJSON(getRoute() + 'cart/clear.js', config);
 }
 
 export function cartUpdate(body) {
@@ -74,9 +81,9 @@ export function cartUpdate(body) {
   config.method = 'POST';
   config.body = JSON.stringify(body);
 
-  return fetchJSON('/cart/update.js', config);
+  return fetchJSON(getRoute() + 'cart/update.js', config);
 }
 
 export function cartShippingRates() {
-  return fetchJSON('/cart/shipping_rates.json', getDefaultRequestConfig());
+  return fetchJSON(getRoute() + 'cart/shipping_rates.json', getDefaultRequestConfig());
 }
