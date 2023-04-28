@@ -42,7 +42,7 @@ export function options(options) {
     typeof options.properties === 'undefined'
   ) {
     throw new Error(
-      'Theme Cart: You muse define a value for quantity or properties'
+      'Theme Cart: You must define a value for quantity or properties'
     );
   }
 
